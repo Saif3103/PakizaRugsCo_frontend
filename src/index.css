@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Syne:wght@400;500;600;700;800&display=swap');
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* ══ LOGO-MATCHED BROWN PALETTE ══════════════════════════
+     Extracted from Pakiza Rugs & Co. logo
+     Deep walnut darks + parchment lights + caramel accents  */
+
+  /* Dark tones — deep walnut / espresso */
+  --black:       #2A1206;   /* deepest walnut (replaces #000) */
+  --near-black:  #3B1A0A;   /* rich dark brown */
+  --dark:        #4A2210;   /* warm dark mahogany */
+  --dark-2:      #5C2D0E;   /* main logo dark brown */
+
+  /* Light tones — parchment / antique cream */
+  --cream:       #EDE0CC;   /* logo background parchment */
+  --cream-2:     #E4D3B8;   /* slightly deeper cream */
+  --white:       #FAF5EC;   /* warm off-white (not pure white) */
+
+  /* Text / muted */
+  --muted:       #7A5C42;   /* warm mid-brown for body text on light bg */
+  --muted-lt:    #A08060;   /* lighter warm brown */
+
+  /* Borders */
+  --border-lt:   rgba(250, 245, 236, 0.12);   /* light on dark bg */
+  --border-dk:   rgba(42, 18, 6, 0.12);        /* dark on light bg */
+
+  /* ── Accent — caramel / tan gold ── */
+  --gold:        #C4A882;   /* warm caramel from logo */
+  --gold-lt:     rgba(196, 168, 130, 0.18);
+
+  /* ── Deep accent for CTAs ── */
+  --accent:      #7B3F1A;   /* mahogany red-brown */
+  --accent-dk:   #5C2D0E;   /* darker mahogany */
+
+  /* ── Fonts ── */
+  --font-display: 'Syne', 'Inter', system-ui, sans-serif;
+  --font-serif:   'Cormorant Garamond', Georgia, serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+
+  /* ── Motion ── */
+  --ease:        cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out:    cubic-bezier(0.0, 0.0, 0.2, 1);
+  --transition:  all 0.35s var(--ease);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--near-black);
+  color: var(--white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+#root { width: 100%; min-height: 100svh; }
+
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+button { cursor: pointer; font-family: var(--font-body); border: none; outline: none; background: none; }
+ul, ol { list-style: none; }
+
+/* Scrollbar — warm brown */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--near-black); }
+::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+::selection { background: rgba(196, 168, 130, 0.35); color: var(--white); }
+
+/* ── Container ── */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+@media (max-width: 768px) { .container { padding: 0 24px; } }
+
+/* ── Eyebrow label ── */
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: var(--muted-lt);
+}
+.eyebrow--gold { color: var(--gold); }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 40px;
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: var(--transition);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Primary: parchment on dark */
+.btn--white {
+  background: var(--white);
+  color: var(--dark-2);
+  border: 1.5px solid var(--white);
+}
+.btn--white:hover {
+  background: var(--cream);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(42,18,6,0.30);
+}
+
+/* Outline on dark bg */
+.btn--outline-white {
+  background: transparent;
+  color: var(--white);
+  border: 1.5px solid rgba(250,245,236,0.50);
+}
+.btn--outline-white:hover {
+  border-color: var(--white);
+  background: rgba(250,245,236,0.08);
+}
+
+/* Outline on light bg */
+.btn--outline-dark {
+  background: transparent;
+  color: var(--dark-2);
+  border: 1.5px solid rgba(42,18,6,0.30);
+}
+.btn--outline-dark:hover {
+  border-color: var(--dark-2);
+  background: rgba(42,18,6,0.05);
+}
+
+/* Solid brown */
+.btn--dark {
+  background: var(--dark-2);
+  color: var(--white);
+  border: 1.5px solid var(--dark-2);
+}
+.btn--dark:hover {
+  background: var(--accent);
+  transform: translateY(-1px);
+}
+
+/* Backward-compat aliases */
+.btn-white { display: inline-flex; align-items: center; gap: 10px; padding: 16px 36px; background: var(--white); color: var(--dark-2); font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase; border-radius: 2px; transition: var(--transition); }
+.btn-white:hover { background: var(--cream); transform: translateY(-1px); }
+.btn-outline-white { display: inline-flex; align-items: center; gap: 10px; padding: 15px 36px; background: transparent; color: var(--white); font-family: var(--font-display); font-size: 12px; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase; border: 1.5px solid rgba(250,245,236,0.50); border-radius: 2px; transition: var(--transition); }
+.btn-outline-white:hover { border-color: var(--white); background: rgba(250,245,236,0.07); }
+.btn-outline-dark { display: inline-flex; align-items: center; gap: 10px; padding: 15px 36px; background: transparent; color: var(--dark-2); font-family: var(--font-display); font-size: 12px; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase; border: 1.5px solid rgba(42,18,6,0.28); border-radius: 2px; transition: var(--transition); }
+.btn-outline-dark:hover { border-color: var(--dark-2); background: rgba(42,18,6,0.04); }
+.label-tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted-lt); }
