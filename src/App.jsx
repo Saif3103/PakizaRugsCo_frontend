@@ -28,9 +28,6 @@ import Footer from './components/Footer';
 
 // ── NEW premium sections ───────────────────────────────────────
 import FabricDivider from './components/FabricDivider';
-import RugShowcase3D from './components/RugShowcase3D';
-import CraftsmanshipReveal from './components/CraftsmanshipReveal';
-import AIRugConcierge from './components/AIRugConcierge';
 import RoomMoodSwitch from './components/RoomMoodSwitch';
 import MacroTexture from './components/MacroTexture';
 import CustomRugStudio from './components/CustomRugStudio';
@@ -52,14 +49,11 @@ function HomePage() {
       <main>
         <Hero />
         <FabricDivider />
-        <RugShowcase3D />
         <Products />
         <FabricDivider flip />
-        <CraftsmanshipReveal />
         <Heritage />
         <PremiumTrust />
         <FabricDivider />
-        <AIRugConcierge />
         <RoomMoodSwitch />
         <MacroTexture />
         <FabricDivider flip />
