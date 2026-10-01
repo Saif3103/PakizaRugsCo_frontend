@@ -1,5 +1,16 @@
 import './index.css';
 import './App.css';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
+
+// ── Pages ─────────────────────────────────────────────────────
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminProducts from './pages/admin/AdminProducts';
+import AdminAddProduct from './pages/admin/AdminAddProduct';
+import AdminOrders from './pages/admin/AdminOrders';
+import AdminCustomers from './pages/admin/AdminCustomers';
 
 // ── Existing components (unchanged) ───────────────────────────
 import CustomCursor from './components/CustomCursor';
@@ -25,77 +36,64 @@ import CustomRugStudio from './components/CustomRugStudio';
 import PremiumTrust from './components/PremiumTrust';
 import GlobalShippingMap from './components/GlobalShippingMap';
 
-function App() {
+// Protected admin route
+function AdminRoute({ children }) {
+  const { user, loading } = useAuth();
+  if (loading) return <div className="auth-loading"><span className="auth-btn__spinner" /></div>;
+  if (!user || user.role !== 'admin') return <Navigate to="/login" replace />;
+  return children;
+}
+
+function HomePage() {
   return (
     <>
-      <CustomCursor />
       <Navbar />
       <main>
-        {/* ── HERO (untouched) ── */}
         <Hero />
-
-        {/* ── FABRIC DIVIDER ── */}
         <FabricDivider />
-
-        {/* ── 3D RUG SHOWCASE (NEW) ── */}
         <RugShowcase3D />
-
-        {/* ── PRODUCTS (existing) ── */}
         <Products />
-
-        {/* ── FABRIC DIVIDER ── */}
         <FabricDivider flip />
-
-        {/* ── CRAFTSMANSHIP REVEAL (NEW) ── */}
         <CraftsmanshipReveal />
-
-        {/* ── HERITAGE (existing) ── */}
         <Heritage />
-
-        {/* ── PREMIUM TRUST CARDS (NEW) ── */}
         <PremiumTrust />
-
-        {/* ── FABRIC DIVIDER ── */}
         <FabricDivider />
-
-        {/* ── AI RUG CONCIERGE (NEW) ── */}
         <AIRugConcierge />
-
-        {/* ── ROOM MOOD SWITCH (NEW) ── */}
         <RoomMoodSwitch />
-
-        {/* ── MACRO TEXTURE EXPERIENCE (NEW) ── */}
         <MacroTexture />
-
-        {/* ── FABRIC DIVIDER ── */}
         <FabricDivider flip />
-
-        {/* ── CUSTOM RUG STUDIO (NEW) ── */}
         <CustomRugStudio />
-
-        {/* ── FOUNDER (existing) ── */}
         <Founder />
-
-        {/* ── RUG VIEWER 360 (existing) ── */}
         <RugViewer360 />
-
-        {/* ── GLOBAL SHIPPING MAP (NEW) ── */}
         <GlobalShippingMap />
-
-        {/* ── FABRIC DIVIDER ── */}
         <FabricDivider />
-
-        {/* ── GLOBE CTA (existing) ── */}
         <GlobeCTA />
-
-        {/* ── TESTIMONIALS (existing) ── */}
         <Testimonials />
-
-        {/* ── CONTACT (existing) ── */}
         <Contact />
       </main>
       <Footer />
     </>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <CustomCursor />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+          <Route path="/admin/products" element={<AdminRoute><AdminProducts /></AdminRoute>} />
+          <Route path="/admin/add-product" element={<AdminRoute><AdminAddProduct /></AdminRoute>} />
+          <Route path="/admin/orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
+          <Route path="/admin/customers" element={<AdminRoute><AdminCustomers /></AdminRoute>} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

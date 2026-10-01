@@ -59,6 +59,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   line-height: 1.6;
+  /* Mobile: prevent pull-to-refresh interfering */
+  overscroll-behavior-y: none;
+  /* iOS safe area padding */
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 #root { width: 100%; min-height: 100svh; }

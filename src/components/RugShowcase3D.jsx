@@ -3,6 +3,14 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { useSpring, animated } from '@react-spring/three';
 import * as THREE from 'three';
 
+// Three.js r175+ removed PCFSoftShadowMap — use PCFShadowMap instead
+const GL_CONFIG = {
+  antialias: true,
+  alpha: true,
+  shadowMapEnabled: true,
+  shadowMapType: THREE.PCFShadowMap,
+};
+
 // Simple animated rug mesh
 function RugMesh({ position, color, index, onClick }) {
   const meshRef = useRef();
@@ -139,9 +147,9 @@ export default function RugShowcase3D() {
       <div className="showcase3d__canvas-wrap">
         <Canvas
           camera={{ position: [0, 2.5, 7], fov: 50 }}
-          shadows
+          shadows={{ type: THREE.PCFShadowMap }}
           dpr={[1, 1.5]}
-          gl={{ antialias: true, alpha: true }}
+          gl={GL_CONFIG}
         >
           <fog attach="fog" args={['#2A1206', 12, 22]} />
           <Scene onRug={handleRug} />
