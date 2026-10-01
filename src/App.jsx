@@ -11,6 +11,7 @@ import AdminProducts from './pages/admin/AdminProducts';
 import AdminAddProduct from './pages/admin/AdminAddProduct';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminCustomers from './pages/admin/AdminCustomers';
+import AdminSettings from './pages/admin/AdminSettings';
 
 // ── Existing components (unchanged) ───────────────────────────
 import CustomCursor from './components/CustomCursor';
@@ -90,6 +91,8 @@ function App() {
           <Route path="/admin/add-product" element={<AdminRoute><AdminAddProduct /></AdminRoute>} />
           <Route path="/admin/orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
           <Route path="/admin/customers" element={<AdminRoute><AdminCustomers /></AdminRoute>} />
+          <Route path="/admin/settings" element={<AdminRoute><AdminSettings /></AdminRoute>} />
+          <Route path="/admin/hero-video" element={<AdminRoute><AdminSettings /></AdminRoute>} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>

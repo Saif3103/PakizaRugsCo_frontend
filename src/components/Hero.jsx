@@ -1,14 +1,51 @@
+import { useState, useEffect, useRef } from 'react';
+import { getHeroVideoSource } from '../utils/heroVideoStorage';
+
 export default function Hero() {
+  const [videoSrc, setVideoSrc] = useState('/hero.mp4');
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    let active = true;
+    const loadVideo = async () => {
+      try {
+        const src = await getHeroVideoSource();
+        if (active && src) {
+          setVideoSrc(src);
+          if (videoRef.current) {
+            videoRef.current.load();
+          }
+        }
+      } catch (err) {
+        console.warn('Failed loading hero video:', err);
+      }
+    };
+
+    loadVideo();
+
+    const handleVideoChange = () => {
+      loadVideo();
+    };
+
+    window.addEventListener('pakiza_hero_video_changed', handleVideoChange);
+    return () => {
+      active = false;
+      window.removeEventListener('pakiza_hero_video_changed', handleVideoChange);
+    };
+  }, []);
+
   return (
     <section id="hero" className="sq-hero">
       {/* Full-bleed background video */}
       <div className="sq-hero__bg">
         <video
+          ref={videoRef}
+          key={videoSrc}
           className="sq-hero__video"
           autoPlay muted loop playsInline
         >
           <source
-            src="/hero.mp4"
+            src={videoSrc}
             type="video/mp4"
           />
         </video>
