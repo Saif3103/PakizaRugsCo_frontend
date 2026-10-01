@@ -1,148 +1,236 @@
 import { useState } from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import './admin.css';
 
-const navItems = [
+const navMain = [
   {
-    to: '/admin', label: 'Dashboard', exact: true,
+    to: '/admin',
+    label: 'Dashboard',
+    exact: true,
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
-        <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+        <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+        <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+        <rect x="3" y="14" width="7" height="7" rx="1.5"/>
       </svg>
     )
   },
   {
-    to: '/admin/products', label: 'Products', exact: false,
+    to: '/admin/products',
+    label: 'Products',
+    exact: false,
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+        <line x1="12" y1="22.08" x2="12" y2="12"/>
+      </svg>
+    )
+  },
+  {
+    to: '/admin/add-product',
+    label: 'Add Product',
+    exact: false,
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="16"/>
+        <line x1="8" y1="12" x2="16" y2="12"/>
+      </svg>
+    )
+  },
+  {
+    to: '/admin/orders',
+    label: 'Orders',
+    exact: false,
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-        <line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
       </svg>
     )
   },
   {
-    to: '/admin/add-product', label: 'Add Product', exact: false,
+    to: '/admin/customers',
+    label: 'Customers',
+    exact: false,
     icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/>
-      </svg>
-    )
-  },
-  {
-    to: '/admin/orders', label: 'Orders', exact: false,
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-        <polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
-      </svg>
-    )
-  },
-  {
-    to: '/admin/customers', label: 'Customers', exact: false,
-    icon: (
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-        <circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
         <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
       </svg>
     )
   },
 ];
 
+const navSecondary = [
+  {
+    to: '/',
+    label: 'Website',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+    )
+  },
+  {
+    to: '/admin',
+    label: 'Analytics',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <line x1="18" y1="20" x2="18" y2="10"/>
+        <line x1="12" y1="20" x2="12" y2="4"/>
+        <line x1="6" y1="20" x2="6" y2="14"/>
+      </svg>
+    )
+  },
+  {
+    to: '/admin',
+    label: 'Settings',
+    icon: (
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+      </svg>
+    )
+  },
+];
+
 export default function AdminLayout({ children }) {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
-    navigate('/');
+    navigate('/login');
   };
 
   return (
-    <div className="admin-layout" data-sidebar={sidebarOpen ? 'open' : 'closed'}>
-      {/* Sidebar */}
-      <aside className="admin-sidebar">
-        <div className="admin-sidebar__top">
-          <Link to="/" className="admin-sidebar__logo">
-            <div className="admin-sidebar__emblem">
-              <svg viewBox="0 0 40 40" fill="none" width="32" height="32">
-                <polygon points="20,2 38,11 38,29 20,38 2,29 2,11" stroke="#C9A84C" strokeWidth="1.5" fill="none"/>
-                <circle cx="20" cy="20" r="4" fill="#C9A84C"/>
-              </svg>
-            </div>
-            {sidebarOpen && (
-              <div className="admin-sidebar__brand">
-                <span className="admin-sidebar__brand-name">PAKIZA RUGS</span>
-                <span className="admin-sidebar__brand-sub">Admin Panel</span>
-              </div>
-            )}
-          </Link>
-          <button className="admin-sidebar__toggle" onClick={() => setSidebarOpen(p => !p)} id="sidebar-toggle-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              {sidebarOpen
-                ? <><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></>
-                : <><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></>
-              }
-            </svg>
-          </button>
-        </div>
+    <div className="adm-layout" data-sidebar={mobileOpen ? 'open' : 'closed'}>
+      {/* Mobile dark backdrop */}
+      <div className="adm-backdrop" onClick={() => setMobileOpen(false)} />
 
-        <nav className="admin-sidebar__nav">
-          {navItems.map(item => (
+      {/* Sidebar */}
+      <aside className="adm-sidebar">
+        <Link to="/admin" className="adm-sidebar__logo">
+          <div className="adm-sidebar__emblem">
+            <svg viewBox="0 0 48 48" fill="none" width="44" height="44">
+              <polygon points="24,4 44,14 44,34 24,44 4,34 4,14" stroke="#c9a84c" strokeWidth="1.8" fill="none"/>
+              <polygon points="24,10 38,18 38,30 24,38 10,30 10,18" stroke="#c9a84c" strokeWidth="1.2" fill="none" opacity="0.7"/>
+              <circle cx="24" cy="24" r="4.5" fill="#c9a84c"/>
+            </svg>
+          </div>
+          <span className="adm-sidebar__brand-name">PAKIZA</span>
+          <span className="adm-sidebar__brand-sub">RUGS &amp; CO</span>
+        </Link>
+
+        <nav className="adm-sidebar__nav">
+          {navMain.map((item) => (
             <NavLink
-              key={item.to}
+              key={item.label}
               to={item.to}
               end={item.exact}
-              className={({ isActive }) => `admin-sidebar__item ${isActive ? 'admin-sidebar__item--active' : ''}`}
-              id={`nav-${item.label.toLowerCase().replace(' ', '-')}`}
+              onClick={() => setMobileOpen(false)}
+              className={({ isActive }) => `adm-nav-link ${isActive ? 'adm-nav-link--active' : ''}`}
+              id={`admin-nav-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
             >
-              <span className="admin-sidebar__item-icon">{item.icon}</span>
-              {sidebarOpen && <span className="admin-sidebar__item-label">{item.label}</span>}
+              {item.icon}
+              <span>{item.label}</span>
+            </NavLink>
+          ))}
+
+          <div className="adm-sidebar__divider" />
+
+          {navSecondary.map((item) => (
+            <NavLink
+              key={item.label}
+              to={item.to}
+              onClick={() => setMobileOpen(false)}
+              className="adm-nav-link"
+              id={`admin-nav-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
+            >
+              {item.icon}
+              <span>{item.label}</span>
             </NavLink>
           ))}
         </nav>
 
-        <div className="admin-sidebar__bottom">
-          <div className="admin-sidebar__user">
-            <div className="admin-sidebar__avatar">{user?.avatar || 'AD'}</div>
-            {sidebarOpen && (
-              <div className="admin-sidebar__user-info">
-                <span className="admin-sidebar__user-name">{user?.name}</span>
-                <span className="admin-sidebar__user-role">{user?.role}</span>
-              </div>
-            )}
-          </div>
-          <button className="admin-sidebar__logout" onClick={handleLogout} title="Logout" id="admin-logout-btn">
+        <div className="adm-sidebar__footer">
+          <button className="adm-sidebar__logout" onClick={handleLogout} id="admin-logout-btn">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-              <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+              <polyline points="16 17 21 12 16 7"/>
+              <line x1="21" y1="12" x2="9" y2="12"/>
             </svg>
+            <span>Logout</span>
           </button>
         </div>
       </aside>
 
-      {/* Main content */}
-      <main className="admin-main">
-        <div className="admin-topbar">
-          <div className="admin-topbar__left">
-            <span className="admin-topbar__greeting">Good morning, {user?.name} 👋</span>
-          </div>
-          <div className="admin-topbar__right">
-            <Link to="/" className="admin-topbar__visit" id="visit-site-btn">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+      {/* Main Container */}
+      <div className="adm-main-wrap">
+        {/* Top Navbar */}
+        <header className="adm-topbar">
+          <div className="adm-topbar__left">
+            <button
+              className="adm-topbar__hamburger"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
+              id="admin-menu-toggle"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="3" y1="12" x2="21" y2="12"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <line x1="3" y1="18" x2="21" y2="18"/>
               </svg>
-              Visit Site
-            </Link>
+            </button>
+
+            <div className="adm-topbar__search-wrap">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+              <input
+                id="admin-search-input"
+                type="text"
+                placeholder="Search products, orders, customers..."
+                className="adm-topbar__search-input"
+              />
+            </div>
           </div>
-        </div>
-        <div className="admin-content">
+
+          <div className="adm-topbar__right">
+            <button className="adm-topbar__bell" aria-label="Notifications" id="admin-notif-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+              <span className="adm-topbar__bell-badge"/>
+            </button>
+
+            <div className="adm-topbar__user" id="admin-profile-pill">
+              <div className="adm-topbar__avatar">A</div>
+              <div className="adm-topbar__user-info">
+                <span className="adm-topbar__user-name">{user?.name || 'Admin'}</span>
+                <span className="adm-topbar__user-role">Administrator</span>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Dashboard Content */}
+        <main className="adm-content">
           {children}
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }
