@@ -16,9 +16,24 @@ const badgeColors = {
 function ProductCard({ product }) {
   const [imgError, setImgError] = useState(false);
   const [activeImg, setActiveImg] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [added, setAdded] = useState(false);
+
   const gallery = product.gallery && product.gallery.length > 1 ? product.gallery : null;
   const currentImg = gallery ? gallery[activeImg] : product.image;
-  const fmt = (p) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(p);
+  const fmt = (p) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(p * 85);
+
+  const handleBuyNow = (e) => {
+    e.stopPropagation();
+    const msg = encodeURIComponent(`Hello Pakiza Rugs, I would like to buy: "${product.name}" (${product.size}) priced at ${fmt(product.price)}.`);
+    window.open(`https://wa.me/917007626680?text=${msg}`, '_blank');
+  };
+
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    setAdded(true);
+    setTimeout(() => setAdded(false), 2000);
+  };
 
   return (
     <div className="sq-pcard" id={`product-${product.id}`}>
@@ -36,11 +51,22 @@ function ProductCard({ product }) {
           </div>
         )}
 
+        {/* Wishlist Heart Button */}
+        <button
+          className={`sq-pcard__heart-btn ${liked ? 'active' : ''}`}
+          onClick={(e) => { e.stopPropagation(); setLiked(!liked); }}
+          aria-label="Save to Wishlist"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill={liked ? '#e63946' : 'none'} stroke={liked ? '#e63946' : 'currentColor'} strokeWidth="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </button>
+
         {/* Hover overlay */}
         <div className="sq-pcard__hover-overlay">
           <button className="sq-pcard__quick-btn" id={`quick-view-${product.id}`}>Quick View</button>
 
-          {/* Gallery dot switcher — only for multi-image products */}
+          {/* Gallery dot switcher */}
           {gallery && (
             <div className="sq-pcard__gallery-dots">
               {gallery.map((_, i) => (
@@ -66,7 +92,7 @@ function ProductCard({ product }) {
           </span>
         )}
 
-        {/* Gallery thumbnail strip (always visible if multi-image) */}
+        {/* Gallery thumbnail strip */}
         {gallery && (
           <div className="sq-pcard__thumbs">
             {gallery.map((src, i) => (
@@ -89,15 +115,39 @@ function ProductCard({ product }) {
           <span className="sq-pcard__origin">{product.origin}</span>
           <span className="sq-pcard__size">{product.size}</span>
         </div>
+
         <h3 className="sq-pcard__name">{product.name}</h3>
+
+        {/* Star Rating */}
+        <div className="sq-pcard__rating">
+          <span className="sq-pcard__stars">★★★★★</span>
+          <span className="sq-pcard__reviews">(128)</span>
+        </div>
+
         <p className="sq-pcard__material">{product.material}{product.knotsPerInch ? ` · ${product.knotsPerInch} KPI` : ''}</p>
+
         <div className="sq-pcard__footer">
           <div className="sq-pcard__prices">
             <span className="sq-pcard__price">{fmt(product.price)}</span>
             {product.originalPrice && <span className="sq-pcard__original">{fmt(product.originalPrice)}</span>}
           </div>
-          <button className="sq-pcard__enquire-btn" id={`enquire-btn-${product.id}`}>
-            Enquire →
+        </div>
+
+        {/* Dual Action Buttons matching Jannat Mobile */}
+        <div className="sq-pcard__action-row">
+          <button
+            className={`sq-pcard__btn-cart ${added ? 'added' : ''}`}
+            onClick={handleAddToCart}
+            aria-label="Add to cart"
+          >
+            {added ? '✓ ADDED' : '🛒 ADD'}
+          </button>
+          <button
+            className="sq-pcard__btn-buy"
+            onClick={handleBuyNow}
+            aria-label="Buy now on WhatsApp"
+          >
+            BUY NOW
           </button>
         </div>
       </div>

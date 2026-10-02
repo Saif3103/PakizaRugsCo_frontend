@@ -14,10 +14,11 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [cartCount] = useState(0);
+  const [searchOpen, setSearchOpen] = useState(false);
   const { user, logout } = useAuth();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -25,6 +26,18 @@ export default function Navbar() {
   return (
     <nav className={`sq-nav${scrolled ? ' sq-nav--scrolled' : ''}${menuOpen ? ' sq-nav--open' : ''}`}>
       <div className="sq-nav__inner container">
+        
+        {/* Left Hamburger — on Mobile */}
+        <button
+          id="mobile-menu-btn"
+          className={`sq-nav__hamburger${menuOpen ? ' open' : ''}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+          aria-expanded={menuOpen}
+        >
+          <span /><span /><span />
+        </button>
+
         {/* Logo */}
         <a href="#" className="sq-nav__logo" aria-label="Pakiza Rugs & Co. — Home">
           <img src={logoImg} alt="" className="sq-nav__logo-img" />
@@ -77,58 +90,140 @@ export default function Navbar() {
             Shop Collection
           </a>
 
-          {/* Mobile-only icon group: Search + Cart + Hamburger */}
+          {/* Mobile-only icon group: Search + Cart + Profile */}
           <div className="sq-nav__mobile-icons">
-            <button className="sq-nav__icon-btn" aria-label="Search" id="nav-search-btn">
+            <button
+              className="sq-nav__icon-btn"
+              aria-label="Search"
+              id="nav-search-btn"
+              onClick={() => setSearchOpen(!searchOpen)}
+            >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
               </svg>
             </button>
-            <button className="sq-nav__icon-btn sq-nav__cart-btn" aria-label="Cart" id="nav-cart-btn">
+
+            <a href="#collections" className="sq-nav__icon-btn sq-nav__cart-btn" aria-label="Cart" id="nav-cart-btn">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
                 <line x1="3" y1="6" x2="21" y2="6"/>
                 <path d="M16 10a4 4 0 01-8 0"/>
               </svg>
               <span className="sq-nav__cart-badge">{cartCount}</span>
-            </button>
-          </div>
+            </a>
 
-          {/* Hamburger */}
-          <button
-            id="mobile-menu-btn"
-            className={`sq-nav__hamburger${menuOpen ? ' open' : ''}`}
-            onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Toggle menu"
-            aria-expanded={menuOpen}
-          >
-            <span /><span /><span />
-          </button>
+            <Link
+              to={user ? (user.role === 'admin' ? '/admin' : '/login') : '/login'}
+              className="sq-nav__icon-btn sq-nav__user-btn"
+              aria-label="Account"
+              id="nav-user-mobile-btn"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </Link>
+          </div>
         </div>
       </div>
 
+      {/* Mobile Search Dropdown */}
+      {searchOpen && (
+        <div className="sq-nav__search-bar container">
+          <input
+            type="text"
+            placeholder="Search Persian, Silk, Oushak, Kilim..."
+            autoFocus
+            className="sq-nav__search-input"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                const el = document.getElementById('collections');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+                setSearchOpen(false);
+              }
+            }}
+          />
+          <button className="sq-nav__search-close" onClick={() => setSearchOpen(false)}>✕</button>
+        </div>
+      )}
+
       {/* Mobile Drawer */}
       <div className={`sq-nav__drawer${menuOpen ? ' open' : ''}`} aria-hidden={!menuOpen}>
-        <ul>
-          {navLinks.map((l) => (
-            <li key={l.label}>
-              <a href={l.href} className="sq-nav__drawer-link" onClick={() => setMenuOpen(false)}>{l.label}</a>
-            </li>
-          ))}
+        <div className="sq-nav__drawer-top">
+          <span className="sq-nav__drawer-title">MENU</span>
+          <button className="sq-nav__drawer-close" onClick={() => setMenuOpen(false)}>✕</button>
+        </div>
+        <ul className="sq-nav__drawer-list">
+          <li>
+            <a href="#" className="sq-nav__drawer-link" onClick={() => setMenuOpen(false)}>
+              <span>Home</span>
+              <span className="arrow">→</span>
+            </a>
+          </li>
+          <li>
+            <a href="#collections" className="sq-nav__drawer-link" onClick={() => setMenuOpen(false)}>
+              <span>Shop Collections</span>
+              <span className="arrow">→</span>
+            </a>
+          </li>
+          <li>
+            <a href="#categories" className="sq-nav__drawer-link" onClick={() => setMenuOpen(false)}>
+              <span>Categories</span>
+              <span className="arrow">→</span>
+            </a>
+          </li>
+          <li>
+            <a href="#heritage" className="sq-nav__drawer-link" onClick={() => setMenuOpen(false)}>
+              <span>Heritage &amp; Craft</span>
+              <span className="arrow">→</span>
+            </a>
+          </li>
+          <li>
+            <a href="#testimonials" className="sq-nav__drawer-link" onClick={() => setMenuOpen(false)}>
+              <span>Collector Reviews</span>
+              <span className="arrow">→</span>
+            </a>
+          </li>
+          <li>
+            <a href="#faq" className="sq-nav__drawer-link" onClick={() => setMenuOpen(false)}>
+              <span>FAQs</span>
+              <span className="arrow">→</span>
+            </a>
+          </li>
+          <li>
+            <a href="#contact" className="sq-nav__drawer-link" onClick={() => setMenuOpen(false)}>
+              <span>Contact Us</span>
+              <span className="arrow">→</span>
+            </a>
+          </li>
+        </ul>
+
+        <div className="sq-nav__drawer-footer">
           {user ? (
             <>
               {user.role === 'admin' && (
-                <li><Link to="/admin" className="sq-nav__drawer-link" onClick={() => setMenuOpen(false)}>Admin Panel</Link></li>
+                <Link to="/admin" className="sq-nav__drawer-btn sq-nav__drawer-btn--gold" onClick={() => setMenuOpen(false)}>
+                  Admin Dashboard
+                </Link>
               )}
-              <li><button onClick={() => { logout(); setMenuOpen(false); }} className="sq-nav__drawer-link" style={{ background: 'none', border: 'none', cursor: 'pointer', width: '100%', textAlign: 'left', padding: 0 }}>Logout</button></li>
+              <button
+                onClick={() => { logout(); setMenuOpen(false); }}
+                className="sq-nav__drawer-btn sq-nav__drawer-btn--outline"
+              >
+                Logout
+              </button>
             </>
           ) : (
-            <li><Link to="/login" className="sq-nav__drawer-link" onClick={() => setMenuOpen(false)}>Login</Link></li>
+            <>
+              <Link to="/login" className="sq-nav__drawer-btn sq-nav__drawer-btn--gold" onClick={() => setMenuOpen(false)}>
+                LOGIN
+              </Link>
+              <Link to="/signup" className="sq-nav__drawer-btn sq-nav__drawer-btn--outline" onClick={() => setMenuOpen(false)}>
+                CREATE ACCOUNT
+              </Link>
+            </>
           )}
-        </ul>
-        <a href="#collections" className="sq-nav__drawer-cta btn--white btn" onClick={() => setMenuOpen(false)}>
-          Shop Collection →
-        </a>
+        </div>
       </div>
     </nav>
   );

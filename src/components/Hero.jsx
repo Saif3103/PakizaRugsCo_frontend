@@ -67,6 +67,15 @@ export default function Hero() {
     };
   }, []);
 
+  // Dynamic time-based greeting for mobile
+  const [greeting, setGreeting] = useState('GOOD DAY');
+  useEffect(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) setGreeting('GOOD MORNING');
+    else if (hour < 17) setGreeting('GOOD AFTERNOON');
+    else setGreeting('GOOD EVENING');
+  }, []);
+
   return (
     <section id="hero" className="sq-hero">
       {/* Full-bleed background video */}
@@ -87,6 +96,12 @@ export default function Hero() {
 
       {/* Centered content */}
       <div className="sq-hero__body">
+        {/* Dynamic Mobile Greeting */}
+        <div className="pk-hero__time-pill">
+          <span className="pk-hero__sparkle">✨</span>
+          <span>{greeting}</span>
+        </div>
+
         {/* Brand eyebrow — gold with decorative lines */}
         <div className="sq-hero__eyebrow">
           <span className="sq-hero__eyebrow-line" />
@@ -112,7 +127,7 @@ export default function Hero() {
 
         {/* Primary CTA */}
         <a href="#collections" className="sq-hero__cta" id="hero-shop-btn">
-          SHOP COLLECTION
+          EXPLORE COLLECTION
           <span className="sq-hero__cta-arrow">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M5 12h14M12 5l7 7-7 7"/>

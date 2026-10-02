@@ -35,6 +35,18 @@ import PremiumTrust from './components/PremiumTrust';
 import GlobalShippingMap from './components/GlobalShippingMap';
 import TrustBar from './components/TrustBar';
 
+// ── Mobile-Optimized Sections matching Jannat Rugs ──────────────
+import FestiveBanner from './components/FestiveBanner';
+import TrustStatsSection from './components/TrustStatsSection';
+import CategoriesSection from './components/CategoriesSection';
+import RugQuizSection from './components/RugQuizSection';
+import BespokeSection from './components/BespokeSection';
+import FAQSection from './components/FAQSection';
+import MobileBottomNav from './components/MobileBottomNav';
+import FloatingAIConcierge from './components/FloatingAIConcierge';
+import RugQuizModal from './components/RugQuizModal';
+import { useState } from 'react';
+
 // Protected admin route
 function AdminRoute({ children }) {
   const { user, loading } = useAuth();
@@ -44,16 +56,23 @@ function AdminRoute({ children }) {
 }
 
 function HomePage() {
+  const [quizOpen, setQuizOpen] = useState(false);
+
   return (
     <>
       <Navbar />
-      <main>
+      <main className="pk-main-content">
         <Hero />
         <TrustBar />
+        <FestiveBanner />
+        <TrustStatsSection />
         <FabricDivider />
         <Products />
+        <RugQuizSection onOpenQuiz={() => setQuizOpen(true)} />
+        <CategoriesSection />
         <FabricDivider flip />
         <Heritage />
+        <BespokeSection />
         <PremiumTrust />
         <FabricDivider />
         <RoomMoodSwitch />
@@ -66,9 +85,21 @@ function HomePage() {
         <FabricDivider />
         <GlobeCTA />
         <Testimonials />
+        <FAQSection />
         <Contact />
       </main>
       <Footer />
+
+      {/* Mobile-exclusive App-like navigation and widgets */}
+      <FloatingAIConcierge onOpenQuiz={() => setQuizOpen(true)} />
+      <MobileBottomNav
+        onOpenCategories={() => {
+          const el = document.getElementById('categories');
+          if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }}
+        onOpenQuiz={() => setQuizOpen(true)}
+      />
+      <RugQuizModal isOpen={quizOpen} onClose={() => setQuizOpen(false)} />
     </>
   );
 }
