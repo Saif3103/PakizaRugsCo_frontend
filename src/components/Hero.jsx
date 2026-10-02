@@ -1,6 +1,39 @@
 import { useState, useEffect, useRef } from 'react';
 import { getHeroVideoSource } from '../utils/heroVideoStorage';
 
+const heroFeatures = [
+  {
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+        <path d="M8 12l2.5 2.5L16 9"/>
+      </svg>
+    ),
+    label: 'HAND-KNOTTED',
+    sub: 'HERITAGE',
+  },
+  {
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+    ),
+    label: 'PREMIUM',
+    sub: 'QUALITY',
+  },
+  {
+    icon: (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
+        <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+    ),
+    label: 'TIMELESS',
+    sub: 'DESIGNS',
+  },
+];
+
 export default function Hero() {
   const [videoSrc, setVideoSrc] = useState('/hero.mp4');
   const videoRef = useRef(null);
@@ -52,7 +85,7 @@ export default function Hero() {
         <div className="sq-hero__overlay" />
       </div>
 
-      {/* Centered content — Squarespace style */}
+      {/* Centered content */}
       <div className="sq-hero__body">
         {/* Brand eyebrow — gold with decorative lines */}
         <div className="sq-hero__eyebrow">
@@ -61,18 +94,30 @@ export default function Hero() {
           <span className="sq-hero__eyebrow-line" />
         </div>
 
-        {/* Main headline — display + serif mix like Squarespace */}
+        {/* Main headline */}
         <h1 className="sq-hero__title">
-          A rug that<br />
-          <em>makes it home</em>
+          A RUG THAT<br />
+          <em>Makes it Home</em>
         </h1>
 
-        {/* Primary CTA — white rectangle, sharp corners */}
+        {/* Feature badges — visible on mobile like screenshot */}
+        <div className="sq-hero__features">
+          {heroFeatures.map((f) => (
+            <div key={f.label} className="sq-hero__feature-item">
+              <span className="sq-hero__feature-icon">{f.icon}</span>
+              <span className="sq-hero__feature-label">{f.label}<br />{f.sub}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Primary CTA */}
         <a href="#collections" className="sq-hero__cta" id="hero-shop-btn">
-          Shop Collection
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <path d="M5 12h14M12 5l7 7-7 7"/>
-          </svg>
+          SHOP COLLECTION
+          <span className="sq-hero__cta-arrow">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </span>
         </a>
 
         {/* Caption */}
@@ -94,4 +139,3 @@ export default function Hero() {
     </section>
   );
 }
-

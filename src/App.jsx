@@ -33,6 +33,7 @@ import MacroTexture from './components/MacroTexture';
 import CustomRugStudio from './components/CustomRugStudio';
 import PremiumTrust from './components/PremiumTrust';
 import GlobalShippingMap from './components/GlobalShippingMap';
+import TrustBar from './components/TrustBar';
 
 // Protected admin route
 function AdminRoute({ children }) {
@@ -48,6 +49,7 @@ function HomePage() {
       <Navbar />
       <main>
         <Hero />
+        <TrustBar />
         <FabricDivider />
         <Products />
         <FabricDivider flip />

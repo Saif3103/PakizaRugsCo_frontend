@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { featuredProducts } from '../data/products';
 
 const tabs = ['All', 'Persian', 'Contemporary', 'Kilim', 'Silk'];
@@ -107,20 +107,50 @@ function ProductCard({ product }) {
 
 export default function Products() {
   const [activeTab, setActiveTab] = useState('All');
+  const gridRef = useRef(null);
 
   const displayedProducts = activeTab === 'All'
     ? featuredProducts
     : featuredProducts.filter(p => p.category?.toLowerCase() === activeTab.toLowerCase());
 
+  const scrollGrid = (dir) => {
+    if (gridRef.current) {
+      gridRef.current.scrollBy({ left: dir * 200, behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="collections" className="sq-products">
-      <div className="container">
+      <div className="sq-products__header-wrap">
         {/* Header — Squarespace split layout */}
-        <div className="sq-products__header">
+        <div className="sq-products__header container">
           <div className="sq-products__header-left">
-            <span className="eyebrow">Our Collections</span>
+            <span className="eyebrow">Explore Our</span>
             <h2 className="sq-products__title">
-              Grow your<br /><em>collection</em>
+              Collections
+              {/* Scroll arrows — mobile only */}
+              <div className="sq-products__nav-arrows">
+                <button
+                  className="sq-products__nav-btn"
+                  onClick={() => scrollGrid(-1)}
+                  aria-label="Scroll left"
+                  id="collections-scroll-left"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M15 18l-6-6 6-6"/>
+                  </svg>
+                </button>
+                <button
+                  className="sq-products__nav-btn"
+                  onClick={() => scrollGrid(1)}
+                  aria-label="Scroll right"
+                  id="collections-scroll-right"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <path d="M9 18l6-6-6-6"/>
+                  </svg>
+                </button>
+              </div>
             </h2>
           </div>
           <div className="sq-products__header-right">
@@ -135,23 +165,27 @@ export default function Products() {
         </div>
 
         {/* Pill tabs — Squarespace style */}
-        <div className="sq-products__tabs" role="tablist" aria-label="Product categories">
-          {tabs.map((t) => (
-            <button
-              key={t}
-              className={`sq-products__tab${activeTab === t ? ' active' : ''}`}
-              role="tab"
-              aria-selected={activeTab === t}
-              id={`tab-${t.toLowerCase()}`}
-              onClick={() => setActiveTab(t)}
-            >
-              {t}
-            </button>
-          ))}
+        <div className="container">
+          <div className="sq-products__tabs" role="tablist" aria-label="Product categories">
+            {tabs.map((t) => (
+              <button
+                key={t}
+                className={`sq-products__tab${activeTab === t ? ' active' : ''}`}
+                role="tab"
+                aria-selected={activeTab === t}
+                id={`tab-${t.toLowerCase()}`}
+                onClick={() => setActiveTab(t)}
+              >
+                {t}
+              </button>
+            ))}
+          </div>
         </div>
+      </div>
 
-        {/* Cards grid */}
-        <div className="sq-products__grid">
+      {/* Cards grid */}
+      <div className="container">
+        <div className="sq-products__grid" ref={gridRef}>
           {displayedProducts.map((p) => (
             <ProductCard key={p.id} product={p} />
           ))}

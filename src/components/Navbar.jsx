@@ -13,6 +13,7 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [cartCount] = useState(0);
   const { user, logout } = useAuth();
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export default function Navbar() {
           </div>
         </a>
 
-        {/* Center Links */}
+        {/* Center Links — desktop only */}
         <ul className="sq-nav__links" role="navigation" aria-label="Main navigation">
           {navLinks.map((l) => (
             <li key={l.label}>
@@ -46,7 +47,7 @@ export default function Navbar() {
         <div className="sq-nav__actions">
           <a href="#contact" className="sq-nav__text-cta">Inquire</a>
 
-          {/* Auth Buttons */}
+          {/* Auth Buttons — desktop */}
           {user ? (
             <div className="sq-nav__auth-group">
               {user.role === 'admin' && (
@@ -75,6 +76,23 @@ export default function Navbar() {
           <a href="#collections" className="sq-nav__shop-btn" id="nav-shop-btn">
             Shop Collection
           </a>
+
+          {/* Mobile-only icon group: Search + Cart + Hamburger */}
+          <div className="sq-nav__mobile-icons">
+            <button className="sq-nav__icon-btn" aria-label="Search" id="nav-search-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </button>
+            <button className="sq-nav__icon-btn sq-nav__cart-btn" aria-label="Cart" id="nav-cart-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                <line x1="3" y1="6" x2="21" y2="6"/>
+                <path d="M16 10a4 4 0 01-8 0"/>
+              </svg>
+              <span className="sq-nav__cart-badge">{cartCount}</span>
+            </button>
+          </div>
 
           {/* Hamburger */}
           <button
