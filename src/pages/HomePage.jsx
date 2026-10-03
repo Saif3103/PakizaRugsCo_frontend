@@ -12,6 +12,7 @@ import {
 import logoImg from '../assets/logo.png';
 import wordmark3DImg from '../assets/pakiza-3d-wordmark.png';
 import pakizaLuxuryLogo from '../assets/pakiza-luxury-logo.jpg';
+import pakizaRoyalGoldLogo from '../assets/pakiza-royal-gold-logo.png';
 import founderImg from '../assets/founder-saif-ali.jpg';
 import FloatingChatAndScroll from '../components/FloatingChatAndScroll';
 
@@ -182,25 +183,13 @@ export default function HomePage() {
             </svg>
           </button>
 
-          {/* Brand Logo (RugRoom Modern Architectural Style) */}
-          <Link to="/" className="logo rugroom-brand" aria-label="Pakiza Rugs Co - Home">
-            <div className="rr-logo-container">
-              {/* Geometric Origami 'P' Monogram Emblem */}
-              <div className="rr-emblem">
-                <svg width="26" height="26" viewBox="0 0 28 28" fill="none">
-                  <path d="M5 3H15C19.9706 3 24 7.02944 24 12C24 16.9706 19.9706 21 15 21H5V3Z" fill="#1a3a2d" />
-                  <polygon points="5,3 15,12 5,21" fill="#295542" />
-                  <line x1="5" y1="3" x2="5" y2="26" stroke="#132c22" strokeWidth="3.5" strokeLinecap="round" />
-                  <circle cx="14" cy="12" r="2.5" fill="#c5a059" />
-                </svg>
-              </div>
-              {/* Modern Bold Geometric Typography */}
-              <div className="rr-text-wrap">
-                <span className="rr-pakiza">Pakiza</span>
-                <span className="rr-rugs">Rugs</span>
-                <span className="rr-co-tag">CO.</span>
-              </div>
-            </div>
+          {/* Master Emblem Logo (Circular R Monogram + PAKIZA RUGS & CO.) */}
+          <Link to="/" className="logo" aria-label="Pakiza Rugs & Co - Home">
+            <img
+              src={pakizaRoyalGoldLogo}
+              alt="PAKIZA RUGS & CO."
+              className="pakiza-master-emblem-logo"
+            />
           </Link>
 
           {/* Desktop Search Bar */}
@@ -372,21 +361,7 @@ export default function HomePage() {
       />
       <aside className={`mobile-side-menu-drawer ${isMobileMenuOpen ? 'open' : ''}`} aria-label="Mobile Navigation Menu">
         <div className="mobile-side-menu-header">
-          <div className="rr-logo-container">
-            <div className="rr-emblem">
-              <svg width="24" height="24" viewBox="0 0 28 28" fill="none">
-                <path d="M5 3H15C19.9706 3 24 7.02944 24 12C24 16.9706 19.9706 21 15 21H5V3Z" fill="#1a3a2d" />
-                <polygon points="5,3 15,12 5,21" fill="#295542" />
-                <line x1="5" y1="3" x2="5" y2="26" stroke="#132c22" strokeWidth="3.5" strokeLinecap="round" />
-                <circle cx="14" cy="12" r="2.2" fill="#c5a059" />
-              </svg>
-            </div>
-            <div className="rr-text-wrap">
-              <span className="rr-pakiza">Pakiza</span>
-              <span className="rr-rugs">Rugs</span>
-              <span className="rr-co-tag">CO.</span>
-            </div>
-          </div>
+          <img src={pakizaRoyalGoldLogo} alt="PAKIZA RUGS & CO." className="mobile-drawer-brand-img" />
           <button className="mobile-side-menu-close" onClick={() => setIsMobileMenuOpen(false)}>✕</button>
         </div>
         <ul className="mobile-side-menu-list">
@@ -1120,21 +1095,7 @@ export default function HomePage() {
             {/* Column 1: Brand & Contact Info */}
             <div className="footer-col-1">
               <div className="footer-brand">
-                <div className="rr-logo-container footer-rr">
-                  <div className="rr-emblem">
-                    <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                      <path d="M5 3H15C19.9706 3 24 7.02944 24 12C24 16.9706 19.9706 21 15 21H5V3Z" fill="#ffffff" />
-                      <polygon points="5,3 15,12 5,21" fill="#c5a059" />
-                      <line x1="5" y1="3" x2="5" y2="26" stroke="#c5a059" strokeWidth="3.5" strokeLinecap="round" />
-                      <circle cx="14" cy="12" r="2.2" fill="#15241c" />
-                    </svg>
-                  </div>
-                  <div className="rr-text-wrap">
-                    <span className="rr-pakiza light">Pakiza</span>
-                    <span className="rr-rugs light">Rugs</span>
-                    <span className="rr-co-tag gold">CO.</span>
-                  </div>
-                </div>
+                <img src={pakizaRoyalGoldLogo} alt="PAKIZA RUGS & CO." className="footer-master-emblem-logo" />
               </div>
               <p className="footer-contact-item">Madhosingh, post Aurai, Bhadohi, UP 221301</p>
               <p className="footer-contact-item">

@@ -73,68 +73,26 @@ header {
 .logo:hover {
   transform: translateY(-1px);
 }
-.rr-logo-container {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  text-decoration: none;
-  user-select: none;
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+.pakiza-master-emblem-logo {
+  height: 64px;
+  width: auto;
+  max-width: 360px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.12));
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.logo:hover .rr-logo-container {
-  transform: translateY(-1px);
+.logo:hover .pakiza-master-emblem-logo {
+  transform: scale(1.03);
 }
-.rr-emblem {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.rr-text-wrap {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 5px;
-}
-.rr-pakiza {
-  font-family: 'Plus Jakarta Sans', 'Outfit', 'Red Hat Display', sans-serif;
-  font-size: 28px;
-  font-weight: 900;
-  color: #143325;
-  letter-spacing: -0.03em;
-  line-height: 1;
-}
-.rr-rugs {
-  font-family: 'Plus Jakarta Sans', 'Outfit', 'Red Hat Display', sans-serif;
-  font-size: 24.5px;
-  font-weight: 700;
-  color: #1a3a2d;
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-.rr-pakiza.light {
-  color: #ffffff;
-}
-.rr-rugs.light {
-  color: #ffffff;
-}
-.rr-co-tag {
-  font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
-  font-size: 11px;
-  font-weight: 800;
-  color: #c5a059;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  background: rgba(197, 160, 89, 0.12);
-  border: 1px solid rgba(197, 160, 89, 0.35);
-  padding: 1.5px 5.5px;
-  border-radius: 4px;
-  position: relative;
-  top: -2px;
-}
-.rr-co-tag.gold {
-  color: #e5be7a;
-  background: rgba(229, 190, 122, 0.18);
-  border-color: rgba(229, 190, 122, 0.4);
+.footer-master-emblem-logo {
+  height: 68px;
+  width: auto;
+  max-width: 340px;
+  object-fit: contain;
+  display: block;
+  margin-bottom: 14px;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.25));
 }
 .search {
   flex: 1;
@@ -2195,21 +2153,13 @@ footer li a:hover {
     text-decoration: none;
   }
 
-  .rr-pakiza {
-    font-size: 24.5px;
-    font-weight: 900;
-  }
-  .rr-rugs {
-    font-size: 20.5px;
-    font-weight: 700;
-  }
-  .rr-emblem svg {
-    width: 23px;
-    height: 23px;
-  }
-  .rr-co-tag {
-    font-size: 10px;
-    padding: 1px 4.5px;
+  .pakiza-master-emblem-logo {
+    height: 48px;
+    width: auto;
+    max-width: 225px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.1));
   }
 
   .icons {
@@ -2668,24 +2618,12 @@ footer li a:hover {
     padding: 0 12px;
   }
   .hrow {
-    height: 58px;
+    height: 60px;
     padding: 0 10px;
   }
-  .rr-pakiza {
-    font-size: 22.5px;
-    font-weight: 900;
-  }
-  .rr-rugs {
-    font-size: 18.5px;
-    font-weight: 700;
-  }
-  .rr-emblem svg {
-    width: 21px;
-    height: 21px;
-  }
-  .rr-co-tag {
-    font-size: 9.5px;
-    padding: 1px 4px;
+  .pakiza-master-emblem-logo {
+    height: 44px;
+    max-width: 205px;
   }
 
   /* Hero Framed Mobile */
