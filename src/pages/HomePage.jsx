@@ -904,7 +904,7 @@ export default function HomePage() {
             <div className="footer-col-1">
               <div className="footer-brand">
                 <img src={logoImg} alt="Pakiza Logo" className="footer-logo-img" />
-                <span>Pakiza Rugs Co</span>
+                <img src={wordmark3DImg} alt="Pakiza Rugs Co" className="footer-wordmark-img" />
               </div>
               <p className="footer-contact-item">Madhosingh, post Aurai, Bhadohi, UP 221301</p>
               <p className="footer-contact-item">
