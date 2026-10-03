@@ -239,33 +239,79 @@ export default function HomePage() {
         {/* ── Trust Bar ──────────────────────────────────────── */}
         <div className="trust">
           <div className="wrap">
-            <div>
-              <i>✋</i>
-              <p>
-                <b>100% Handmade</b>
-                <span>Shaped by skilled artisans</span>
-              </p>
-            </div>
-            <div>
-              <i>🇮🇳</i>
-              <p>
-                <b>Made in India</b>
-                <span>Where tradition meets craft</span>
-              </p>
-            </div>
-            <div>
-              <i>💵</i>
-              <p>
-                <b>Cash on Delivery</b>
-                <span>Pay when it arrives</span>
-              </p>
-            </div>
-            <div>
-              <i>💬</i>
-              <p>
-                <b>Quick Support</b>
-                <span>One message away</span>
-              </p>
+            <div className="trust-grid">
+              {/* Card 1: 100% Handmade */}
+              <div className="trust-card">
+                <div className="trust-card__icon">
+                  <svg width="42" height="42" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="24" cy="24" r="21" strokeDasharray="3 2" />
+                    <circle cx="24" cy="24" r="16.5" />
+                    <path d="M16 28c1.5-3 4-5 8-5s6.5 2 8 5" />
+                    <path d="M24 16c-1.8-2-4.5-1.5-4.5 1 0 2.5 4.5 5 4.5 5s4.5-2.5 4.5-5c0-2.5-2.7-3-4.5-1z" />
+                    <text x="24" y="37" textAnchor="middle" fontSize="4.2" fontWeight="700" fill="currentColor" letterSpacing="0.8">PRODUCT</text>
+                  </svg>
+                </div>
+                <div className="trust-card__body">
+                  <span className="trust-card__title">100% Handmade</span>
+                  <span className="trust-card__desc">Every curve and edge shaped with heartfelt attention</span>
+                </div>
+              </div>
+
+              {/* Card 2: Made in India */}
+              <div className="trust-card">
+                <div className="trust-card__icon">
+                  <svg width="42" height="42" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M10 13h28v22H10z" rx="3" />
+                    <path d="M17 9h14M24 9v4" />
+                    <text x="24" y="21" textAnchor="middle" fontSize="6" fontWeight="800" fill="currentColor" letterSpacing="0.5">MADE</text>
+                    <text x="24" y="27" textAnchor="middle" fontSize="4.8" fontWeight="700" fill="currentColor">IN</text>
+                    <text x="24" y="32.5" textAnchor="middle" fontSize="5.2" fontWeight="800" fill="currentColor" letterSpacing="0.5">INDIA</text>
+                  </svg>
+                </div>
+                <div className="trust-card__body">
+                  <span className="trust-card__title">Made in India</span>
+                  <span className="trust-card__desc">Proudly handmade in India, where tradition meets.</span>
+                </div>
+              </div>
+
+              {/* Card 3: Cash on Delivery */}
+              <div className="trust-card">
+                <div className="trust-card__icon">
+                  <svg width="42" height="42" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="7" y="10" width="22" height="13" rx="2" transform="rotate(-12 7 10)" />
+                    <circle cx="16.5" cy="15.5" r="2.2" />
+                    <path d="M17 26h23v15H17z" rx="2" />
+                    <path d="M17 31h23M28.5 26v15" />
+                    <path d="M7 36c3.5-1 7-1.8 10-1.8" />
+                    <path d="M7 36l3.5 3.5" />
+                  </svg>
+                </div>
+                <div className="trust-card__body">
+                  <span className="trust-card__title">Cash on Delivery</span>
+                  <span className="trust-card__desc">No upfront payments—get it first, pay with Cash on Delivery</span>
+                </div>
+              </div>
+
+              {/* Card 4: Quick Support */}
+              <div className="trust-card">
+                <div className="trust-card__icon">
+                  <svg width="42" height="42" viewBox="0 0 48 48" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 23v-3a13 13 0 0 1 26 0v3" />
+                    <rect x="7" y="23" width="7" height="11" rx="3.5" />
+                    <rect x="34" y="23" width="7" height="11" rx="3.5" />
+                    <path d="M37 34v2a3.5 3.5 0 0 1-3.5 3.5H26" />
+                    <circle cx="24.5" cy="39.5" r="1.5" />
+                    <rect x="18" y="17" width="12" height="8.5" rx="2" />
+                    <circle cx="21.5" cy="21.2" r="0.75" fill="currentColor" />
+                    <circle cx="24" cy="21.2" r="0.75" fill="currentColor" />
+                    <circle cx="26.5" cy="21.2" r="0.75" fill="currentColor" />
+                  </svg>
+                </div>
+                <div className="trust-card__body">
+                  <span className="trust-card__title">Quick Support</span>
+                  <span className="trust-card__desc">Our team is just a message away. Get instant support</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
