@@ -14,22 +14,26 @@ import FloatingChatAndScroll from '../components/FloatingChatAndScroll';
 
 const heroSlides = [
   {
+    tag: 'HERITAGE CRAFTED SINCE 1987',
+    title: 'More Than Rugs, A Better Way of Living',
+    image: '/hero-pakiza-brand.jpg',
+    href: '#cats',
+    btnText: 'Explore Collection',
+    isPoster: true
+  },
+  {
     tag: 'CURATED FOR ELEGANT LIVING',
-    title: 'Flat 50% off hand tufted rugs',
+    title: 'Royal Handcrafted Silk & Wool Carpets',
+    image: '/hero-monument.jpg',
+    href: '#cats',
+    btnText: 'Shop Now'
+  },
+  {
+    tag: 'INDULGE IN LUXURY',
+    title: 'Flat 50% Off Hand Tufted Masterpieces',
     image: '/rugs/rug-7.jpeg',
-    href: '#cats'
-  },
-  {
-    tag: 'INDULGE IN COMFORT',
-    title: 'Plush shaggy carpets',
-    image: '/rugs/rug-1.jpeg',
-    href: '#grid-shag'
-  },
-  {
-    tag: 'NATURAL SOPHISTICATION',
-    title: 'Artisan jute carpets',
-    image: '/rugs/rug-4.jpeg',
-    href: '#grid-jute'
+    href: '#grid-lux-sec',
+    btnText: 'Shop Sale'
   }
 ];
 
@@ -212,14 +216,14 @@ export default function HomePage() {
           {heroSlides.map((slide, index) => (
             <div
               key={index}
-              className={`slide ${currentSlide === index ? 'on' : ''}`}
+              className={`slide ${currentSlide === index ? 'on' : ''} ${slide.isPoster ? 'slide--poster' : ''}`}
             >
               <img src={slide.image} alt={slide.title} className="art-img" />
               <div className="txt">
                 <small>{slide.tag}</small>
                 <h2>{slide.title}</h2>
                 <a className="btn light" href={slide.href}>
-                  Shop now
+                  {slide.btnText || 'Shop now'}
                 </a>
               </div>
             </div>

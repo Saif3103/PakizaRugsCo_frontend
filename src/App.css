@@ -182,7 +182,12 @@ nav li:hover > .drop {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: brightness(0.65);
+  object-position: center center;
+  filter: brightness(0.72);
+}
+.slide.slide--poster .art-img {
+  object-position: center 20%;
+  filter: brightness(0.75);
 }
 .slide .txt {
   max-width: 1280px;
@@ -192,19 +197,20 @@ nav li:hover > .drop {
   color: #fff;
   position: relative;
   z-index: 2;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
 }
 .slide small {
   font-size: 13px;
   letter-spacing: 2.5px;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.85);
-  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 600;
 }
 .slide h2 {
   font-size: clamp(28px, 5.5vw, 64px);
   line-height: 1.08;
   margin: 10px 0 22px;
-  max-width: 580px;
+  max-width: 600px;
   font-weight: 600;
 }
 .dots {
