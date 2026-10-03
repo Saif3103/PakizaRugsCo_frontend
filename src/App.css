@@ -1204,6 +1204,187 @@ section {
   box-shadow: 0 10px 25px rgba(229, 190, 122, 0.5);
 }
 
+/* ── Founder & CEO Story Section ───────────────────────────── */
+.founder-story-section {
+  padding: 85px 0;
+  background: #fdfcf9;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  position: relative;
+}
+.founder-story-grid {
+  display: grid;
+  grid-template-columns: 440px 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.founder-card-wrap {
+  position: relative;
+}
+.founder-card {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(20, 32, 24, 0.16);
+  aspect-ratio: 4 / 4.8;
+  background: #1e3024;
+  border: 1px solid rgba(229, 190, 122, 0.28);
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s ease;
+}
+.founder-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 28px 60px rgba(20, 32, 24, 0.22);
+}
+.founder-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+.founder-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(10, 18, 14, 0.88) 100%);
+  pointer-events: none;
+}
+.founder-play-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: rgba(18, 30, 24, 0.65);
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 3px;
+  z-index: 3;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+  pointer-events: none;
+}
+.founder-card:hover .founder-play-btn {
+  transform: translate(-50%, -50%) scale(1.08);
+  background: #e5be7a;
+  color: #142018;
+  border-color: #fff;
+}
+.founder-badge-overlay {
+  position: absolute;
+  bottom: 22px;
+  left: 22px;
+  right: 22px;
+  z-index: 3;
+}
+.founder-badge-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+.founder-badge-title {
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: #e5be7a;
+  margin: 3px 0 0;
+  text-transform: uppercase;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+/* Right Story Content */
+.founder-content {
+  padding: 10px 0;
+}
+.founder-eyebrow {
+  display: block;
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #5d7366;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.founder-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(38px, 4.5vw, 54px);
+  font-weight: 700;
+  color: #182a1f;
+  margin: 0 0 14px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+.founder-accent-line {
+  width: 65px;
+  height: 2.5px;
+  background: #e5be7a;
+  border-radius: 2px;
+  margin-bottom: 24px;
+}
+.founder-quote {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(19px, 2.2vw, 22.5px);
+  font-style: italic;
+  line-height: 1.55;
+  color: #243a2d;
+  margin: 0 0 22px;
+  padding: 10px 0 10px 22px;
+  border-left: 3px solid #e5be7a;
+  background: rgba(229, 190, 122, 0.08);
+  border-radius: 0 8px 8px 0;
+}
+.founder-paragraphs {
+  color: #48574d;
+  font-size: 15.5px;
+  line-height: 1.75;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+.founder-paragraphs strong {
+  color: #1a2c20;
+  font-weight: 600;
+}
+.founder-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+.founder-stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.founder-stat-num {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(28px, 3.2vw, 38px);
+  font-weight: 700;
+  color: #16281d;
+  line-height: 1;
+}
+.founder-stat-label {
+  font-size: 13px;
+  color: #64756b;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
 /* ── Instagram Grid ────────────────────────────────────────── */
 .insta {
   display: grid;
@@ -1930,6 +2111,27 @@ footer li a:hover {
   .custom-inner {
     padding: 26px 18px;
     border-radius: 14px;
+  }
+  .founder-story-section {
+    padding: 55px 0;
+  }
+  .founder-story-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .founder-card {
+    max-width: 360px;
+    margin: 0 auto;
+    aspect-ratio: 4 / 4.6;
+  }
+  .founder-stats {
+    gap: 16px;
+  }
+  .founder-stat-num {
+    font-size: 26px;
+  }
+  .founder-stat-label {
+    font-size: 12px;
   }
   /* Keep perks strip in a single unbroken horizontal line on mobile */
   .perks-strip {
