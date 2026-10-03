@@ -734,22 +734,53 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── Customization Banner ───────────────────────────── */}
+        {/* ── Customization Banner (Authentic Atelier Layout) ── */}
         <div className="custom" id="custom">
-          <div className="custom-inner">
-            <span className="custom-tag">BESPOKE ATELIER</span>
-            <h2>
-              Custom by <span style={{ color: '#e5be7a' }}>Pakiza Rugs Co</span>
-            </h2>
-            <p>Tell us the size, colour, and pattern. Our master artisans hand-weave it for you.</p>
-            <a
-              className="btn custom-btn"
-              href="https://wa.me/917007626680?text=Hello%20Pakiza%20Rugs,%20I%20would%20like%20to%20customize%20a%20rug%20design."
-              target="_blank"
-              rel="noreferrer"
-            >
-              Start Custom Design
-            </a>
+          <div className="wrap custom-wrap">
+            <div className="custom-editorial">
+              <span className="custom-eyebrow">BESPOKE HAND-KNOTTED ATELIER</span>
+              <h2 className="custom-heading">
+                Custom Rugs by <em>Pakiza Rugs Co.</em>
+              </h2>
+              <p className="custom-desc">
+                Have a specific floor plan, colour palette, or family heirloom motif? Our master weavers in Bhadohi handcraft custom carpets to your exact millimeter dimensions.
+              </p>
+
+              <div className="custom-features">
+                <div className="custom-feat">
+                  <span className="custom-feat-num">01</span>
+                  <div>
+                    <strong>Any Size &amp; Shape</strong>
+                    <p>Runners, circular, oversized or irregular layouts</p>
+                  </div>
+                </div>
+                <div className="custom-feat">
+                  <span className="custom-feat-num">02</span>
+                  <div>
+                    <strong>100% Pure Fibres</strong>
+                    <p>Hand-spun New Zealand wool, bamboo silk &amp; jute</p>
+                  </div>
+                </div>
+                <div className="custom-feat">
+                  <span className="custom-feat-num">03</span>
+                  <div>
+                    <strong>Direct From Loom</strong>
+                    <p>Transparent pricing with zero middleman markups</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="custom-cta">
+                <a
+                  className="btn custom-btn"
+                  href="https://wa.me/917007626680?text=Hello%20Pakiza%20Rugs,%20I%20would%20like%20to%20customize%20a%20rug%20design."
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Start Custom Order on WhatsApp →
+                </a>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -773,11 +804,11 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── The Story Behind Pakiza Rugs Co. / Founder & CEO ── */}
+        {/* ── The Story Behind Pakiza Rugs Co. / Founder & CEO (Compact & Classy) ── */}
         <section className="founder-story-section" id="founder-story">
           <div className="wrap">
             <div className="founder-story-grid">
-              {/* Left: Founder Portrait Card */}
+              {/* Left: Founder Compact Portrait Card */}
               <div className="founder-card-wrap">
                 <div className="founder-card">
                   <img
@@ -785,16 +816,10 @@ export default function HomePage() {
                     alt="Saif Ali — Founder & CEO, Pakiza Rugs Co."
                     className="founder-photo"
                   />
-                  {/* Subtle video play button aesthetic */}
-                  <div className="founder-play-btn" aria-hidden="true" title="Story of Pakiza Rugs Co.">
-                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                      <polygon points="5 3 19 12 5 21 5 3" />
-                    </svg>
-                  </div>
                   {/* Bottom badge overlay */}
                   <div className="founder-badge-overlay">
                     <h3 className="founder-badge-name">SAIF ALI</h3>
-                    <p className="founder-badge-title">FOUNDER &amp; CEO, PAKIZA RUGS CO.</p>
+                    <p className="founder-badge-title">FOUNDER &amp; CEO</p>
                   </div>
                 </div>
               </div>
@@ -806,18 +831,12 @@ export default function HomePage() {
                 <div className="founder-accent-line" aria-hidden="true" />
 
                 <blockquote className="founder-quote">
-                  &ldquo;Pakiza Rugs Co. is our modern tribute to authentic Indian carpet artistry &mdash; bringing handcrafted luxury directly from the master looms of Bhadohi to contemporary homes across the world.&rdquo;
+                  &ldquo;Pakiza Rugs Co. is our tribute to authentic Indian carpet artistry &mdash; bringing handcrafted luxury directly from the looms of Bhadohi to contemporary homes.&rdquo;
                 </blockquote>
 
                 <div className="founder-paragraphs">
                   <p>
-                    For generations, our region of Bhadohi has been celebrated as the carpet capital of the world, where master weavers transform pure New Zealand wool and hand-spun silk into living masterpieces.
-                  </p>
-                  <p>
-                    As a young founder passionate about heritage decor, I started <strong>Pakiza Rugs Co.</strong> because I saw a profound disconnect: modern homeowners were paying exorbitant prices for mass-produced machine prints, while true artisanal weavers were losing their craft.
-                  </p>
-                  <p>
-                    We built Pakiza Rugs Co. from the ground up to change that &mdash; offering 100% genuine handcrafted rugs, honest direct-from-loom pricing, and custom bespoke sizing tailored to your dream home.
+                    Growing up in Bhadohi, I watched master weavers pour weeks of devotion into every single knot. I started <strong>Pakiza Rugs Co.</strong> to eliminate middleman markups and bring genuine, heirloom-grade handcrafted rugs directly from our looms to your living room.
                   </p>
                 </div>
 
@@ -825,15 +844,15 @@ export default function HomePage() {
                 <div className="founder-stats">
                   <div className="founder-stat-item">
                     <span className="founder-stat-num">100%</span>
-                    <span className="founder-stat-label">Handcrafted &amp; Pure Wool</span>
+                    <span className="founder-stat-label">Handcrafted Wool</span>
                   </div>
                   <div className="founder-stat-item">
                     <span className="founder-stat-num">500+</span>
-                    <span className="founder-stat-label">Artisan Weavers Empowered</span>
+                    <span className="founder-stat-label">Artisan Weavers</span>
                   </div>
                   <div className="founder-stat-item">
                     <span className="founder-stat-num">10k+</span>
-                    <span className="founder-stat-label">Living Rooms Transformed</span>
+                    <span className="founder-stat-label">Living Rooms</span>
                   </div>
                 </div>
               </div>
