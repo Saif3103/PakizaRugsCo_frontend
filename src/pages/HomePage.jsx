@@ -188,8 +188,12 @@ export default function HomePage() {
               <img src={logoImg} alt="Pakiza Royal Monogram" className="logo-img" />
               <img src={wordmark3DImg} alt="Pakiza Rugs Co" className="logo-wordmark-img" />
             </div>
-            {/* Mobile Center Brand Title (NO emblem logo on mobile, clean text title) */}
-            <span className="mobile-brand-title">Pakiza Rugs Co.</span>
+            {/* Mobile Center Brand Title (NO emblem logo on mobile, clean luxury text title) */}
+            <span className="mobile-brand-title">
+              <span className="mb-pakiza">Pakiza</span>
+              <span className="mb-rugs">Rugs</span>
+              <span className="mb-co">Co.</span>
+            </span>
           </Link>
 
           {/* Desktop Search Bar */}

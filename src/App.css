@@ -2158,14 +2158,50 @@ footer li a:hover {
   }
 
   .mobile-brand-title {
-    display: block !important;
-    font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
-    font-size: 20px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    color: #1d2420;
+    display: inline-flex !important;
+    align-items: baseline;
+    justify-content: center;
+    gap: 5px;
     text-align: center;
     white-space: nowrap;
+    line-height: 1;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+  .mobile-brand-title:active {
+    opacity: 0.85;
+  }
+
+  .mb-pakiza {
+    font-family: 'Playfair Display', 'Cinzel', Georgia, serif;
+    font-size: 21px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: #1a3324;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+  }
+
+  .mb-rugs {
+    font-family: 'Playfair Display', 'Cinzel', Georgia, serif;
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #2b4736;
+  }
+
+  .mb-co {
+    font-family: 'Outfit', 'Jost', sans-serif;
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #c5a059;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(197, 160, 89, 0.12);
+    border: 1px solid rgba(197, 160, 89, 0.35);
+    padding: 1.5px 5.5px;
+    border-radius: 4px;
+    position: relative;
+    top: -2px;
   }
 
   .icons {
@@ -2578,8 +2614,14 @@ footer li a:hover {
     padding: 0 10px;
   }
   .mobile-brand-title {
+    gap: 4px;
+  }
+  .mb-pakiza, .mb-rugs {
     font-size: 18.5px;
-    letter-spacing: 0.03em;
+  }
+  .mb-co {
+    font-size: 9.5px;
+    padding: 1px 4.5px;
   }
 
   /* Hero Framed Mobile */
