@@ -2221,16 +2221,57 @@ footer li a:hover {
   .mobile-header-btn {
     background: transparent;
     border: none;
-    padding: 6px;
+    padding: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #1d2420;
+    text-decoration: none;
     -webkit-tap-highlight-color: transparent;
   }
   .mobile-header-btn:active {
     transform: scale(0.93);
+  }
+
+  .mobile-user-avatar {
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1e3328, #2e4d3a);
+    border: 1.5px solid #c5a059;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  }
+
+  .mobile-user-avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .mobile-user-initials {
+    font-size: 11px;
+    font-weight: 700;
+    color: #f6e6c4;
+    font-family: 'Outfit', 'Jost', sans-serif;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .mobile-user-online-dot {
+    position: absolute;
+    bottom: -1px;
+    right: -1px;
+    width: 7.5px;
+    height: 7.5px;
+    background: #25d366;
+    border: 1.5px solid #ffffff;
+    border-radius: 50%;
   }
 
   .mobile-bag-wrap {

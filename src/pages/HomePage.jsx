@@ -241,7 +241,7 @@ export default function HomePage() {
               Cart<span id="count">{cart.length}</span>
             </button>
 
-            {/* Mobile Right: Search Icon + Cart Bag Icon */}
+            {/* Mobile Right: Search Icon + Account/Profile Icon + Cart Bag Icon */}
             <div className="mobile-header-actions">
               <button
                 className="mobile-header-btn mobile-search-trigger"
@@ -249,11 +249,45 @@ export default function HomePage() {
                 aria-label="Search"
                 id="mobileSearchBtn"
               >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1d2420" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#1d2420" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="11" cy="11" r="8" />
                   <line x1="21" y1="21" x2="16.65" y2="16.65" />
                 </svg>
               </button>
+
+              {/* Mobile Account / Profile Icon */}
+              {user ? (
+                <Link
+                  to={user.role === 'admin' ? '/admin' : '/account'}
+                  className="mobile-header-btn mobile-user-profile-btn"
+                  aria-label="My Account"
+                  title={user.name ? `Account (${user.name})` : 'My Account'}
+                  id="mobileAccountBtn"
+                >
+                  <div className="mobile-user-avatar">
+                    {user.avatar ? (
+                      <img src={user.avatar} alt={user.name || 'User'} className="mobile-user-avatar-img" />
+                    ) : (
+                      <span className="mobile-user-initials">
+                        {(user.name ? user.name.charAt(0) : user.email ? user.email.charAt(0) : 'U').toUpperCase()}
+                      </span>
+                    )}
+                    <span className="mobile-user-online-dot" />
+                  </div>
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  className="mobile-header-btn mobile-user-btn"
+                  aria-label="Login / Sign in"
+                  id="mobileLoginBtn"
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1d2420" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                </Link>
+              )}
 
               <button
                 className="mobile-header-btn mobile-cart-trigger"
@@ -262,7 +296,7 @@ export default function HomePage() {
                 id="mobileCartBtn"
               >
                 <div className="mobile-bag-wrap">
-                  <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#1d2420" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1d2420" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                     <line x1="3" y1="6" x2="21" y2="6" />
                     <path d="M16 10a4 4 0 01-8 0" />
