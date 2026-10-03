@@ -196,7 +196,8 @@ export default function HomePage() {
               </div>
               {/* Modern Bold Geometric Typography */}
               <div className="rr-text-wrap">
-                <span className="rr-name">Pakiza<span className="rr-name-light">Rugs</span></span>
+                <span className="rr-pakiza">Pakiza</span>
+                <span className="rr-rugs">Rugs</span>
                 <span className="rr-co-tag">CO.</span>
               </div>
             </div>
@@ -381,7 +382,8 @@ export default function HomePage() {
               </svg>
             </div>
             <div className="rr-text-wrap">
-              <span className="rr-name">Pakiza<span className="rr-name-light">Rugs</span></span>
+              <span className="rr-pakiza">Pakiza</span>
+              <span className="rr-rugs">Rugs</span>
               <span className="rr-co-tag">CO.</span>
             </div>
           </div>
@@ -1128,7 +1130,8 @@ export default function HomePage() {
                     </svg>
                   </div>
                   <div className="rr-text-wrap">
-                    <span className="rr-name light">Pakiza<span className="rr-name-light">Rugs</span></span>
+                    <span className="rr-pakiza light">Pakiza</span>
+                    <span className="rr-rugs light">Rugs</span>
                     <span className="rr-co-tag gold">CO.</span>
                   </div>
                 </div>
