@@ -259,10 +259,10 @@ export const colorsData = [
 ];
 
 export const roomsData = [
-  { name: 'Bed room', count: '71 styles', tag: 'Most popular', image: '/rugs/rug-3.jpeg' },
-  { name: 'Living room', count: '92 styles', tag: 'Most sold', image: '/rugs/rug-8.jpeg' },
-  { name: 'Dining room', count: '23 styles', tag: '', image: '/rugs/rug-7.jpeg' },
-  { name: 'Kids room', count: '32 styles', tag: '', image: '/rugs/rug-12.jpeg' }
+  { name: 'Bed Room', count: '71 styles', tag: 'MOST POPULAR', image: '/rooms/bedroom.jpg' },
+  { name: 'Living Room', count: '92 styles', tag: 'MOST SOLD', image: '/rooms/livingroom.jpg' },
+  { name: 'Dining Room', count: '23 styles', tag: '', image: '/rooms/diningroom.jpg' },
+  { name: 'Kids Room', count: '32 styles', tag: '', image: '/rooms/kidsroom.jpg' }
 ];
 
 export const reviewsData = [

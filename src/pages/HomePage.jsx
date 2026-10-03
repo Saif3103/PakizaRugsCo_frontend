@@ -502,21 +502,41 @@ export default function HomePage() {
         </section>
 
         {/* ── Shop by Room ───────────────────────────────────── */}
-        <section>
+        <section id="shop-by-room">
           <div className="wrap">
             <div className="sh">
               <h2>
                 Shop by <span className="gold-text">Room</span>
               </h2>
-              <p>The right carpet for every room.</p>
+              <p>Find the perfect carpet for every room</p>
             </div>
             <div className="rooms" id="rooms">
               {roomsData.map((room) => (
-                <a className="room" href="#new" key={room.name}>
-                  <img src={room.image} alt={room.name} />
-                  {room.tag && <small>{room.tag}</small>}
-                  <h3>{room.name}</h3>
-                  <p>{room.count}</p>
+                <a
+                  className="room-card"
+                  href="#new"
+                  key={room.name}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setSearchQuery(room.name);
+                    const el = document.getElementById('new');
+                    if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                >
+                  <img className="room-card__img" src={room.image} alt={room.name} loading="lazy" />
+                  <div className="room-card__gradient" />
+
+                  {/* Top Right Styles Badge */}
+                  <div className="room-card__badge">{room.count}</div>
+
+                  {/* Bottom Text & Button */}
+                  <div className="room-card__content">
+                    {room.tag && <span className="room-card__tag">{room.tag}</span>}
+                    <h3 className="room-card__title">{room.name}</h3>
+                    <span className="room-card__btn">
+                      SHOP NOW ↗
+                    </span>
+                  </div>
                 </a>
               ))}
             </div>
