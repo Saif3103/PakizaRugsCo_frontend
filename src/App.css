@@ -528,99 +528,101 @@ section {
   margin: 0 auto;
 }
 
-/* ── Categories Grid ───────────────────────────────────────── */
+/* ── Categories Grid (Name directly on Image Overlay) ──────── */
 .cats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  gap: 22px;
   width: 100%;
 }
 .cat-card {
-  display: flex;
-  flex-direction: column;
+  display: block;
   border-radius: 18px;
   overflow: hidden;
-  background: #2e443c;
+  position: relative;
   text-decoration: none;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+  background: #1c2b22;
 }
 .cat-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.14);
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
 }
 .cat-card__img-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1.05;
+  aspect-ratio: 1 / 1.15;
   overflow: hidden;
   background: #ede8df;
+  display: block;
 }
 .cat-card__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .cat-card:hover .cat-card__img {
-  transform: scale(1.07);
+  transform: scale(1.08);
 }
 .cat-card__badge {
   position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 2;
+  top: 14px;
+  left: 14px;
+  z-index: 3;
   background: #b8965a;
   color: #ffffff;
   font-family: 'Jost', sans-serif;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 4px 10px;
+  padding: 4px 12px;
   border-radius: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
 }
-.cat-card__footer {
+.cat-card__overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 16px 18px;
-  background: #2e443c;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 22px 18px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 35%, rgba(10, 20, 15, 0.88) 100%);
+  transition: background 0.3s ease;
+}
+.cat-card:hover .cat-card__overlay {
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 20%, rgba(8, 18, 13, 0.94) 100%);
 }
 .cat-card__title {
   color: #ffffff;
   font-family: 'Jost', system-ui, sans-serif;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: clamp(16px, 1.8vw, 20px);
+  font-weight: 700;
   letter-spacing: 0.01em;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.25;
+  margin: 0 0 8px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+  word-break: break-word;
 }
 .cat-card__btn {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  background: #b8965a;
-  color: #ffffff;
+  color: #e5be7a;
   font-family: 'Jost', sans-serif;
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 7px 14px;
-  border-radius: 30px;
-  white-space: nowrap;
-  flex-shrink: 0;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 .cat-card:hover .cat-card__btn {
-  background: #cba86b;
-  transform: translateX(2px);
+  color: #f7dca3;
+  transform: translateX(3px);
 }
 .more {
   text-align: center;
@@ -2054,9 +2056,38 @@ footer li a:hover {
   }
 
   /* Grid adaptations */
-  .grid, .cats, .rooms {
+  .grid, .rooms {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
+  }
+  .cats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .cat-card {
+    border-radius: 14px;
+  }
+  .cat-card__img-wrap {
+    aspect-ratio: 1 / 1.22;
+  }
+  .cat-card__overlay {
+    padding: 14px 12px;
+  }
+  .cat-card__title {
+    font-size: 15px;
+    margin-bottom: 4px;
+    line-height: 1.2;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.85);
+  }
+  .cat-card__btn {
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+  }
+  .cat-card__badge {
+    top: 10px;
+    left: 10px;
+    font-size: 9.5px;
+    padding: 3px 8px;
   }
 
   /* Trust Bar Continuous Infinite Auto-Slide Marquee on Mobile */

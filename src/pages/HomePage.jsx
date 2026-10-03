@@ -481,12 +481,12 @@ export default function HomePage() {
                   <div className="cat-card__img-wrap">
                     {cat.badge && <span className="cat-card__badge">{cat.badge}</span>}
                     <img src={cat.image} alt={cat.name} className="cat-card__img" />
-                  </div>
-                  <div className="cat-card__footer">
-                    <h3 className="cat-card__title">{cat.name}</h3>
-                    <span className="cat-card__btn">
-                      SHOP NOW →
-                    </span>
+                    <div className="cat-card__overlay">
+                      <h3 className="cat-card__title">{cat.name}</h3>
+                      <span className="cat-card__btn">
+                        SHOP NOW →
+                      </span>
+                    </div>
                   </div>
                 </a>
               ))}
