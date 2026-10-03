@@ -183,18 +183,24 @@ export default function HomePage() {
 
           <div className="icons">
             {user ? (
-              <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
                 {user.role === 'admin' && (
-                  <Link to="/admin" style={{ color: 'var(--green)', fontWeight: 600 }}>
+                  <Link to="/admin" style={{ color: '#c5a059', fontWeight: 600 }}>
                     Admin Panel
                   </Link>
                 )}
-                <button onClick={logout} style={{ color: 'var(--muted)' }}>
+                <Link to="/account" style={{ color: 'var(--ink)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px' }} id="home-account-btn">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                  </svg>
+                  <span>My Account</span>
+                </Link>
+                <button onClick={logout} style={{ color: 'var(--muted)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '13px' }} title="Logout">
                   Logout
                 </button>
               </div>
             ) : (
-              <Link to="/login" aria-label="Account">
+              <Link to="/login" aria-label="Account" id="home-login-btn">
                 Login
               </Link>
             )}

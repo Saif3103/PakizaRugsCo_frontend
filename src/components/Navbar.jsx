@@ -63,13 +63,20 @@ export default function Navbar() {
           {/* Auth Buttons — desktop */}
           {user ? (
             <div className="sq-nav__auth-group">
-              {user.role === 'admin' && (
+              {user.role === 'admin' ? (
                 <Link to="/admin" className="sq-nav__admin-btn" id="nav-admin-btn">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
                     <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
                   </svg>
                   Admin Panel
+                </Link>
+              ) : (
+                <Link to="/account" className="sq-nav__admin-btn" id="nav-account-btn" style={{ background: '#1e3328', color: '#e5be7a', border: '1px solid #c5a059' }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                  </svg>
+                  My Account
                 </Link>
               )}
               <button onClick={logout} className="sq-nav__logout-btn" id="nav-logout-btn" title="Logout">
@@ -113,7 +120,7 @@ export default function Navbar() {
             </a>
 
             <Link
-              to={user ? (user.role === 'admin' ? '/admin' : '/login') : '/login'}
+              to={user ? (user.role === 'admin' ? '/admin' : '/account') : '/login'}
               className="sq-nav__icon-btn sq-nav__user-btn"
               aria-label="Account"
               id="nav-user-mobile-btn"
@@ -201,9 +208,13 @@ export default function Navbar() {
         <div className="sq-nav__drawer-footer">
           {user ? (
             <>
-              {user.role === 'admin' && (
+              {user.role === 'admin' ? (
                 <Link to="/admin" className="sq-nav__drawer-btn sq-nav__drawer-btn--gold" onClick={() => setMenuOpen(false)}>
                   Admin Dashboard
+                </Link>
+              ) : (
+                <Link to="/account" className="sq-nav__drawer-btn sq-nav__drawer-btn--gold" onClick={() => setMenuOpen(false)}>
+                  My Account Dashboard
                 </Link>
               )}
               <button

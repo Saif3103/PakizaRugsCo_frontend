@@ -37,7 +37,7 @@ export default function SignupPage() {
     const result = signup(name, email, password);
     setLoading(false);
     if (result.success) {
-      navigate('/');
+      navigate('/account');
     } else {
       setError(result.error);
     }

@@ -98,7 +98,7 @@ export default function MobileBottomNav({ onOpenCategories, onOpenQuiz }) {
       {/* 5. Account / Login */}
       {user ? (
         <Link
-          to={user.role === 'admin' ? '/admin' : '/'}
+          to={user.role === 'admin' ? '/admin' : '/account'}
           className={`pk-mobile-nav__item ${activeTab === 'account' ? 'active' : ''}`}
           onClick={() => setActiveTab('account')}
           aria-label="My Account"
@@ -110,7 +110,7 @@ export default function MobileBottomNav({ onOpenCategories, onOpenQuiz }) {
             </svg>
             <span className="pk-mobile-nav__dot" />
           </div>
-          <span>{user.role === 'admin' ? 'Admin' : 'Profile'}</span>
+          <span>{user.role === 'admin' ? 'Admin' : 'Account'}</span>
         </Link>
       ) : (
         <Link

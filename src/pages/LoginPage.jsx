@@ -26,7 +26,7 @@ export default function LoginPage() {
       if (email === 'admin@pakizarugs.com') {
         navigate('/admin');
       } else {
-        navigate('/');
+        navigate('/account');
       }
     } else {
       setError(result.error);

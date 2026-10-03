@@ -5,6 +5,9 @@ const AuthContext = createContext(null);
 const ADMIN_EMAIL = "admin@pakizarugs.com";
 const ADMIN_PASSWORD = "pakiza@admin2024";
 
+const CUSTOMER_EMAIL = "customer@pakizarugs.com";
+const CUSTOMER_PASSWORD = "customer123";
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -20,6 +23,12 @@ export function AuthProvider({ children }) {
   const login = (email, password) => {
     if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
       const userData = { email, name: "Admin", role: "admin", avatar: "AD" };
+      setUser(userData);
+      localStorage.setItem("pakiza_user", JSON.stringify(userData));
+      return { success: true };
+    }
+    if (email.toLowerCase() === CUSTOMER_EMAIL && password === CUSTOMER_PASSWORD) {
+      const userData = { email: CUSTOMER_EMAIL, name: "Saif Ali", role: "user", avatar: "SA" };
       setUser(userData);
       localStorage.setItem("pakiza_user", JSON.stringify(userData));
       return { success: true };
