@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Syne:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Syne:wght@400;500;600;700;800&display=swap');
 
 *, *::before, *::after {
   margin: 0;
@@ -7,61 +7,90 @@
 }
 
 :root {
-  /* ══ LOGO-MATCHED BROWN PALETTE ══════════════════════════
-     Extracted from Pakiza Rugs & Co. logo
-     Deep walnut darks + parchment lights + caramel accents  */
+  /* ══ RUG ROOM MATCHED PALETTE ══════════════════════════════
+     Extracted from rugroom.in Shopify Glozin theme
+     Warm cream background + deep green primary + gold accents */
 
-  /* Dark tones — deep walnut / espresso */
-  --black:       #2A1206;   /* deepest walnut (replaces #000) */
-  --near-black:  #3B1A0A;   /* rich dark brown */
-  --dark:        #4A2210;   /* warm dark mahogany */
-  --dark-2:      #5C2D0E;   /* main logo dark brown */
+  /* Background tones — warm cream/parchment */
+  --color-background: #f5f3ec;
+  --color-background-alt: #ffffff;
+  --cream:       #f5f3ec;
+  --cream-2:     #ede9dd;
+  --white:       #ffffff;
 
-  /* Light tones — parchment / antique cream */
-  --cream:       #EDE0CC;   /* logo background parchment */
-  --cream-2:     #E4D3B8;   /* slightly deeper cream */
-  --white:       #FAF5EC;   /* warm off-white (not pure white) */
+  /* Dark tones */
+  --black:       #111111;
+  --near-black:  #111111;
+  --dark:        #111111;
+  --dark-2:      #111111;
+  --color-dark:  #111111;
 
-  /* Text / muted */
-  --muted:       #7A5C42;   /* warm mid-brown for body text on light bg */
-  --muted-lt:    #A08060;   /* lighter warm brown */
+  /* Primary — Deep forest green */
+  --color-primary: #364c46;
+  --color-primary-rgb: 54, 76, 70;
+
+  /* Text */
+  --color-text:    #444444;
+  --color-heading: #111111;
+  --muted:         #444444;
+  --muted-lt:      #777777;
 
   /* Borders */
-  --border-lt:   rgba(250, 245, 236, 0.12);   /* light on dark bg */
-  --border-dk:   rgba(42, 18, 6, 0.12);        /* dark on light bg */
+  --color-border:  #ebebeb;
+  --border-lt:     rgba(0, 0, 0, 0.08);
+  --border-dk:     rgba(0, 0, 0, 0.10);
 
-  /* ── Accent — caramel / tan gold ── */
-  --gold:        #C4A882;   /* warm caramel from logo */
-  --gold-lt:     rgba(196, 168, 130, 0.18);
+  /* Accent — Gold / CTA */
+  --gold:          #b8965a;
+  --gold-lt:       rgba(184, 150, 90, 0.18);
+  --accent:        #b8965a;
+  --accent-dk:     #a0814a;
 
-  /* ── Deep accent for CTAs ── */
-  --accent:      #7B3F1A;   /* mahogany red-brown */
-  --accent-dk:   #5C2D0E;   /* darker mahogany */
+  /* Button colors */
+  --btn-primary-bg:       #b8965a;
+  --btn-primary-hover-bg: #000000;
+  --btn-primary-color:    #ffffff;
+  --btn-primary-hover-color: #ffffff;
 
-  /* ── Fonts ── */
-  --font-display: 'Syne', 'Inter', system-ui, sans-serif;
+  /* ── Fonts — Rug Room uses Red Hat Display + Helvetica ── */
+  --font-display: 'Red Hat Display', sans-serif;
+  --font-heading: 'Red Hat Display', sans-serif;
+  --font-body:    'Red Hat Display', Helvetica, Arial, sans-serif;
   --font-serif:   'Cormorant Garamond', Georgia, serif;
-  --font-body:    'Inter', system-ui, sans-serif;
+  --font-menu:    'Red Hat Display', sans-serif;
+  --font-btn:     'Red Hat Display', sans-serif;
+
+  /* ── Layout ── */
+  --page-width:   1200px;
+  --section-spacing: 90px;
+  --rounded-radius: 10px;
+  --btn-radius:   30px;
 
   /* ── Motion ── */
-  --ease:        cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  --ease-out:    cubic-bezier(0.0, 0.0, 0.2, 1);
-  --transition:  all 0.35s var(--ease);
+  --ease:         cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ease-out:     cubic-bezier(0.0, 0.0, 0.2, 1);
+  --transition:   all 0.4s ease;
+  --duration-short: 0.3s;
+  --duration-long:  0.5s;
+
+  /* Badge */
+  --bages-sale-bg: #b64339;
+  --bages-new-bg:  #3456e6;
 }
 
 html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-body);
-  background: var(--near-black);
-  color: var(--white);
+  background: var(--color-background);
+  color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  line-height: 1.6;
-  /* Mobile: prevent pull-to-refresh interfering */
+  line-height: 1.714;
+  font-size: 15px;
+  font-weight: 400;
   overscroll-behavior-y: none;
-  /* iOS safe area padding */
   padding-bottom: env(safe-area-inset-bottom);
 }
 
@@ -72,101 +101,120 @@ img { display: block; max-width: 100%; }
 button { cursor: pointer; font-family: var(--font-body); border: none; outline: none; background: none; }
 ul, ol { list-style: none; }
 
-/* Scrollbar — warm brown */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: var(--near-black); }
-::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-background); }
+::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
-::selection { background: rgba(196, 168, 130, 0.35); color: var(--white); }
+::selection { background: rgba(54, 76, 70, 0.2); color: var(--black); }
 
-/* ── Container ── */
+/* ── Container — Rug Room 1200px max ── */
 .container {
-  max-width: 1280px;
+  max-width: var(--page-width);
   margin: 0 auto;
   padding: 0 48px;
 }
-@media (max-width: 768px) { .container { padding: 0 24px; } }
+@media (max-width: 768px) { .container { padding: 0 20px; } }
+
+/* ── Section spacing ── */
+.section-spacing {
+  padding-top: var(--section-spacing);
+  padding-bottom: var(--section-spacing);
+}
 
 /* ── Eyebrow label ── */
 .eyebrow {
   display: inline-block;
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.20em;
+  font-family: var(--font-heading);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--muted-lt);
+  color: var(--color-primary);
 }
 .eyebrow--gold { color: var(--gold); }
 
-/* ── Buttons ── */
+/* ── Buttons — Rug Room pill style ── */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  padding: 16px 40px;
-  font-family: var(--font-display);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  border-radius: 2px;
+  padding: 15px 55px;
+  font-family: var(--font-btn);
+  font-size: var(--font-size, 15px);
+  font-weight: 600;
+  letter-spacing: -0.034em;
+  text-transform: unset;
+  border-radius: var(--btn-radius);
   transition: var(--transition);
   cursor: pointer;
   white-space: nowrap;
 }
 
-/* Primary: parchment on dark */
+/* Primary — Gold */
+.btn--primary,
 .btn--white {
-  background: var(--white);
-  color: var(--dark-2);
-  border: 1.5px solid var(--white);
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-color);
+  border: 1.5px solid var(--btn-primary-bg);
 }
+.btn--primary:hover,
 .btn--white:hover {
-  background: var(--cream);
+  background: var(--btn-primary-hover-bg);
+  border-color: var(--btn-primary-hover-bg);
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(42,18,6,0.30);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
 }
 
 /* Outline on dark bg */
 .btn--outline-white {
   background: transparent;
-  color: var(--white);
-  border: 1.5px solid rgba(250,245,236,0.50);
+  color: #ffffff;
+  border: 1.5px solid rgba(255,255,255,0.50);
+  border-radius: var(--btn-radius);
 }
 .btn--outline-white:hover {
-  border-color: var(--white);
-  background: rgba(250,245,236,0.08);
+  border-color: #ffffff;
+  background: rgba(255,255,255,0.10);
 }
 
 /* Outline on light bg */
 .btn--outline-dark {
   background: transparent;
-  color: var(--dark-2);
-  border: 1.5px solid rgba(42,18,6,0.30);
+  color: var(--color-heading);
+  border: 1.5px solid var(--color-heading);
+  border-radius: var(--btn-radius);
 }
 .btn--outline-dark:hover {
-  border-color: var(--dark-2);
-  background: rgba(42,18,6,0.05);
+  background: var(--color-heading);
+  color: var(--white);
 }
 
-/* Solid brown */
+/* Solid dark */
 .btn--dark {
-  background: var(--dark-2);
-  color: var(--white);
-  border: 1.5px solid var(--dark-2);
+  background: var(--color-heading);
+  color: #ffffff;
+  border: 1.5px solid var(--color-heading);
+  border-radius: var(--btn-radius);
 }
 .btn--dark:hover {
-  background: var(--accent);
+  background: var(--btn-primary-bg);
+  border-color: var(--btn-primary-bg);
   transform: translateY(-1px);
 }
 
 /* Backward-compat aliases */
-.btn-white { display: inline-flex; align-items: center; gap: 10px; padding: 16px 36px; background: var(--white); color: var(--dark-2); font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: 0.10em; text-transform: uppercase; border-radius: 2px; transition: var(--transition); }
-.btn-white:hover { background: var(--cream); transform: translateY(-1px); }
-.btn-outline-white { display: inline-flex; align-items: center; gap: 10px; padding: 15px 36px; background: transparent; color: var(--white); font-family: var(--font-display); font-size: 12px; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase; border: 1.5px solid rgba(250,245,236,0.50); border-radius: 2px; transition: var(--transition); }
-.btn-outline-white:hover { border-color: var(--white); background: rgba(250,245,236,0.07); }
-.btn-outline-dark { display: inline-flex; align-items: center; gap: 10px; padding: 15px 36px; background: transparent; color: var(--dark-2); font-family: var(--font-display); font-size: 12px; font-weight: 600; letter-spacing: 0.10em; text-transform: uppercase; border: 1.5px solid rgba(42,18,6,0.28); border-radius: 2px; transition: var(--transition); }
-.btn-outline-dark:hover { border-color: var(--dark-2); background: rgba(42,18,6,0.04); }
-.label-tag { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted-lt); }
+.btn-white { display: inline-flex; align-items: center; gap: 10px; padding: 15px 40px; background: var(--btn-primary-bg); color: #fff; font-family: var(--font-btn); font-size: 15px; font-weight: 600; border-radius: var(--btn-radius); transition: var(--transition); }
+.btn-white:hover { background: var(--btn-primary-hover-bg); transform: translateY(-1px); }
+.btn-outline-white { display: inline-flex; align-items: center; gap: 10px; padding: 14px 36px; background: transparent; color: #fff; font-family: var(--font-btn); font-size: 14px; font-weight: 500; border: 1.5px solid rgba(255,255,255,0.50); border-radius: var(--btn-radius); transition: var(--transition); }
+.btn-outline-white:hover { border-color: #fff; background: rgba(255,255,255,0.07); }
+.btn-outline-dark { display: inline-flex; align-items: center; gap: 10px; padding: 14px 36px; background: transparent; color: var(--color-heading); font-family: var(--font-btn); font-size: 14px; font-weight: 500; border: 1.5px solid var(--color-heading); border-radius: var(--btn-radius); transition: var(--transition); }
+.btn-outline-dark:hover { background: var(--color-heading); color: #fff; }
+.label-tag { display: inline-block; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-primary); }
+
+@media (max-width: 768px) {
+  :root {
+    --section-spacing: 50px;
+  }
+}

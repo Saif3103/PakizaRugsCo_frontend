@@ -47,6 +47,8 @@ import FloatingAIConcierge from './components/FloatingAIConcierge';
 import RugQuizModal from './components/RugQuizModal';
 import { useState } from 'react';
 
+import AnnouncementBar from './components/AnnouncementBar';
+
 // Protected admin route
 function AdminRoute({ children }) {
   const { user, loading } = useAuth();
@@ -60,6 +62,7 @@ function HomePage() {
 
   return (
     <>
+      <AnnouncementBar />
       <Navbar />
       <main className="pk-main-content">
         <Hero />
