@@ -39,27 +39,29 @@ header {
   height: 70px;
 }
 .logo {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 26px;
-  letter-spacing: .5px;
-  color: #1e3328;
-  font-weight: 700;
+  font-family: 'Jost', system-ui, sans-serif;
+  font-size: 28px;
+  letter-spacing: -0.02em;
+  color: #283a2e;
+  font-weight: 800;
   display: flex;
   align-items: center;
   gap: 12px;
   text-decoration: none;
   flex-shrink: 0;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  line-height: 1;
 }
 .logo:hover {
-  opacity: 0.9;
+  opacity: 0.92;
+  transform: translateY(-1px);
 }
 .logo-img {
-  width: 44px;
-  height: 44px;
+  width: 52px;
+  height: 52px;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.15));
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.16));
 }
 .search {
   flex: 1;
@@ -1768,12 +1770,13 @@ footer li a:hover {
     height: 60px;
   }
   .logo {
-    font-size: 21px;
-    gap: 9px;
+    font-size: 23px;
+    gap: 10px;
+    font-weight: 800;
   }
   .logo-img {
-    width: 36px;
-    height: 36px;
+    width: 42px;
+    height: 42px;
   }
   .icons {
     margin-left: auto;
