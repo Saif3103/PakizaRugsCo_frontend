@@ -954,11 +954,18 @@ section {
 }
 
 /* ── Shop By Room ──────────────────────────────────── */
+.rooms-carousel-wrapper {
+  position: relative;
+  width: 100%;
+}
 .rooms {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   width: 100%;
+}
+.rooms-dots {
+  display: none;
 }
 
 .room-card {
@@ -2433,7 +2440,7 @@ footer li a:hover {
   }
 
   /* Grid adaptations */
-  .grid, .rooms {
+  .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
@@ -2785,36 +2792,128 @@ footer li a:hover {
     font-size: 12px;
   }
 
-  /* Room Cards Mobile */
+  /* Room Cards Horizontal Swipe Carousel Mobile */
+  .rooms-carousel-wrapper {
+    width: 100%;
+    position: relative;
+  }
   .rooms {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    display: flex !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    scroll-snap-type: x mandatory !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    gap: 14px !important;
+    padding: 6px 16px 12px !important;
+    margin: 0 -12px !important;
+    width: calc(100% + 24px) !important;
+  }
+  .rooms::-webkit-scrollbar {
+    display: none !important;
   }
   .room-card {
-    border-radius: 12px;
-    aspect-ratio: 3 / 4.2;
+    flex: 0 0 78vw !important;
+    max-width: 325px !important;
+    width: 78vw !important;
+    height: 405px !important;
+    aspect-ratio: auto !important;
+    scroll-snap-align: center !important;
+    border-radius: 22px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12) !important;
+    flex-shrink: 0 !important;
   }
-  .room-card__content {
-    padding: 12px 10px;
+  .room-card__img {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
   }
-  .room-card__tag {
-    font-size: 8.5px;
-    letter-spacing: 1px;
-    margin-bottom: 2px;
-  }
-  .room-card__title {
-    font-size: 15px;
-    margin: 0 0 8px 0;
-  }
-  .room-card__btn {
-    padding: 5px 11px;
-    font-size: 9.5px;
+  .room-card__gradient {
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.42) 48%, rgba(0, 0, 0, 0.05) 75%, transparent 100%) !important;
+    pointer-events: none !important;
   }
   .room-card__badge {
-    top: 8px;
-    right: 8px;
-    font-size: 9.5px;
-    padding: 2px 8px;
+    position: absolute !important;
+    top: 14px !important;
+    right: 14px !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    padding: 5px 13px !important;
+    border-radius: 999px !important;
+    background: rgba(30, 30, 30, 0.65) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    color: #ffffff !important;
+    z-index: 3 !important;
+  }
+  .room-card__content {
+    position: relative !important;
+    z-index: 3 !important;
+    padding: 20px 18px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .room-card__tag {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1.5px !important;
+    color: #dfb672 !important;
+    text-transform: uppercase !important;
+    margin-bottom: 3px !important;
+  }
+  .room-card__title {
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    color: #ffffff !important;
+    margin: 0 0 14px 0 !important;
+    line-height: 1.15 !important;
+  }
+  .room-card__btn {
+    padding: 10px 22px !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.8px !important;
+    border-radius: 999px !important;
+    background: #ffffff !important;
+    color: #111111 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22) !important;
+  }
+  .rooms-dots {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 6px !important;
+    margin: 16px 0 10px !important;
+  }
+  .rooms-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #d4ded9;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .rooms-dot.active {
+    width: 22px;
+    height: 6px;
+    border-radius: 999px;
+    background: #2e443c;
   }
 
   /* Color Section Mobile */

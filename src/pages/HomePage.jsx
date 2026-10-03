@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
@@ -71,9 +71,30 @@ export default function HomePage() {
     policies: false,
     newsletter: false
   });
+  const [activeRoomIndex, setActiveRoomIndex] = useState(0);
+  const roomsRef = useRef(null);
 
   const toggleFooterAccordion = (key) => {
     setOpenFooterAccordions((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
+
+  const handleRoomScroll = () => {
+    if (!roomsRef.current) return;
+    const el = roomsRef.current;
+    const scrollLeft = el.scrollLeft;
+    const card = el.querySelector('.room-card');
+    const cardWidth = card ? card.offsetWidth + 14 : el.offsetWidth * 0.8;
+    const index = Math.min(roomsData.length - 1, Math.max(0, Math.round(scrollLeft / cardWidth)));
+    setActiveRoomIndex(index);
+  };
+
+  const scrollToRoom = (index) => {
+    if (!roomsRef.current) return;
+    const el = roomsRef.current;
+    const card = el.querySelector('.room-card');
+    const cardWidth = card ? card.offsetWidth + 14 : el.offsetWidth * 0.8;
+    el.scrollTo({ left: index * cardWidth, behavior: 'smooth' });
+    setActiveRoomIndex(index);
   };
 
   // Hero carousel auto-play: 10s for video slide, 5s for image slides
@@ -767,35 +788,55 @@ export default function HomePage() {
               </h2>
               <p>Find the perfect carpet for every room</p>
             </div>
-            <div className="rooms" id="rooms">
-              {roomsData.map((room) => (
-                <a
-                  className="room-card"
-                  href="#new"
-                  key={room.name}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setSearchQuery(room.name);
-                    const el = document.getElementById('new');
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                >
-                  <img className="room-card__img" src={room.image} alt={room.name} loading="lazy" />
-                  <div className="room-card__gradient" />
+            <div className="rooms-carousel-wrapper">
+              <div
+                className="rooms"
+                id="rooms"
+                ref={roomsRef}
+                onScroll={handleRoomScroll}
+              >
+                {roomsData.map((room) => (
+                  <a
+                    className="room-card"
+                    href="#new"
+                    key={room.name}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setSearchQuery(room.name);
+                      const el = document.getElementById('new');
+                      if (el) el.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
+                    <img className="room-card__img" src={room.image} alt={room.name} loading="lazy" />
+                    <div className="room-card__gradient" />
 
-                  {/* Top Right Styles Badge */}
-                  <div className="room-card__badge">{room.count}</div>
+                    {/* Top Right Styles Badge */}
+                    <div className="room-card__badge">{room.count}</div>
 
-                  {/* Bottom Text & Button */}
-                  <div className="room-card__content">
-                    {room.tag && <span className="room-card__tag">{room.tag}</span>}
-                    <h3 className="room-card__title">{room.name}</h3>
-                    <span className="room-card__btn">
-                      SHOP NOW ↗
-                    </span>
-                  </div>
-                </a>
-              ))}
+                    {/* Bottom Text & Button */}
+                    <div className="room-card__content">
+                      {room.tag && <span className="room-card__tag">{room.tag}</span>}
+                      <h3 className="room-card__title">{room.name}</h3>
+                      <span className="room-card__btn">
+                        SHOP NOW ↗
+                      </span>
+                    </div>
+                  </a>
+                ))}
+              </div>
+
+              {/* Mobile Carousel Dots Indicator */}
+              <div className="rooms-dots">
+                {roomsData.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    className={`rooms-dot ${activeRoomIndex === i ? 'active' : ''}`}
+                    onClick={() => scrollToRoom(i)}
+                    aria-label={`Go to room slide ${i + 1}`}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* ── Brand Perks Strip (Single Line on Desktop & Mobile) ── */}
