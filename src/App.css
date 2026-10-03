@@ -237,12 +237,20 @@ nav li:hover > .drop {
   background: var(--bg);
   border-bottom: 1px solid var(--line);
   padding: 30px 0;
+  overflow: hidden;
 }
-.trust-grid {
+.trust-marquee {
+  width: 100%;
+  display: flex;
+}
+.trust-track-group {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
   width: 100%;
+}
+.trust-track-group--dup {
+  display: none !important;
 }
 .trust-card {
   background: #ffffff;
@@ -1472,26 +1480,50 @@ footer li a:hover {
     gap: 12px;
   }
 
-  /* Trust Bar Horizontal Scroll Carousel on Mobile */
-  .trust-grid {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 14px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: 4px 4px 10px;
+  /* Trust Bar Continuous Infinite Auto-Slide Marquee on Mobile */
+  .trust {
+    padding: 18px 0;
+    overflow: hidden;
     width: 100%;
-    max-width: 100%;
+    max-width: 100vw;
   }
-  .trust-grid::-webkit-scrollbar {
-    display: none;
+  .trust-wrap {
+    max-width: 100% !important;
+    padding: 0 !important;
+    overflow: hidden;
+  }
+  .trust-marquee {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    gap: 14px;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 3%, black 97%, transparent);
+  }
+  .trust-track-group {
+    display: flex !important;
+    flex-direction: row;
+    gap: 14px;
+    flex-shrink: 0;
+    width: max-content;
+    animation: trustMarqueeScroll 20s linear infinite;
+    will-change: transform;
+    padding: 2px 0;
+  }
+  .trust-track-group--dup {
+    display: flex !important;
+  }
+  .trust-marquee:hover .trust-track-group,
+  .trust-marquee:active .trust-track-group {
+    animation-play-state: paused;
   }
   .trust-card {
-    flex: 0 0 min(265px, 78vw);
-    scroll-snap-align: start;
-    flex-shrink: 0;
+    flex: 0 0 255px !important;
+    width: 255px !important;
+    max-width: 255px !important;
+    display: flex !important;
+    box-sizing: border-box;
+    padding: 14px 16px;
   }
 
   /* Footer 2-column */
@@ -1644,5 +1676,15 @@ footer li a:hover {
   }
   .sh p {
     font-size: 14px;
+  }
+}
+
+/* ── Continuous Infinite Auto-Scroll Keyframes ─────────────── */
+@keyframes trustMarqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-100% - 14px));
   }
 }
