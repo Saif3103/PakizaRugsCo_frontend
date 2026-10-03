@@ -293,42 +293,98 @@ section {
 .cats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: 20px;
 }
-.cat {
-  position: relative;
-  aspect-ratio: 1/1;
-  overflow: hidden;
+.cat-card {
   display: flex;
-  align-items: flex-end;
-  color: #fff;
-  border-radius: 3px;
+  flex-direction: column;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #2e443c;
   text-decoration: none;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
 }
-.cat img {
-  position: absolute;
-  inset: 0;
+.cat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.14);
+}
+.cat-card__img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1.05;
+  overflow: hidden;
+  background: #ede8df;
+}
+.cat-card__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform .45s ease;
+  display: block;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.cat span {
-  position: relative;
-  width: 100%;
-  padding: 40px 16px 14px;
-  background: linear-gradient(transparent, rgba(0,0,0,.75));
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-weight: 600;
+.cat-card:hover .cat-card__img {
+  transform: scale(1.07);
+}
+.cat-card__badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
   z-index: 2;
+  background: #b8965a;
+  color: #ffffff;
+  font-family: 'Jost', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
-.cat:hover img {
-  transform: scale(1.06);
+.cat-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px;
+  background: #2e443c;
+}
+.cat-card__title {
+  color: #ffffff;
+  font-family: 'Jost', system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cat-card__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #b8965a;
+  color: #ffffff;
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: 30px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.cat-card:hover .cat-card__btn {
+  background: #cba86b;
+  transform: translateX(2px);
 }
 .more {
   text-align: center;
-  margin-top: 32px;
+  margin-top: 36px;
 }
 
 /* ── Product Cards & Grids ─────────────────────────────────── */

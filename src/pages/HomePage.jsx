@@ -282,9 +282,17 @@ export default function HomePage() {
 
             <div className="cats" id="catGrid">
               {categoriesData.map((cat) => (
-                <a className="cat" href="#new" key={cat.id}>
-                  <img src={cat.image} alt={cat.name} />
-                  <span>{cat.name}</span>
+                <a className="cat-card" href={cat.href || '#new'} key={cat.id}>
+                  <div className="cat-card__img-wrap">
+                    {cat.badge && <span className="cat-card__badge">{cat.badge}</span>}
+                    <img src={cat.image} alt={cat.name} className="cat-card__img" />
+                  </div>
+                  <div className="cat-card__footer">
+                    <h3 className="cat-card__title">{cat.name}</h3>
+                    <span className="cat-card__btn">
+                      SHOP NOW →
+                    </span>
+                  </div>
                 </a>
               ))}
             </div>
