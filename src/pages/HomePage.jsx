@@ -148,7 +148,7 @@ export default function HomePage() {
         <div className="wrap hrow">
           <Link to="/" className="logo">
             <img src={logoImg} alt="Pakiza Logo" className="logo-img" />
-            Pakiza Rugs Co
+            <span className="logo-text">PAKIZA RUGS CO</span>
           </Link>
 
           <div className="search">
