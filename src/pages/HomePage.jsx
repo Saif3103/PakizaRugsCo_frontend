@@ -14,26 +14,28 @@ import FloatingChatAndScroll from '../components/FloatingChatAndScroll';
 
 const heroSlides = [
   {
-    tag: 'HERITAGE CRAFTED SINCE 1987',
-    title: 'More Than Rugs, A Better Way of Living',
-    image: '/hero-pakiza-brand.jpg',
+    tag: 'NEW COLLECTION',
+    title: 'HAND KNOTTED',
+    subtitle: 'DISCOVER PREMIUM CARPETS',
+    image: '/hero-hand-knotted.jpg',
     href: '#cats',
-    btnText: 'Explore Collection',
-    isPoster: true
+    btnText: 'SHOP NOW'
   },
   {
-    tag: 'CURATED FOR ELEGANT LIVING',
-    title: 'Royal Handcrafted Silk & Wool Carpets',
+    tag: 'TRENDING NOW',
+    title: 'IRREGULAR',
+    subtitle: 'COMFORT MEETS STYLE',
+    image: '/hero-irregular.jpg',
+    href: '#new',
+    btnText: 'EXPLORE'
+  },
+  {
+    tag: 'HERITAGE WEAVES',
+    title: 'ROYAL KASHMIRI',
+    subtitle: 'TIMELESS HANDCRAFTED LUXURY',
     image: '/hero-monument.jpg',
     href: '#cats',
-    btnText: 'Shop Now'
-  },
-  {
-    tag: 'INDULGE IN LUXURY',
-    title: 'Flat 50% Off Hand Tufted Masterpieces',
-    image: '/rugs/rug-7.jpeg',
-    href: '#grid-lux-sec',
-    btnText: 'Shop Sale'
+    btnText: 'SHOP NOW'
   }
 ];
 
@@ -211,33 +213,73 @@ export default function HomePage() {
       </header>
 
       <main>
-        {/* ── Hero Carousel ──────────────────────────────────── */}
-        <div className="hero" id="hero" aria-label="Featured collections">
-          {heroSlides.map((slide, index) => (
-            <div
-              key={index}
-              className={`slide ${currentSlide === index ? 'on' : ''} ${slide.isPoster ? 'slide--poster' : ''}`}
-            >
-              <img src={slide.image} alt={slide.title} className="art-img" />
-              <div className="txt">
-                <small>{slide.tag}</small>
-                <h2>{slide.title}</h2>
-                <a className="btn light" href={slide.href}>
-                  {slide.btnText || 'Shop now'}
-                </a>
+        {/* ── Framed Hero Carousel ──────────────────────────── */}
+        <div className="hero-section">
+          <div className="wrap hero-wrap">
+            <div className="hero-frame" id="hero" aria-label="Featured collections">
+              {/* Top-Right Slide Counter (01 / 03) */}
+              <div className="hero-counter" aria-live="polite">
+                <span className="hero-counter__current">
+                  {String(currentSlide + 1).padStart(2, '0')}
+                </span>
+                <span className="hero-counter__divider">/</span>
+                <span className="hero-counter__total">
+                  {String(heroSlides.length).padStart(2, '0')}
+                </span>
+              </div>
+
+              {/* Left-Side Vertical Slide Indicators (01 | 02 | 03) */}
+              <div className="hero-nav-vertical" aria-label="Slide navigation">
+                {heroSlides.map((_, index) => {
+                  const isActive = currentSlide === index;
+                  const slideNum = String(index + 1).padStart(2, '0');
+                  return (
+                    <button
+                      key={index}
+                      className={`hero-nav-btn ${isActive ? 'active' : ''}`}
+                      onClick={() => setCurrentSlide(index)}
+                      aria-label={`Go to slide ${index + 1}`}
+                      aria-current={isActive ? 'true' : undefined}
+                    >
+                      <span className="hero-nav-num">{slideNum}</span>
+                      <span className="hero-nav-bar" />
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Slides */}
+              {heroSlides.map((slide, index) => (
+                <div
+                  key={index}
+                  className={`slide ${currentSlide === index ? 'on' : ''}`}
+                >
+                  <img src={slide.image} alt={slide.title} className="art-img" />
+                  <div className="hero-center-box">
+                    <span className="hero-tag">{slide.tag}</span>
+                    <h2 className="hero-bold-title">{slide.title}</h2>
+                    {slide.subtitle && (
+                      <span className="hero-subtitle">{slide.subtitle}</span>
+                    )}
+                    <a className="hero-frame-btn" href={slide.href}>
+                      {slide.btnText || 'SHOP NOW'}
+                    </a>
+                  </div>
+                </div>
+              ))}
+
+              {/* Bottom Mobile Dots */}
+              <div className="hero-dots-mobile">
+                {heroSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    className={currentSlide === index ? 'on' : ''}
+                    onClick={() => setCurrentSlide(index)}
+                    aria-label={`Slide ${index + 1}`}
+                  />
+                ))}
               </div>
             </div>
-          ))}
-
-          <div className="dots">
-            {heroSlides.map((_, index) => (
-              <button
-                key={index}
-                className={currentSlide === index ? 'on' : ''}
-                onClick={() => setCurrentSlide(index)}
-                aria-label={`Slide ${index + 1}`}
-              />
-            ))}
           </div>
         </div>
 
