@@ -16,6 +16,16 @@ import FloatingChatAndScroll from '../components/FloatingChatAndScroll';
 
 const heroSlides = [
   {
+    type: 'video',
+    tag: 'ARTISANAL FILM',
+    title: 'LIVING LOOMS',
+    subtitle: 'AUTHENTIC HANDLOOMS IN MOTION',
+    video: '/hero.mp4',
+    poster: '/hero-hand-knotted.jpg',
+    href: '#founder-story',
+    btnText: 'WATCH STORY'
+  },
+  {
     type: 'image',
     tag: 'NEW COLLECTION',
     title: 'HAND KNOTTED',
@@ -41,16 +51,6 @@ const heroSlides = [
     image: '/hero-monument.jpg',
     href: '#cats',
     btnText: 'SHOP NOW'
-  },
-  {
-    type: 'video',
-    tag: 'ARTISANAL FILM',
-    title: 'LIVING LOOMS',
-    subtitle: 'AUTHENTIC HANDLOOMS IN MOTION',
-    video: '/hero.mp4',
-    poster: '/hero-hand-knotted.jpg',
-    href: '#founder-story',
-    btnText: 'WATCH STORY'
   }
 ];
 
