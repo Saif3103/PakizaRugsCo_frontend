@@ -262,16 +262,31 @@ section {
 }
 .sh {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
 }
 .sh h2 {
-  font-size: clamp(28px, 3.8vw, 40px);
-  margin-bottom: 6px;
-  color: var(--ink);
+  font-family: 'Outfit', 'Red Hat Display', 'Jost', sans-serif;
+  font-size: clamp(32px, 4.2vw, 46px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #2c3f38;
+  margin-bottom: 10px;
+}
+.sh h2 .gold-text,
+.sh h2 em {
+  color: #c0944d;
+  font-weight: 600;
+  font-style: normal;
 }
 .sh p {
-  color: var(--muted);
-  font-size: 15px;
+  font-family: 'Jost', system-ui, sans-serif;
+  color: #596b65;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  max-width: 650px;
+  margin: 0 auto;
 }
 
 /* ── Categories Grid ───────────────────────────────────────── */

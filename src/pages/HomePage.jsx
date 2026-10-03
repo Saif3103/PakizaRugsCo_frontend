@@ -274,8 +274,10 @@ export default function HomePage() {
         <section id="cats">
           <div className="wrap">
             <div className="sh">
-              <h2>Shop by Categories</h2>
-              <p>Explore our collections and find what suits your space.</p>
+              <h2>
+                Shop by <span className="gold-text">Categories</span>
+              </h2>
+              <p>Explore our curated collections and find exactly what you're looking for.</p>
             </div>
 
             <div className="cats" id="catGrid">
@@ -299,7 +301,9 @@ export default function HomePage() {
         <section id="new" style={{ background: '#fff' }}>
           <div className="wrap">
             <div className="sh">
-              <h2>New Arrivals</h2>
+              <h2>
+                New <span className="gold-text">Arrivals</span>
+              </h2>
               <p>Freshly woven designs, just in.</p>
             </div>
             <div className="grid" id="grid-new">
@@ -312,7 +316,9 @@ export default function HomePage() {
         <section>
           <div className="wrap">
             <div className="sh">
-              <h2>Shop By Color</h2>
+              <h2>
+                Shop By <span className="gold-text">Color</span>
+              </h2>
               <p>Find your shade, define your space.</p>
             </div>
             <div className="colors" id="colors">
@@ -340,7 +346,9 @@ export default function HomePage() {
         <section style={{ background: '#fff' }} id="grid-lux-sec">
           <div className="wrap">
             <div className="sh">
-              <h2>Luxury Viscose Carpets</h2>
+              <h2>
+                Luxury <span className="gold-text">Viscose Carpets</span>
+              </h2>
               <p>Silk-like shine, modern design.</p>
             </div>
             <div className="grid" id="grid-lux">
@@ -358,7 +366,9 @@ export default function HomePage() {
         <section>
           <div className="wrap">
             <div className="sh">
-              <h2>Shop by Room</h2>
+              <h2>
+                Shop by <span className="gold-text">Room</span>
+              </h2>
               <p>The right carpet for every room.</p>
             </div>
             <div className="rooms" id="rooms">
@@ -393,7 +403,9 @@ export default function HomePage() {
         <section style={{ background: '#fff' }} id="grid-jute">
           <div className="wrap">
             <div className="sh">
-              <h2>Jute Carpets</h2>
+              <h2>
+                Jute <span className="gold-text">Carpets</span>
+              </h2>
               <p>Natural fibre, timeless look.</p>
             </div>
             <div className="grid">
@@ -406,7 +418,9 @@ export default function HomePage() {
         <section id="reviews">
           <div className="wrap">
             <div className="sh">
-              <h2>Our Happy Space</h2>
+              <h2>
+                Our Happy <span className="gold-text">Space</span>
+              </h2>
               <p>Real homes, real customers.</p>
             </div>
             <div className="rev" id="rev">
@@ -430,7 +444,9 @@ export default function HomePage() {
         <section style={{ background: '#fff' }} id="grid-shag">
           <div className="wrap">
             <div className="sh">
-              <h2>Shaggy Carpets</h2>
+              <h2>
+                Shaggy <span className="gold-text">Carpets</span>
+              </h2>
               <p>Soft underfoot, easy to love.</p>
             </div>
             <div className="grid">
@@ -442,7 +458,9 @@ export default function HomePage() {
         {/* ── Customization Banner ───────────────────────────── */}
         <div className="custom" id="custom">
           <div>
-            <h2>Custom by Pakiza Rugs Co</h2>
+            <h2>
+              Custom by <span style={{ color: '#e5be7a' }}>Pakiza Rugs Co</span>
+            </h2>
             <p>Tell us the size, colour and pattern. We weave it.</p>
             <a
               className="btn light"
@@ -459,7 +477,9 @@ export default function HomePage() {
         <section style={{ background: '#fff' }} id="grid-excl">
           <div className="wrap">
             <div className="sh">
-              <h2>Exclusive Carpets</h2>
+              <h2>
+                Exclusive <span className="gold-text">Carpets</span>
+              </h2>
               <p>Limited designs for special rooms.</p>
             </div>
             <div className="grid">
@@ -477,7 +497,9 @@ export default function HomePage() {
         <section>
           <div className="wrap">
             <div className="sh">
-              <h2>Follow Pakiza Rugs Co on Instagram</h2>
+              <h2>
+                Follow Pakiza Rugs Co on <span className="gold-text">Instagram</span>
+              </h2>
               <p>Get inspired by handmade decor.</p>
             </div>
             <div className="insta" id="insta">
