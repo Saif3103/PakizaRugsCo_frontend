@@ -17,13 +17,13 @@ import FloatingChatAndScroll from '../components/FloatingChatAndScroll';
 const heroSlides = [
   {
     type: 'video',
-    tag: 'ARTISANAL FILM',
-    title: 'LIVING LOOMS',
-    subtitle: 'AUTHENTIC HANDLOOMS IN MOTION',
-    video: '/hero.mp4',
-    poster: '/hero-hand-knotted.jpg',
+    tag: 'BHADOHI ATELIER',
+    title: 'THE ART OF WEAVING',
+    subtitle: 'PURE HANDMADE ARTISTRY IN MOTION',
+    video: '/hero-artisan.mp4',
+    poster: '/hero-artisan-poster.jpg',
     href: '#founder-story',
-    btnText: 'WATCH STORY'
+    btnText: 'EXPLORE OUR CRAFT'
   },
   {
     type: 'image',
