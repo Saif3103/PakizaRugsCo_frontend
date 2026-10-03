@@ -575,42 +575,118 @@ export default function HomePage() {
 
       {/* ── Footer ─────────────────────────────────────────── */}
       <footer>
+        {/* Decorative background mandalas */}
+        <svg className="footer-mandala-left" viewBox="0 0 200 200" fill="none" stroke="#ffffff" strokeWidth="0.8">
+          <circle cx="100" cy="100" r="90" />
+          <circle cx="100" cy="100" r="70" strokeDasharray="3 2" />
+          <circle cx="100" cy="100" r="50" />
+          <circle cx="100" cy="100" r="30" strokeDasharray="2 2" />
+          {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg) => (
+            <path
+              key={deg}
+              d="M100 100 Q120 70 100 20 Q80 70 100 100"
+              transform={`rotate(${deg} 100 100)`}
+            />
+          ))}
+        </svg>
+
+        <svg className="footer-mandala-right" viewBox="0 0 200 200" fill="none" stroke="#ffffff" strokeWidth="0.8">
+          <circle cx="100" cy="100" r="90" />
+          <circle cx="100" cy="100" r="70" strokeDasharray="3 2" />
+          <circle cx="100" cy="100" r="50" />
+          <circle cx="100" cy="100" r="30" strokeDasharray="2 2" />
+          {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg) => (
+            <path
+              key={deg}
+              d="M100 100 Q120 70 100 20 Q80 70 100 100"
+              transform={`rotate(${deg} 100 100)`}
+            />
+          ))}
+        </svg>
+
         <div className="wrap">
           <div className="fg">
-            <div>
-              <div className="logo" style={{ color: '#fff', marginBottom: '10px' }}>
+            {/* Column 1: Brand & Contact Info */}
+            <div className="footer-col-1">
+              <div className="footer-brand">
                 Pakiza Rugs Co
               </div>
-              <p>Bhadohi Carpet City, Uttar Pradesh 221401</p>
-              <p>+91 70076 26680</p>
-              <p>support@pakizarugsco.com</p>
+              <p className="footer-contact-item">Madhosingh, post Aurai, Bhadohi, UP 221301</p>
+              <p className="footer-contact-item">
+                <a href="tel:+919129788793">+91 9129788793</a> / <a href="tel:+917007626680">+91 7007626680</a>
+              </p>
+              <p className="footer-contact-item">
+                <a href="mailto:support@pakizarugsco.com">support@pakizarugsco.com</a>
+              </p>
+
+              {/* 5 Circular Social Icons */}
+              <div className="footer-socials">
+                {/* Facebook */}
+                <a href="https://facebook.com" target="_blank" rel="noreferrer" className="footer-social-btn" aria-label="Facebook">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                  </svg>
+                </a>
+                {/* Instagram */}
+                <a href="https://instagram.com" target="_blank" rel="noreferrer" className="footer-social-btn" aria-label="Instagram">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="2" y="2" width="20" height="20" rx="5" />
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                  </svg>
+                </a>
+                {/* TikTok / Threads */}
+                <a href="https://tiktok.com" target="_blank" rel="noreferrer" className="footer-social-btn" aria-label="TikTok">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5v3a8 8 0 0 1-5-1.8V16a7 7 0 1 1-7-7c.7 0 1.4.1 2 .3V12z" />
+                  </svg>
+                </a>
+                {/* YouTube */}
+                <a href="https://youtube.com" target="_blank" rel="noreferrer" className="footer-social-btn" aria-label="YouTube">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z" />
+                    <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="#2e443c" />
+                  </svg>
+                </a>
+                {/* Pinterest */}
+                <a href="https://pinterest.com" target="_blank" rel="noreferrer" className="footer-social-btn" aria-label="Pinterest">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2a10 10 0 0 0-3.6 19.3c-.1-.8-.1-2 .1-2.9l1.4-6s-.4-.7-.4-1.8c0-1.7 1-3 2.2-3 1 0 1.5.8 1.5 1.7 0 1-.7 2.6-1 4-.3 1.2.6 2.2 1.8 2.2 2.2 0 3.8-2.3 3.8-5.6 0-2.9-2.1-5-5.1-5-3.5 0-5.6 2.6-5.6 5.3 0 1 .4 2.2.9 2.8a.4.4 0 0 1 .1.4l-.3 1.3c0 .2-.2.3-.4.2-1.7-.8-2.8-3.2-2.8-5.1 0-4.2 3-8 8.9-8 4.7 0 8.3 3.3 8.3 7.8 0 4.6-2.9 8.4-7 8.4-1.4 0-2.7-.7-3.1-1.6L7 22.8c-.4 1.5-1.5 3.3-2.2 4.4A10 10 0 0 0 12 22a10 10 0 0 0 0-20z" />
+                  </svg>
+                </a>
+              </div>
             </div>
 
+            {/* Column 2: Quick Links */}
             <div>
-              <h4>Quick links</h4>
+              <h4>Quick Links</h4>
               <ul>
                 <li><a href="#reviews">Customer Reviews</a></li>
-                <li><a href="#new">Track order</a></li>
-                <li><a href="#custom">Contact</a></li>
-                <li><a href="#new">Wishlist</a></li>
+                <li><a href="#new">Track Order</a></li>
+                <li><a href="https://wa.me/917007626680" target="_blank" rel="noreferrer">Contact</a></li>
+                <li><a href="#new">Your Wishlist – Saved Rugs &amp; Carpets | Pakiza Rugs Co</a></li>
               </ul>
             </div>
 
+            {/* Column 3: Policies */}
             <div>
               <h4>Policies</h4>
               <ul>
-                <li><a href="#">Privacy policy</a></li>
-                <li><a href="#">Shipping policy</a></li>
-                <li><a href="#">Return and refund</a></li>
-                <li><a href="#">Terms and conditions</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Shipping Policy</a></li>
+                <li><a href="#">Return &amp; Refund Policy</a></li>
+                <li><a href="#">Terms &amp; Conditions</a></li>
               </ul>
             </div>
 
+            {/* Column 4: Sign Up to Newsletter */}
             <div>
-              <h4>Newsletter</h4>
-              <p>New arrivals and member-only discounts.</p>
+              <h4>Sign Up to Newsletter</h4>
+              <p className="footer-newsletter-desc">
+                Sign up for exclusive updates, new arrivals &amp; insider only discounts
+              </p>
               <form
-                className="nl"
+                className="footer-newsletter-form"
                 onSubmit={(e) => {
                   e.preventDefault();
                   setNewsletterSubscribed(true);
@@ -619,20 +695,53 @@ export default function HomePage() {
                 <input
                   type="email"
                   required
-                  placeholder="Email address"
-                  aria-label="Email"
+                  placeholder="Enter your email..."
+                  className="footer-newsletter-input"
+                  aria-label="Email address"
                   disabled={newsletterSubscribed}
                 />
-                <button type="submit">
-                  {newsletterSubscribed ? 'Subscribed ✓' : 'Sign up'}
+                <button type="submit" className="footer-newsletter-btn">
+                  {newsletterSubscribed ? 'Subscribed ✓' : 'Sign Up'}
                 </button>
               </form>
+              <p className="footer-disclaimer">
+                ***By entering the e-mail you accept the <strong>terms and conditions</strong> and the <strong>privacy policy</strong>.
+              </p>
             </div>
           </div>
 
-          <div className="copy">© 2026 Pakiza Rugs Co. All rights reserved.</div>
+          {/* Bottom Copyright Row */}
+          <div className="copy-row">
+            © 2026 Pakiza Rugs Co.
+          </div>
         </div>
       </footer>
+
+      {/* Floating Widgets: Chat + Scroll to Top */}
+      <div className="floating-widgets">
+        <a
+          href="https://wa.me/917007626680?text=Hello%20Pakiza%20Rugs,%20I%20have%20an%20inquiry."
+          target="_blank"
+          rel="noreferrer"
+          className="floating-chat-btn"
+          aria-label="Chat on WhatsApp"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+          </svg>
+          Chat
+        </a>
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="floating-scroll-btn"
+          aria-label="Scroll to top"
+          title="Scroll to top"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M18 15l-6-6-6 6" />
+          </svg>
+        </button>
+      </div>
 
       {/* ── Mobile Fixed Bar ───────────────────────────────── */}
       <div className="bar">
