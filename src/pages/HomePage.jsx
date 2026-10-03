@@ -803,7 +803,8 @@ export default function HomePage() {
             {/* Column 1: Brand & Contact Info */}
             <div className="footer-col-1">
               <div className="footer-brand">
-                Pakiza Rugs Co
+                <img src={logoImg} alt="Pakiza Logo" className="footer-logo-img" />
+                <span>Pakiza Rugs Co</span>
               </div>
               <p className="footer-contact-item">Madhosingh, post Aurai, Bhadohi, UP 221301</p>
               <p className="footer-contact-item">
