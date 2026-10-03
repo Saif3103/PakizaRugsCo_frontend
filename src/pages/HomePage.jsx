@@ -63,13 +63,17 @@ export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
 
-  // Hero carousel auto-play
+  // Hero carousel auto-play: 10s for video slide, 5s for image slides
   useEffect(() => {
-    const timer = setInterval(() => {
+    const isCurrentVideo = heroSlides[currentSlide]?.type === 'video' || !!heroSlides[currentSlide]?.video;
+    const duration = isCurrentVideo ? 10000 : 5000;
+
+    const timer = setTimeout(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
+    }, duration);
+
+    return () => clearTimeout(timer);
+  }, [currentSlide]);
 
   const formatPrice = (num) => 'Rs. ' + num.toLocaleString('en-IN');
 
