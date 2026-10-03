@@ -804,29 +804,91 @@ section {
   color: #ffffff;
   transform: translateY(-1px);
 }
-.perks {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-top: 24px;
-  text-align: center;
+/* ── Brand Perks Strip (Exact Reference Match) ────────────── */
+.perks-strip {
+  margin-top: 28px;
+  background: #2e443c;
+  border-radius: 12px;
+  padding: 16px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
   width: 100%;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
 }
-.perks div {
-  background: #fff;
-  border: 1px solid var(--line);
-  padding: 18px;
-  border-radius: 2px;
+
+.perks-strip__items {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  flex: 1;
 }
-.perks b {
-  display: block;
-  font-weight: 600;
-  font-size: 15px;
-  margin-bottom: 2px;
+
+.perk-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #ffffff;
+  flex-shrink: 0;
 }
-.perks span {
+
+.perk-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.perk-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.perk-title {
+  font-family: 'Jost', system-ui, sans-serif;
   font-size: 13.5px;
-  color: var(--muted);
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 1.25;
+}
+
+.perk-desc {
+  font-family: 'Jost', system-ui, sans-serif;
+  font-size: 11.5px;
+  color: #c4cdc8;
+  line-height: 1.35;
+  margin-top: 2px;
+}
+
+.perks-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 24px;
+  border: 1px solid rgba(209, 168, 104, 0.55);
+  border-radius: 30px;
+  background: transparent;
+  color: #d1a868;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+
+.perks-cta-btn:hover {
+  background: rgba(209, 168, 104, 0.12);
+  border-color: #d1a868;
+  color: #ecd5ad;
+  transform: translateY(-1px);
 }
 
 /* ── Customer Reviews Carousel ─────────────────────────────── */
@@ -1607,9 +1669,33 @@ footer li a:hover {
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
   }
-  .perks {
-    grid-template-columns: 1fr;
-    gap: 10px;
+  /* Keep perks strip in a single unbroken horizontal line on mobile */
+  .perks-strip {
+    padding: 12px 16px;
+    gap: 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+  }
+  .perks-strip::-webkit-scrollbar {
+    display: none;
+  }
+  .perks-strip__items {
+    gap: 18px;
+    flex-shrink: 0;
+  }
+  .perk-title {
+    font-size: 12px;
+  }
+  .perk-desc {
+    font-size: 10.5px;
+  }
+  .perks-cta-btn {
+    font-size: 13.5px;
+    padding: 7px 15px;
+    margin-left: auto;
   }
 
   .bar {

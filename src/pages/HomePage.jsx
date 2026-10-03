@@ -545,19 +545,62 @@ export default function HomePage() {
               ))}
             </div>
 
-            <div className="perks">
-              <div>
-                <b>Free Customization</b>
-                <span>Any size, any colour</span>
+            {/* ── Brand Perks Strip (Single Line on Desktop & Mobile) ── */}
+            <div className="perks-strip">
+              <div className="perks-strip__items">
+                {/* Perk 1: Free Customisation */}
+                <div className="perk-item">
+                  <div className="perk-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#d1a868" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="9" />
+                      <path d="M8.5 12.5l2.5 2.5 5-5" />
+                    </svg>
+                  </div>
+                  <div className="perk-text">
+                    <strong className="perk-title">Free Customisation</strong>
+                    <span className="perk-desc">Any size · Any colour</span>
+                  </div>
+                </div>
+
+                {/* Perk 2: Pan India Delivery */}
+                <div className="perk-item">
+                  <div className="perk-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#d1a868" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="1" y="5" width="13" height="12" rx="1.5" />
+                      <path d="M14 8h5l3 3.5v5.5h-8V8z" />
+                      <circle cx="5.5" cy="18.5" r="2.5" />
+                      <circle cx="17.5" cy="18.5" r="2.5" />
+                    </svg>
+                  </div>
+                  <div className="perk-text">
+                    <strong className="perk-title">Pan India Delivery</strong>
+                    <span className="perk-desc">Fast &amp; tracked</span>
+                  </div>
+                </div>
+
+                {/* Perk 3: Expert Help */}
+                <a className="perk-item perk-item--link" href="tel:+919129788793">
+                  <div className="perk-icon">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#d1a868" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                  </div>
+                  <div className="perk-text">
+                    <strong className="perk-title">Expert Help</strong>
+                    <span className="perk-desc">+91 9129788793</span>
+                  </div>
+                </a>
               </div>
-              <div>
-                <b>Pan India delivery</b>
-                <span>Fast and tracked</span>
-              </div>
-              <div>
-                <b>Expert help</b>
-                <span>+91 70076 26680</span>
-              </div>
+
+              {/* Right CTA Button */}
+              <a
+                className="perks-cta-btn"
+                href="https://wa.me/919129788793?text=Hello%20Pakiza%20Rugs,%20I%20need%20help%20choosing%20a%20carpet."
+                target="_blank"
+                rel="noreferrer"
+              >
+                Need help choosing? →
+              </a>
             </div>
           </div>
         </section>
