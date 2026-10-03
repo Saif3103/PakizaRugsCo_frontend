@@ -1520,37 +1520,27 @@ footer {
   width: 100%;
 }
 .footer-col-1 .footer-brand {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 30px;
-  font-weight: 700;
+  margin-bottom: 16px;
+}
+.footer-brand-title {
   color: #ffffff;
-  margin-bottom: 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.footer-logo-img {
-  width: 46px;
-  height: 46px;
-  object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45));
-}
-.footer-wordmark-img {
-  height: 40px;
-  width: auto;
-  max-width: 250px;
-  object-fit: contain;
-  filter: brightness(1.08) drop-shadow(0 2px 8px rgba(0, 0, 0, 0.45));
+  font-family: 'Jost', system-ui, sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  display: inline-block;
 }
 .footer-contact-item {
   color: #d1ded8;
-  font-size: 14px;
-  margin-bottom: 6px;
+  font-size: 14.5px;
+  margin-bottom: 7px;
   line-height: 1.5;
 }
 .footer-contact-item a {
   color: inherit;
   transition: color 0.2s;
+  text-decoration: none;
 }
 .footer-contact-item a:hover {
   color: #ffffff;
@@ -1558,12 +1548,12 @@ footer {
 }
 .footer-socials {
   display: flex;
-  gap: 10px;
-  margin-top: 18px;
+  gap: 12px;
+  margin-top: 20px;
 }
 .footer-social-btn {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.45);
   display: grid;
@@ -1578,7 +1568,10 @@ footer {
   border-color: #ffffff;
   transform: translateY(-2px);
 }
-footer h4 {
+.footer-accordion-item {
+  width: 100%;
+}
+.footer-accordion-header {
   color: #ffffff;
   font-weight: 600;
   margin-bottom: 16px;
@@ -1586,6 +1579,21 @@ footer h4 {
   letter-spacing: 0.03em;
   font-family: 'Jost', sans-serif;
   text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: default;
+  text-align: left;
+}
+.footer-accordion-icon {
+  display: none;
+}
+.footer-accordion-body {
+  display: block;
 }
 footer ul {
   list-style: none;
@@ -2502,13 +2510,75 @@ footer li a:hover {
     padding: 14px 16px;
   }
 
-  /* Footer 2-column */
+  /* Mobile Footer Accordion & Stack Layout */
   .fg {
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
   .footer-mandala-left, .footer-mandala-right {
     display: none;
+  }
+  .footer-col-1 {
+    padding-bottom: 22px;
+  }
+  .footer-brand-title {
+    font-size: 28px;
+    font-weight: 800;
+  }
+  .footer-contact-item {
+    font-size: 14.5px;
+    color: #e3ebe7;
+  }
+  .footer-socials {
+    margin: 18px 0 10px;
+    gap: 12px;
+  }
+  .footer-social-btn {
+    width: 40px;
+    height: 40px;
+  }
+  .footer-accordion-item {
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  .footer-accordion-item:last-child {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  }
+  .footer-accordion-header {
+    padding: 17px 0;
+    margin-bottom: 0;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    color: #ffffff;
+  }
+  .footer-accordion-icon {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1;
+    color: #ffffff;
+  }
+  .footer-accordion-body {
+    display: none;
+    padding-bottom: 18px;
+  }
+  .footer-accordion-item.open .footer-accordion-body {
+    display: block;
+    animation: footerFade 0.2s ease;
+  }
+  @keyframes footerFade {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .copy-row {
+    margin-top: 24px;
+    justify-content: center;
+    text-align: center;
+    border-top: 0;
+    padding-top: 10px;
+    padding-bottom: 18px;
+    font-size: 14px;
   }
 
   .insta {
@@ -2780,6 +2850,26 @@ footer li a:hover {
   .sh p {
     font-size: 14px;
   }
+}
+
+/* ── Universal Pill / Circle Button Styles ───────────────────── */
+button,
+input[type="button"],
+input[type="submit"],
+.btn,
+.hero-frame-btn,
+.room-card__btn,
+.custom-btn,
+.custom-cta-btn,
+.nav-cta,
+.header-login-btn,
+.footer-newsletter-btn,
+.quick-add-btn,
+.cart-drawer-checkout,
+.pinfo .btn,
+.admin-cat-btn,
+.founder-cta-btn {
+  border-radius: 999px !important;
 }
 
 /* ── Continuous Infinite Auto-Scroll Keyframes ─────────────── */

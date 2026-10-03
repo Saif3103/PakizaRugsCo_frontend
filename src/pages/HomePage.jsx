@@ -66,6 +66,15 @@ export default function HomePage() {
   const [wishlist, setWishlist] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
+  const [openFooterAccordions, setOpenFooterAccordions] = useState({
+    quickLinks: false,
+    policies: false,
+    newsletter: false
+  });
+
+  const toggleFooterAccordion = (key) => {
+    setOpenFooterAccordions((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   // Hero carousel auto-play: 10s for video slide, 5s for image slides
   useEffect(() => {
@@ -1093,11 +1102,11 @@ export default function HomePage() {
             {/* Column 1: Brand & Contact Info */}
             <div className="footer-col-1">
               <div className="footer-brand">
-                <img src={pakizaRoyalGoldLogo} alt="PAKIZA RUGS & CO." className="footer-master-emblem-logo" />
+                <span className="footer-brand-title">PAKIZA RUGS CO</span>
               </div>
               <p className="footer-contact-item">Madhosingh, post Aurai, Bhadohi, UP 221301</p>
               <p className="footer-contact-item">
-                <a href="tel:+919129788793">+91 9129788793</a> / <a href="tel:+917007626680">+91 7007626680</a>
+                <a href="tel:+917007626680">+91 7007626680</a>
               </p>
               <p className="footer-contact-item">
                 <a href="mailto:support@pakizarugsco.com">support@pakizarugsco.com</a>
@@ -1142,55 +1151,85 @@ export default function HomePage() {
             </div>
 
             {/* Column 2: Quick Links */}
-            <div>
-              <h4>Quick Links</h4>
-              <ul>
-                <li><a href="#reviews">Customer Reviews</a></li>
-                <li><a href="#new">Track Order</a></li>
-                <li><a href="https://wa.me/917007626680" target="_blank" rel="noreferrer">Contact</a></li>
-                <li><a href="#new">Your Wishlist – Saved Rugs &amp; Carpets | Pakiza Rugs Co</a></li>
-              </ul>
+            <div className={`footer-accordion-item ${openFooterAccordions.quickLinks ? 'open' : ''}`}>
+              <button
+                type="button"
+                className="footer-accordion-header"
+                onClick={() => toggleFooterAccordion('quickLinks')}
+                aria-expanded={openFooterAccordions.quickLinks}
+              >
+                <span>Quick Links</span>
+                <span className="footer-accordion-icon">{openFooterAccordions.quickLinks ? '−' : '+'}</span>
+              </button>
+              <div className="footer-accordion-body">
+                <ul>
+                  <li><a href="#reviews">Customer Reviews</a></li>
+                  <li><a href="#new">Track Order</a></li>
+                  <li><a href="https://wa.me/917007626680" target="_blank" rel="noreferrer">Contact</a></li>
+                  <li><a href="#new">Your Wishlist – Saved Rugs &amp; Carpets | Pakiza Rugs Co</a></li>
+                </ul>
+              </div>
             </div>
 
             {/* Column 3: Policies */}
-            <div>
-              <h4>Policies</h4>
-              <ul>
-                <li><a href="#">Privacy Policy</a></li>
-                <li><a href="#">Shipping Policy</a></li>
-                <li><a href="#">Return &amp; Refund Policy</a></li>
-                <li><a href="#">Terms &amp; Conditions</a></li>
-              </ul>
+            <div className={`footer-accordion-item ${openFooterAccordions.policies ? 'open' : ''}`}>
+              <button
+                type="button"
+                className="footer-accordion-header"
+                onClick={() => toggleFooterAccordion('policies')}
+                aria-expanded={openFooterAccordions.policies}
+              >
+                <span>Policies</span>
+                <span className="footer-accordion-icon">{openFooterAccordions.policies ? '−' : '+'}</span>
+              </button>
+              <div className="footer-accordion-body">
+                <ul>
+                  <li><a href="#">Privacy Policy</a></li>
+                  <li><a href="#">Shipping Policy</a></li>
+                  <li><a href="#">Return &amp; Refund Policy</a></li>
+                  <li><a href="#">Terms &amp; Conditions</a></li>
+                </ul>
+              </div>
             </div>
 
             {/* Column 4: Sign Up to Newsletter */}
-            <div>
-              <h4>Sign Up to Newsletter</h4>
-              <p className="footer-newsletter-desc">
-                Sign up for exclusive updates, new arrivals &amp; insider only discounts
-              </p>
-              <form
-                className="footer-newsletter-form"
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setNewsletterSubscribed(true);
-                }}
+            <div className={`footer-accordion-item ${openFooterAccordions.newsletter ? 'open' : ''}`}>
+              <button
+                type="button"
+                className="footer-accordion-header"
+                onClick={() => toggleFooterAccordion('newsletter')}
+                aria-expanded={openFooterAccordions.newsletter}
               >
-                <input
-                  type="email"
-                  required
-                  placeholder="Enter your email..."
-                  className="footer-newsletter-input"
-                  aria-label="Email address"
-                  disabled={newsletterSubscribed}
-                />
-                <button type="submit" className="footer-newsletter-btn">
-                  {newsletterSubscribed ? 'Subscribed ✓' : 'Sign Up'}
-                </button>
-              </form>
-              <p className="footer-disclaimer">
-                ***By entering the e-mail you accept the <strong>terms and conditions</strong> and the <strong>privacy policy</strong>.
-              </p>
+                <span>Sign Up to Newsletter</span>
+                <span className="footer-accordion-icon">{openFooterAccordions.newsletter ? '−' : '+'}</span>
+              </button>
+              <div className="footer-accordion-body">
+                <p className="footer-newsletter-desc">
+                  Sign up for exclusive updates, new arrivals &amp; insider only discounts
+                </p>
+                <form
+                  className="footer-newsletter-form"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    setNewsletterSubscribed(true);
+                  }}
+                >
+                  <input
+                    type="email"
+                    required
+                    placeholder="Enter your email..."
+                    className="footer-newsletter-input"
+                    aria-label="Email address"
+                    disabled={newsletterSubscribed}
+                  />
+                  <button type="submit" className="footer-newsletter-btn">
+                    {newsletterSubscribed ? 'Subscribed ✓' : 'Sign Up'}
+                  </button>
+                </form>
+                <p className="footer-disclaimer">
+                  ***By entering the e-mail you accept the <strong>terms and conditions</strong> and the <strong>privacy policy</strong>.
+                </p>
+              </div>
             </div>
           </div>
 
