@@ -59,6 +59,8 @@ export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [cart, setCart] = useState([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [wishlist, setWishlist] = useState({});
   const [searchQuery, setSearchQuery] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
@@ -163,13 +165,34 @@ export default function HomePage() {
       </div>
 
       {/* ── Header ─────────────────────────────────────────── */}
-      <header>
+      <header className="main-header">
         <div className="wrap hrow">
+          {/* Mobile Left: Hamburger Menu Icon */}
+          <button
+            className="mobile-hamburger-btn"
+            id="mobileMenuBtn"
+            onClick={() => setIsMobileMenuOpen(true)}
+            aria-label="Open Menu"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1d2420" strokeWidth="2.2" strokeLinecap="round">
+              <line x1="3" y1="6" x2="21" y2="6" />
+              <line x1="3" y1="12" x2="21" y2="12" />
+              <line x1="3" y1="18" x2="21" y2="18" />
+            </svg>
+          </button>
+
+          {/* Desktop Logo & Mobile Center Brand Text */}
           <Link to="/" className="logo" aria-label="Pakiza Rugs Co - Home">
-            <img src={logoImg} alt="Pakiza Royal Monogram" className="logo-img" />
-            <img src={wordmark3DImg} alt="Pakiza Rugs Co" className="logo-wordmark-img" />
+            {/* Desktop Brand (Emblem Logo + 3D Wordmark) */}
+            <div className="desktop-brand">
+              <img src={logoImg} alt="Pakiza Royal Monogram" className="logo-img" />
+              <img src={wordmark3DImg} alt="Pakiza Rugs Co" className="logo-wordmark-img" />
+            </div>
+            {/* Mobile Center Brand Title (NO emblem logo on mobile, clean text title) */}
+            <span className="mobile-brand-title">Pakiza Rugs Co.</span>
           </Link>
 
+          {/* Desktop Search Bar */}
           <div className="search">
             <input
               type="search"
@@ -181,38 +204,96 @@ export default function HomePage() {
             />
           </div>
 
+          {/* Right Action Icons */}
           <div className="icons">
-            {user ? (
-              <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
-                {user.role === 'admin' && (
-                  <Link to="/admin" style={{ color: '#c5a059', fontWeight: 600 }}>
-                    Admin Panel
+            {/* Desktop User Auth Links */}
+            <div className="desktop-auth">
+              {user ? (
+                <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
+                  {user.role === 'admin' && (
+                    <Link to="/admin" style={{ color: '#c5a059', fontWeight: 600 }}>
+                      Admin Panel
+                    </Link>
+                  )}
+                  <Link to="/account" style={{ color: 'var(--ink)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px' }} id="home-account-btn">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>My Account</span>
                   </Link>
-                )}
-                <Link to="/account" style={{ color: 'var(--ink)', fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: '6px' }} id="home-account-btn">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                  </svg>
-                  <span>My Account</span>
+                  <button onClick={logout} style={{ color: 'var(--muted)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '13px' }} title="Logout">
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <Link to="/login" aria-label="Account" id="home-login-btn">
+                  Login
                 </Link>
-                <button onClick={logout} style={{ color: 'var(--muted)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '13px' }} title="Logout">
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <Link to="/login" aria-label="Account" id="home-login-btn">
-                Login
-              </Link>
-            )}
+              )}
+            </div>
 
-            <button id="cartBtn" onClick={() => setIsDrawerOpen(true)} aria-label="Open cart">
+            {/* Desktop Cart Button */}
+            <button id="cartBtn" className="desktop-cart-btn" onClick={() => setIsDrawerOpen(true)} aria-label="Open cart">
               Cart<span id="count">{cart.length}</span>
             </button>
+
+            {/* Mobile Right: Search Icon + Cart Bag Icon */}
+            <div className="mobile-header-actions">
+              <button
+                className="mobile-header-btn mobile-search-trigger"
+                onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
+                aria-label="Search"
+                id="mobileSearchBtn"
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1d2420" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+              </button>
+
+              <button
+                className="mobile-header-btn mobile-cart-trigger"
+                onClick={() => setIsDrawerOpen(true)}
+                aria-label="Open Cart"
+                id="mobileCartBtn"
+              >
+                <div className="mobile-bag-wrap">
+                  <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="#1d2420" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <path d="M16 10a4 4 0 01-8 0" />
+                  </svg>
+                  <span className="mobile-bag-count">{cart.length}</span>
+                </div>
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* ── Navigation ───────────────────────────────────── */}
-        <nav>
+        {/* Mobile Search Dropdown Bar */}
+        {isMobileSearchOpen && (
+          <div className="mobile-search-dropdown-bar">
+            <input
+              type="search"
+              placeholder="Search carpets, rugs, jute..."
+              autoFocus
+              className="mobile-search-dropdown-input"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  const el = document.getElementById('cats') || document.getElementById('new');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                  setIsMobileSearchOpen(false);
+                }
+              }}
+            />
+            <button className="mobile-search-dropdown-close" onClick={() => setIsMobileSearchOpen(false)}>✕</button>
+          </div>
+        )}
+
+        {/* ── Desktop Navigation ───────────────────────────── */}
+        <nav className="desktop-nav">
           <div className="wrap">
             <ul>
               <li><a href="#">Home</a></li>
@@ -238,6 +319,56 @@ export default function HomePage() {
           </div>
         </nav>
       </header>
+
+      {/* ── Mobile Side Navigation Drawer ── */}
+      <div
+        className={`mobile-side-menu-backdrop ${isMobileMenuOpen ? 'open' : ''}`}
+        onClick={() => setIsMobileMenuOpen(false)}
+      />
+      <aside className={`mobile-side-menu-drawer ${isMobileMenuOpen ? 'open' : ''}`} aria-label="Mobile Navigation Menu">
+        <div className="mobile-side-menu-header">
+          <span className="mobile-side-menu-title">PAKIZA RUGS CO.</span>
+          <button className="mobile-side-menu-close" onClick={() => setIsMobileMenuOpen(false)}>✕</button>
+        </div>
+        <ul className="mobile-side-menu-list">
+          <li><a href="#" onClick={() => setIsMobileMenuOpen(false)}><span>Home</span><span className="arrow">→</span></a></li>
+          <li><a href="#cats" onClick={() => setIsMobileMenuOpen(false)}><span>Shop Collections</span><span className="arrow">→</span></a></li>
+          <li><a href="#cats" onClick={() => setIsMobileMenuOpen(false)}><span>Shop by Category</span><span className="arrow">→</span></a></li>
+          <li><a href="#new" onClick={() => setIsMobileMenuOpen(false)}><span>New Arrivals</span><span className="arrow">→</span></a></li>
+          <li><a href="#custom" onClick={() => setIsMobileMenuOpen(false)}><span>Bespoke Custom Rugs</span><span className="arrow">→</span></a></li>
+          <li><a href="#shop-by-room" onClick={() => setIsMobileMenuOpen(false)}><span>Shop by Room</span><span className="arrow">→</span></a></li>
+          <li><a href="#colors-sec" onClick={() => setIsMobileMenuOpen(false)}><span>Shop by Color</span><span className="arrow">→</span></a></li>
+          <li><a href="#founder-story" onClick={() => setIsMobileMenuOpen(false)}><span>Heritage &amp; Founder Story</span><span className="arrow">→</span></a></li>
+          <li><a href="#reviews" onClick={() => setIsMobileMenuOpen(false)}><span>Customer Reviews</span><span className="arrow">→</span></a></li>
+        </ul>
+        <div className="mobile-side-menu-footer">
+          {user ? (
+            <>
+              {user.role === 'admin' ? (
+                <Link to="/admin" className="mobile-drawer-btn gold" onClick={() => setIsMobileMenuOpen(false)}>
+                  Admin Dashboard
+                </Link>
+              ) : (
+                <Link to="/account" className="mobile-drawer-btn gold" onClick={() => setIsMobileMenuOpen(false)}>
+                  My Account Dashboard
+                </Link>
+              )}
+              <button onClick={() => { logout(); setIsMobileMenuOpen(false); }} className="mobile-drawer-btn outline">
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="mobile-drawer-btn gold" onClick={() => setIsMobileMenuOpen(false)}>
+                SIGN IN
+              </Link>
+              <Link to="/signup" className="mobile-drawer-btn outline" onClick={() => setIsMobileMenuOpen(false)}>
+                CREATE ACCOUNT
+              </Link>
+            </>
+          )}
+        </div>
+      </aside>
 
       <main>
         {/* ── Framed Hero Carousel ──────────────────────────── */}
