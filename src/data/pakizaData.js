@@ -1,8 +1,8 @@
 export const categoriesData = [
-  { id: 'tufted', name: 'Hand Tufted', image: '/rugs/rug-7.jpeg', badge: '', href: '#new' },
-  { id: 'shaggy', name: 'Shaggy Carpet', image: '/rugs/rug-1.jpeg', badge: '', href: '#grid-shag' },
-  { id: 'jute', name: 'Jute Carpets', image: '/rugs/rug-4.jpeg', badge: 'NEW', href: '#grid-jute' },
-  { id: 'irregular', name: 'Irregular Shaped', image: '/rugs/rug-10.jpeg', badge: 'UP TO 50% OFF', href: '#grid-excl' },
+  { id: 'tufted', name: 'Hand Tufted', image: '/rugs/cat-tufted.jpg', badge: '', href: '#new' },
+  { id: 'shaggy', name: 'Shaggy Carpet', image: '/rugs/cat-shaggy.jpg', badge: '', href: '#grid-shag' },
+  { id: 'jute', name: 'Jute Carpets', image: '/rugs/cat-jute.jpg', badge: 'NEW', href: '#grid-jute' },
+  { id: 'irregular', name: 'Irregular Shaped', image: '/rugs/cat-irregular.jpg', badge: 'UP TO 50% OFF', href: '#grid-excl' },
   { id: 'textured', name: 'Textured Rugs', image: '/rugs/rug-2.jpeg', badge: '', href: '#grid-lux-sec' },
   { id: 'exclusive', name: 'Exclusive Carpets', image: '/rugs/rug-8.jpeg', badge: 'EXCLUSIVE', href: '#grid-excl' },
   { id: 'traditional', name: 'Traditional Persian', image: '/rugs/rug-3.jpeg', badge: '', href: '#new' },
