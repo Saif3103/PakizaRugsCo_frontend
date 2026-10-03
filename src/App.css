@@ -74,27 +74,27 @@ header {
   transform: translateY(-1px);
 }
 .pakiza-luxury-logo-img {
-  height: 50px;
+  height: 64px;
   width: auto;
-  max-width: 290px;
+  max-width: 360px;
   object-fit: contain;
   display: block;
   mix-blend-mode: multiply;
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.08));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
   transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .logo:hover .pakiza-luxury-logo-img {
-  transform: scale(1.025);
+  transform: scale(1.03);
 }
 .footer-luxury-logo-img {
-  height: 52px;
+  height: 68px;
   width: auto;
-  max-width: 270px;
+  max-width: 340px;
   object-fit: contain;
   display: block;
   mix-blend-mode: multiply;
-  margin-bottom: 12px;
-  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.08));
+  margin-bottom: 14px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
 }
 .search {
   flex: 1;
@@ -2121,7 +2121,7 @@ footer li a:hover {
   }
   
   .hrow {
-    height: 56px;
+    height: 64px;
     padding: 0 12px;
     display: flex;
     align-items: center;
@@ -2156,13 +2156,13 @@ footer li a:hover {
   }
 
   .pakiza-luxury-logo-img {
-    height: 38px;
+    height: 48px;
     width: auto;
-    max-width: 195px;
+    max-width: 225px;
     object-fit: contain;
     display: block;
     mix-blend-mode: multiply;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.06));
+    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.08));
   }
 
   .icons {
@@ -2337,9 +2337,9 @@ footer li a:hover {
   }
 
   .mobile-drawer-brand-img {
-    height: 32px;
+    height: 44px;
     width: auto;
-    max-width: 170px;
+    max-width: 210px;
     object-fit: contain;
     display: block;
     mix-blend-mode: multiply;
@@ -2621,12 +2621,12 @@ footer li a:hover {
     padding: 0 12px;
   }
   .hrow {
-    height: 54px;
+    height: 60px;
     padding: 0 10px;
   }
   .pakiza-luxury-logo-img {
-    height: 32px;
-    max-width: 165px;
+    height: 44px;
+    max-width: 205px;
   }
 
   /* Hero Framed Mobile */
