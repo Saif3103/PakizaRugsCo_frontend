@@ -16,6 +16,7 @@ import FloatingChatAndScroll from '../components/FloatingChatAndScroll';
 
 const heroSlides = [
   {
+    type: 'image',
     tag: 'NEW COLLECTION',
     title: 'HAND KNOTTED',
     subtitle: 'DISCOVER PREMIUM CARPETS',
@@ -24,6 +25,7 @@ const heroSlides = [
     btnText: 'SHOP NOW'
   },
   {
+    type: 'image',
     tag: 'TRENDING NOW',
     title: 'IRREGULAR',
     subtitle: 'COMFORT MEETS STYLE',
@@ -32,12 +34,23 @@ const heroSlides = [
     btnText: 'EXPLORE'
   },
   {
+    type: 'image',
     tag: 'HERITAGE WEAVES',
     title: 'ROYAL KASHMIRI',
     subtitle: 'TIMELESS HANDCRAFTED LUXURY',
     image: '/hero-monument.jpg',
     href: '#cats',
     btnText: 'SHOP NOW'
+  },
+  {
+    type: 'video',
+    tag: 'ARTISANAL FILM',
+    title: 'LIVING LOOMS',
+    subtitle: 'AUTHENTIC HANDLOOMS IN MOTION',
+    video: '/hero.mp4',
+    poster: '/hero-hand-knotted.jpg',
+    href: '#founder-story',
+    btnText: 'WATCH STORY'
   }
 ];
 
@@ -250,13 +263,25 @@ export default function HomePage() {
                 })}
               </div>
 
-              {/* Slides */}
+              {/* Slides (3 Images + 1 Master Video) */}
               {heroSlides.map((slide, index) => (
                 <div
                   key={index}
                   className={`slide ${currentSlide === index ? 'on' : ''}`}
                 >
-                  <img src={slide.image} alt={slide.title} className="art-img" />
+                  {slide.type === 'video' || slide.video ? (
+                    <video
+                      className="art-img hero-video"
+                      src={slide.video}
+                      poster={slide.poster}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                    />
+                  ) : (
+                    <img src={slide.image} alt={slide.title} className="art-img" />
+                  )}
                   <div className="hero-center-box">
                     <span className="hero-tag">{slide.tag}</span>
                     <h2 className="hero-bold-title">{slide.title}</h2>
