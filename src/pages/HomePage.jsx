@@ -211,19 +211,21 @@ export default function HomePage() {
             <ul>
               <li><a href="#">Home</a></li>
               <li>
-                <a href="#cats">Shop</a>
+                <a href="#cats" className="nav-shop-link">
+                  Shop <span className="nav-caret">▾</span>
+                </a>
                 <div className="drop" id="drop">
                   {categoriesData.map((cat) => (
                     <a key={cat.id} href="#cats">
-                      {cat.name} carpets
+                      {cat.name} Carpets
                     </a>
                   ))}
                 </div>
               </li>
-              <li><a href="#new">Blogs</a></li>
-              <li><a href="#custom">About Us</a></li>
               <li><a href="#custom">Customization</a></li>
-              <li><a href="#reviews">Customer Reviews</a></li>
+              <li><a href="#founder-story">About Us</a></li>
+              <li><a href="#rev">Customer Reviews</a></li>
+              <li><a href="#new">Blogs</a></li>
               <li><a href="#new">Track Order</a></li>
               <li><a href="#new">Wishlist</a></li>
             </ul>
