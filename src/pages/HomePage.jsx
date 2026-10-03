@@ -10,6 +10,7 @@ import {
   instagramData
 } from '../data/pakizaData';
 import logoImg from '../assets/logo.png';
+import FloatingChatAndScroll from '../components/FloatingChatAndScroll';
 
 const heroSlides = [
   {
@@ -717,31 +718,8 @@ export default function HomePage() {
         </div>
       </footer>
 
-      {/* Floating Widgets: Chat + Scroll to Top */}
-      <div className="floating-widgets">
-        <a
-          href="https://wa.me/917007626680?text=Hello%20Pakiza%20Rugs,%20I%20have%20an%20inquiry."
-          target="_blank"
-          rel="noreferrer"
-          className="floating-chat-btn"
-          aria-label="Chat on WhatsApp"
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-          </svg>
-          Chat
-        </a>
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="floating-scroll-btn"
-          aria-label="Scroll to top"
-          title="Scroll to top"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-            <path d="M18 15l-6-6-6 6" />
-          </svg>
-        </button>
-      </div>
+      {/* Floating Widgets: Chat + Scroll to Top with dynamic progress fill */}
+      <FloatingChatAndScroll />
 
       {/* ── Mobile Fixed Bar ───────────────────────────────── */}
       <div className="bar">

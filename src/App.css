@@ -886,53 +886,256 @@ footer li a:hover {
   z-index: 2;
 }
 
-/* Floating chat & scroll top widgets */
-.floating-widgets {
+/* ── Floating Chat & Scroll-to-Top with Circular Progress Fill ── */
+.rug-floating-container {
   position: fixed;
   bottom: 24px;
   right: 24px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 12px;
-  z-index: 150;
+  gap: 10px;
+  z-index: 999;
 }
-.floating-chat-btn {
+
+/* Chat Pill Button */
+.rug-chat-pill {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #111111;
+  background: #3f423f;
   color: #ffffff;
-  border-radius: 24px;
-  padding: 10px 18px;
-  font-size: 14px;
-  font-weight: 600;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-  transition: transform 0.2s, background 0.2s;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  text-decoration: none;
+  border: 0;
+  border-radius: 30px;
+  padding: 9px 18px;
+  font-family: 'Jost', system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
-.floating-chat-btn:hover {
+.rug-chat-pill:hover {
+  background: #2a2c2a;
   transform: translateY(-2px);
-  background: #222222;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
 }
-.floating-scroll-btn {
-  width: 42px;
-  height: 42px;
+.rug-chat-pill__icon {
+  flex-shrink: 0;
+}
+.rug-chat-pill__text {
+  letter-spacing: 0.01em;
+}
+
+/* Scroll To Top with Dynamic Circular Progress Fill */
+.rug-scroll-indicator {
+  position: relative;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  background: #111111;
-  color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #ffffff;
+  border: 0;
+  cursor: pointer;
   display: grid;
   place-items: center;
-  font-size: 18px;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
-  transition: transform 0.2s, background 0.2s;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px) scale(0.9);
 }
-.floating-scroll-btn:hover {
-  transform: translateY(-2px);
-  background: #222222;
+.rug-scroll-indicator.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+.rug-scroll-indicator:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+}
+.rug-scroll-indicator__svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+.rug-scroll-indicator__track {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.08);
+  stroke-width: 3.2;
+}
+.rug-scroll-indicator__fill {
+  fill: none;
+  stroke: #1d2420;
+  stroke-width: 3.2;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.12s ease-out;
+}
+.rug-scroll-indicator__arrow {
+  position: relative;
+  z-index: 2;
+  color: #1d2420;
+  display: grid;
+  place-items: center;
+}
+
+/* Chat Popup Window */
+.chat-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 85px 24px;
+  animation: fadeIn 0.25s ease;
+}
+.chat-popup {
+  width: min(360px, 92vw);
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.24);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.chat-popup__header {
+  background: #2e443c;
+  color: #ffffff;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.chat-popup__agent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.chat-popup__avatar {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #b8965a;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14px;
+  display: grid;
+  place-items: center;
+}
+.chat-popup__online-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2ecc71;
+  border: 2px solid #2e443c;
+}
+.chat-popup__title {
+  font-family: 'Jost', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+}
+.chat-popup__status {
+  font-size: 11.5px;
+  color: #c9dacd;
+}
+.chat-popup__close {
+  background: none;
+  border: 0;
+  color: #ffffff;
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+}
+.chat-popup__body {
+  padding: 18px;
+  background: #faf8f5;
+}
+.chat-popup__welcome {
+  font-size: 13.5px;
+  color: #333333;
+  line-height: 1.45;
+  background: #ffffff;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #e7e3dc;
+  margin-bottom: 14px;
+}
+.chat-popup__quick-prompts {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.chat-popup__quick-btn {
+  background: #ffffff;
+  border: 1px solid #e1dcce;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-family: 'Jost', sans-serif;
+  font-size: 12.5px;
+  color: #2e443c;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+.chat-popup__quick-btn:hover {
+  background: #ede8dc;
+  border-color: #b8965a;
+  transform: translateX(3px);
+}
+.chat-popup__footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #ffffff;
+  border-top: 1px solid #eee;
+}
+.chat-popup__input {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  font-family: 'Jost', sans-serif;
+  font-size: 13.5px;
+  outline: none;
+}
+.chat-popup__input:focus {
+  border-color: #2e443c;
+}
+.chat-popup__send-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #2e443c;
+  color: #ffffff;
+  border: 0;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  flex-shrink: 0;
+}
+.chat-popup__send-btn:hover {
+  background: #1e3029;
+  transform: scale(1.05);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ── Mobile Fixed Bar ──────────────────────────────────────── */
