@@ -47,45 +47,33 @@ header {
   transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
   line-height: 1;
 }
-.logo-text {
-  font-family: 'Jost', system-ui, sans-serif;
-  font-size: 25px;
-  font-weight: 900;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #22372a;
-  text-shadow:
-    0 1px 0 #1b2d22,
-    0 2px 0 #16241b,
-    0 3px 0 #101a13,
-    0 4px 1px rgba(0, 0, 0, 0.2),
-    0 6px 8px rgba(0, 0, 0, 0.28);
-  transition: transform 0.25s ease, text-shadow 0.25s ease, color 0.25s ease;
-  display: inline-block;
-}
-.logo:hover .logo-text {
-  color: #192a1f;
-  transform: translateY(-2px);
-  text-shadow:
-    0 1px 0 #1b2d22,
-    0 2px 0 #16241b,
-    0 3px 0 #101a13,
-    0 4px 0 #0b120d,
-    0 5px 0 #060a07,
-    0 7px 2px rgba(0, 0, 0, 0.25),
-    0 10px 14px rgba(0, 0, 0, 0.32);
+.logo:hover {
+  transform: translateY(-1px);
 }
 .logo-img {
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.2));
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.16));
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+.logo-wordmark-img {
+  height: 38px;
+  width: auto;
+  max-width: 250px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.12));
   transition: transform 0.25s ease, filter 0.25s ease;
 }
 .logo:hover .logo-img {
-  transform: translateY(-2px) scale(1.03);
-  filter: drop-shadow(0 5px 12px rgba(0, 0, 0, 0.25));
+  transform: scale(1.03);
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.22));
+}
+.logo:hover .logo-wordmark-img {
+  transform: scale(1.02);
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.2));
 }
 .search {
   flex: 1;
@@ -1794,20 +1782,15 @@ footer li a:hover {
     height: 60px;
   }
   .logo {
-    gap: 10px;
-  }
-  .logo-text {
-    font-size: 20px;
-    letter-spacing: 0.03em;
-    text-shadow:
-      0 1px 0 #1b2d22,
-      0 2px 0 #16241b,
-      0 3px 1px rgba(0, 0, 0, 0.2),
-      0 4px 6px rgba(0, 0, 0, 0.25);
+    gap: 8px;
   }
   .logo-img {
-    width: 42px;
-    height: 42px;
+    width: 38px;
+    height: 38px;
+  }
+  .logo-wordmark-img {
+    height: 28px;
+    max-width: 175px;
   }
   .icons {
     margin-left: auto;
@@ -1935,15 +1918,15 @@ footer li a:hover {
     height: 56px;
   }
   .logo {
-    gap: 8px;
-  }
-  .logo-text {
-    font-size: 18px;
-    letter-spacing: 0.02em;
+    gap: 6px;
   }
   .logo-img {
-    width: 38px;
-    height: 38px;
+    width: 32px;
+    height: 32px;
+  }
+  .logo-wordmark-img {
+    height: 24px;
+    max-width: 145px;
   }
 
   /* Hero Framed Mobile */

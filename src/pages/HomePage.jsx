@@ -10,6 +10,7 @@ import {
   instagramData
 } from '../data/pakizaData';
 import logoImg from '../assets/logo.png';
+import wordmark3DImg from '../assets/pakiza-3d-wordmark.png';
 import FloatingChatAndScroll from '../components/FloatingChatAndScroll';
 
 const heroSlides = [
@@ -146,9 +147,9 @@ export default function HomePage() {
       {/* ── Header ─────────────────────────────────────────── */}
       <header>
         <div className="wrap hrow">
-          <Link to="/" className="logo">
-            <img src={logoImg} alt="Pakiza Logo" className="logo-img" />
-            <span className="logo-text">PAKIZA RUGS CO</span>
+          <Link to="/" className="logo" aria-label="Pakiza Rugs Co - Home">
+            <img src={logoImg} alt="Pakiza Royal Monogram" className="logo-img" />
+            <img src={wordmark3DImg} alt="Pakiza Rugs Co" className="logo-wordmark-img" />
           </Link>
 
           <div className="search">
