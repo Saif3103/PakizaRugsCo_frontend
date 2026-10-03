@@ -702,6 +702,35 @@ section {
   text-align: center;
   margin-top: 36px;
 }
+.more .btn,
+.more a,
+.btn--gold-pill,
+.btn-gold-action {
+  background: #caa667 !important;
+  background: linear-gradient(135deg, #d4b276 0%, #ba924b 100%) !important;
+  color: #ffffff !important;
+  font-family: 'Jost', system-ui, sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 14px !important;
+  letter-spacing: 0.6px !important;
+  padding: 11px 32px !important;
+  border-radius: 999px !important;
+  border: none !important;
+  text-transform: capitalize !important;
+  box-shadow: 0 4px 14px rgba(197, 160, 89, 0.28) !important;
+  transition: all 0.25s ease !important;
+  display: inline-block !important;
+  text-decoration: none !important;
+}
+.more .btn:hover,
+.more a:hover,
+.btn--gold-pill:hover,
+.btn-gold-action:hover {
+  background: linear-gradient(135deg, #c49f5e 0%, #aa8139 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 18px rgba(179, 142, 71, 0.38) !important;
+  transform: translateY(-2px) !important;
+}
 
 /* ── Product Cards & Grids ─────────────────────────────────── */
 .grid {
