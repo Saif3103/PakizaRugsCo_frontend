@@ -11,6 +11,7 @@ import {
 } from '../data/pakizaData';
 import logoImg from '../assets/logo.png';
 import wordmark3DImg from '../assets/pakiza-3d-wordmark.png';
+import pakizaLuxuryLogo from '../assets/pakiza-luxury-logo.jpg';
 import founderImg from '../assets/founder-saif-ali.jpg';
 import FloatingChatAndScroll from '../components/FloatingChatAndScroll';
 
@@ -181,19 +182,13 @@ export default function HomePage() {
             </svg>
           </button>
 
-          {/* Desktop Logo & Mobile Center Brand Text */}
-          <Link to="/" className="logo" aria-label="Pakiza Rugs Co - Home">
-            {/* Desktop Brand (Emblem Logo + 3D Wordmark) */}
-            <div className="desktop-brand">
-              <img src={logoImg} alt="Pakiza Royal Monogram" className="logo-img" />
-              <img src={wordmark3DImg} alt="Pakiza Rugs Co" className="logo-wordmark-img" />
-            </div>
-            {/* Mobile Center Brand Title (NO emblem logo on mobile, clean luxury text title) */}
-            <span className="mobile-brand-title">
-              <span className="mb-pakiza">Pakiza</span>
-              <span className="mb-rugs">Rugs</span>
-              <span className="mb-co">Co.</span>
-            </span>
+          {/* Brand Logo (Exact luxury bronze embossed logo on Desktop & Mobile) */}
+          <Link to="/" className="logo" aria-label="Pakiza Rugs & Co - Home">
+            <img
+              src={pakizaLuxuryLogo}
+              alt="PAKIZA RUGS & CO."
+              className="pakiza-luxury-logo-img"
+            />
           </Link>
 
           {/* Desktop Search Bar */}
@@ -365,7 +360,7 @@ export default function HomePage() {
       />
       <aside className={`mobile-side-menu-drawer ${isMobileMenuOpen ? 'open' : ''}`} aria-label="Mobile Navigation Menu">
         <div className="mobile-side-menu-header">
-          <span className="mobile-side-menu-title">PAKIZA RUGS CO.</span>
+          <img src={pakizaLuxuryLogo} alt="PAKIZA RUGS & CO." className="mobile-drawer-brand-img" />
           <button className="mobile-side-menu-close" onClick={() => setIsMobileMenuOpen(false)}>✕</button>
         </div>
         <ul className="mobile-side-menu-list">
@@ -1099,8 +1094,7 @@ export default function HomePage() {
             {/* Column 1: Brand & Contact Info */}
             <div className="footer-col-1">
               <div className="footer-brand">
-                <img src={logoImg} alt="Pakiza Logo" className="footer-logo-img" />
-                <img src={wordmark3DImg} alt="Pakiza Rugs Co" className="footer-wordmark-img" />
+                <img src={pakizaLuxuryLogo} alt="PAKIZA RUGS & CO." className="footer-luxury-logo-img" />
               </div>
               <p className="footer-contact-item">Madhosingh, post Aurai, Bhadohi, UP 221301</p>
               <p className="footer-contact-item">

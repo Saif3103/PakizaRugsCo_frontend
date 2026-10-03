@@ -73,30 +73,28 @@ header {
 .logo:hover {
   transform: translateY(-1px);
 }
-.logo-img {
-  width: 54px;
-  height: 54px;
-  object-fit: contain;
-  display: block;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.16));
-  transition: transform 0.25s ease, filter 0.25s ease;
-}
-.logo-wordmark-img {
-  height: 48px;
+.pakiza-luxury-logo-img {
+  height: 50px;
   width: auto;
-  max-width: 320px;
+  max-width: 290px;
   object-fit: contain;
   display: block;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.12));
-  transition: transform 0.25s ease, filter 0.25s ease;
+  mix-blend-mode: multiply;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.08));
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
-.logo:hover .logo-img {
-  transform: scale(1.03);
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.22));
+.logo:hover .pakiza-luxury-logo-img {
+  transform: scale(1.025);
 }
-.logo:hover .logo-wordmark-img {
-  transform: scale(1.02);
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.2));
+.footer-luxury-logo-img {
+  height: 52px;
+  width: auto;
+  max-width: 270px;
+  object-fit: contain;
+  display: block;
+  mix-blend-mode: multiply;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.08));
 }
 .search {
   flex: 1;
@@ -2157,51 +2155,14 @@ footer li a:hover {
     text-decoration: none;
   }
 
-  .mobile-brand-title {
-    display: inline-flex !important;
-    align-items: baseline;
-    justify-content: center;
-    gap: 5px;
-    text-align: center;
-    white-space: nowrap;
-    line-height: 1;
-    text-decoration: none;
-    transition: opacity 0.2s ease;
-  }
-  .mobile-brand-title:active {
-    opacity: 0.85;
-  }
-
-  .mb-pakiza {
-    font-family: 'Playfair Display', 'Cinzel', Georgia, serif;
-    font-size: 21px;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-    color: #1a3324;
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
-  }
-
-  .mb-rugs {
-    font-family: 'Playfair Display', 'Cinzel', Georgia, serif;
-    font-size: 21px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    color: #2b4736;
-  }
-
-  .mb-co {
-    font-family: 'Outfit', 'Jost', sans-serif;
-    font-size: 10.5px;
-    font-weight: 700;
-    color: #c5a059;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    background: rgba(197, 160, 89, 0.12);
-    border: 1px solid rgba(197, 160, 89, 0.35);
-    padding: 1.5px 5.5px;
-    border-radius: 4px;
-    position: relative;
-    top: -2px;
+  .pakiza-luxury-logo-img {
+    height: 38px;
+    width: auto;
+    max-width: 195px;
+    object-fit: contain;
+    display: block;
+    mix-blend-mode: multiply;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.06));
   }
 
   .icons {
@@ -2370,9 +2331,18 @@ footer li a:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 16px;
+    padding: 16px 16px;
     border-bottom: 1px solid var(--line);
     background: #fbf9f5;
+  }
+
+  .mobile-drawer-brand-img {
+    height: 32px;
+    width: auto;
+    max-width: 170px;
+    object-fit: contain;
+    display: block;
+    mix-blend-mode: multiply;
   }
 
   .mobile-side-menu-title {
@@ -2654,15 +2624,9 @@ footer li a:hover {
     height: 54px;
     padding: 0 10px;
   }
-  .mobile-brand-title {
-    gap: 4px;
-  }
-  .mb-pakiza, .mb-rugs {
-    font-size: 18.5px;
-  }
-  .mb-co {
-    font-size: 9.5px;
-    padding: 1px 4.5px;
+  .pakiza-luxury-logo-img {
+    height: 32px;
+    max-width: 165px;
   }
 
   /* Hero Framed Mobile */
