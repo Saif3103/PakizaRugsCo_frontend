@@ -1126,23 +1126,82 @@ section {
   position: relative;
   color: #fff;
   text-align: center;
-  padding: 80px 20px;
+  padding: 100px 24px;
   overflow: hidden;
-  background: linear-gradient(135deg, #2f4a3c 0%, #1d2420 100%);
+  background: linear-gradient(180deg, rgba(14, 25, 19, 0.45) 0%, rgba(14, 25, 19, 0.72) 100%),
+              url('/custom-banner-bg.jpg') center center / cover no-repeat;
   width: 100%;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.custom > * {
+.custom::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.55) 100%);
+  pointer-events: none;
+}
+.custom-inner {
   position: relative;
   z-index: 2;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 38px 44px;
+  background: rgba(18, 30, 24, 0.52);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(229, 190, 122, 0.35);
+  border-radius: 18px;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.45);
+}
+.custom-tag {
+  display: inline-block;
+  font-family: 'Jost', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #e5be7a;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  padding: 5px 16px;
+  border-radius: 20px;
+  background: rgba(229, 190, 122, 0.16);
+  border: 1px solid rgba(229, 190, 122, 0.35);
 }
 .custom h2 {
-  font-size: clamp(28px, 5vw, 50px);
-  font-weight: 600;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(32px, 4.5vw, 52px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
 }
 .custom p {
-  margin: 10px 0 24px;
-  font-size: 15.5px;
-  color: rgba(255, 255, 255, 0.9);
+  margin: 14px auto 28px;
+  font-size: clamp(15px, 2vw, 17px);
+  color: rgba(255, 255, 255, 0.95);
+  max-width: 580px;
+  line-height: 1.6;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+.custom .custom-btn {
+  background: #e5be7a;
+  color: #142018;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 13px 36px;
+  border-radius: 30px;
+  box-shadow: 0 6px 20px rgba(229, 190, 122, 0.35);
+  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  display: inline-block;
+  text-decoration: none;
+}
+.custom .custom-btn:hover {
+  background: #f3d499;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(229, 190, 122, 0.5);
 }
 
 /* ── Instagram Grid ────────────────────────────────────────── */
@@ -1863,6 +1922,14 @@ footer li a:hover {
   .insta {
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
+  }
+  .custom {
+    padding: 60px 16px;
+    min-height: 350px;
+  }
+  .custom-inner {
+    padding: 26px 18px;
+    border-radius: 14px;
   }
   /* Keep perks strip in a single unbroken horizontal line on mobile */
   .perks-strip {

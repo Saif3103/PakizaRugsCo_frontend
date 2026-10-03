@@ -706,18 +706,19 @@ export default function HomePage() {
 
         {/* ── Customization Banner ───────────────────────────── */}
         <div className="custom" id="custom">
-          <div>
+          <div className="custom-inner">
+            <span className="custom-tag">BESPOKE ATELIER</span>
             <h2>
               Custom by <span style={{ color: '#e5be7a' }}>Pakiza Rugs Co</span>
             </h2>
-            <p>Tell us the size, colour and pattern. We weave it.</p>
+            <p>Tell us the size, colour, and pattern. Our master artisans hand-weave it for you.</p>
             <a
-              className="btn light"
+              className="btn custom-btn"
               href="https://wa.me/917007626680?text=Hello%20Pakiza%20Rugs,%20I%20would%20like%20to%20customize%20a%20rug%20design."
               target="_blank"
               rel="noreferrer"
             >
-              Customize
+              Start Custom Design
             </a>
           </div>
         </div>
