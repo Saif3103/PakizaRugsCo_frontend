@@ -73,28 +73,64 @@ header {
 .logo:hover {
   transform: translateY(-1px);
 }
-.pakiza-luxury-logo-img {
-  height: 64px;
-  width: auto;
-  max-width: 360px;
-  object-fit: contain;
-  display: block;
-  mix-blend-mode: multiply;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
-  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+.rr-logo-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+  user-select: none;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.logo:hover .pakiza-luxury-logo-img {
-  transform: scale(1.03);
+.logo:hover .rr-logo-container {
+  transform: translateY(-1px);
 }
-.footer-luxury-logo-img {
-  height: 68px;
-  width: auto;
-  max-width: 340px;
-  object-fit: contain;
-  display: block;
-  mix-blend-mode: multiply;
-  margin-bottom: 14px;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+.rr-emblem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.rr-text-wrap {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+.rr-name {
+  font-family: 'Plus Jakarta Sans', 'Outfit', 'Red Hat Display', sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  color: #1a3a2d;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+.rr-name-light {
+  font-weight: 800;
+  color: #1a3a2d;
+}
+.rr-name.light {
+  color: #ffffff;
+}
+.rr-name.light .rr-name-light {
+  color: #ffffff;
+}
+.rr-co-tag {
+  font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  color: #c5a059;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(197, 160, 89, 0.12);
+  border: 1px solid rgba(197, 160, 89, 0.35);
+  padding: 1.5px 5.5px;
+  border-radius: 4px;
+  position: relative;
+  top: -2px;
+}
+.rr-co-tag.gold {
+  color: #e5be7a;
+  background: rgba(229, 190, 122, 0.18);
+  border-color: rgba(229, 190, 122, 0.4);
 }
 .search {
   flex: 1;
@@ -2155,14 +2191,16 @@ footer li a:hover {
     text-decoration: none;
   }
 
-  .pakiza-luxury-logo-img {
-    height: 48px;
-    width: auto;
-    max-width: 225px;
-    object-fit: contain;
-    display: block;
-    mix-blend-mode: multiply;
-    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.08));
+  .rr-name {
+    font-size: 21.5px;
+  }
+  .rr-emblem svg {
+    width: 23px;
+    height: 23px;
+  }
+  .rr-co-tag {
+    font-size: 10px;
+    padding: 1px 4.5px;
   }
 
   .icons {
@@ -2621,12 +2659,19 @@ footer li a:hover {
     padding: 0 12px;
   }
   .hrow {
-    height: 60px;
+    height: 58px;
     padding: 0 10px;
   }
-  .pakiza-luxury-logo-img {
-    height: 44px;
-    max-width: 205px;
+  .rr-name {
+    font-size: 19px;
+  }
+  .rr-emblem svg {
+    width: 20px;
+    height: 20px;
+  }
+  .rr-co-tag {
+    font-size: 9px;
+    padding: 1px 4px;
   }
 
   /* Hero Framed Mobile */
