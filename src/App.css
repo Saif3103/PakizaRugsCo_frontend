@@ -787,12 +787,13 @@ section {
   padding: 14px;
 }
 .pinfo h3 {
-  font-family: 'Jost', sans-serif;
-  font-weight: 400;
-  font-size: 14.5px;
+  font-family: 'Jost', system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
   min-height: 42px;
-  color: var(--ink);
-  line-height: 1.4;
+  color: #000000;
+  line-height: 1.38;
+  letter-spacing: -0.01em;
 }
 .price {
   margin: 6px 0 12px;
@@ -2765,8 +2766,11 @@ footer li a:hover {
     padding: 10px;
   }
   .pinfo h3 {
-    font-size: 12.5px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #000000;
     min-height: 36px;
+    line-height: 1.35;
   }
   .price {
     font-size: 14px;
