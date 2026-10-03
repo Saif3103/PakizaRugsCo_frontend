@@ -512,32 +512,128 @@ section {
   font-weight: 500;
 }
 
-/* ── Shop By Color ─────────────────────────────────────────── */
-.colors {
-  display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  gap: 14px;
+/* ── Shop By Color Section ─────────────────────────────────── */
+.colors-section {
+  padding: 60px 0 40px;
+  background: var(--bg);
 }
-.col {
+.colors-header {
   text-align: center;
-  font-size: 14px;
-  cursor: pointer;
-  transition: transform 0.2s;
-  text-decoration: none;
-  color: var(--ink);
+  margin-bottom: 36px;
 }
-.col i {
-  display: block;
-  aspect-ratio: 1/1;
-  border-radius: 50%;
+.colors-header h2 {
+  font-family: 'Outfit', 'Red Hat Display', 'Jost', sans-serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: -0.02em;
   margin-bottom: 8px;
-  border: 3px solid #fff;
-  box-shadow: 0 0 0 1px var(--line);
-  transition: transform .2s, box-shadow .2s;
 }
-.col:hover i {
-  transform: scale(1.12);
-  box-shadow: 0 0 0 2px var(--gold);
+.colors-header p {
+  font-family: 'Jost', system-ui, sans-serif;
+  font-size: 15px;
+  color: #666666;
+  letter-spacing: -0.01em;
+}
+
+.colors-row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  overflow-x: auto;
+  padding: 10px 4px 18px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.colors-row::-webkit-scrollbar {
+  display: none;
+}
+
+.color-circle-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+.color-circle-card:hover {
+  transform: translateY(-4px);
+}
+
+/* Outer white circle disc */
+.color-circle-card__outer {
+  width: 108px;
+  height: 108px;
+  border-radius: 50%;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.color-circle-card:hover .color-circle-card__outer {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.09);
+  transform: scale(1.03);
+}
+
+/* Inner rich color texture circle */
+.color-circle-card__inner {
+  width: 82px;
+  height: 82px;
+  border-radius: 50%;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+.color-circle-card:hover .color-circle-card__inner {
+  transform: scale(1.05);
+}
+
+/* Color name label below */
+.color-circle-card__label {
+  margin-top: 14px;
+  font-family: 'Jost', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #111111;
+  text-align: center;
+  letter-spacing: 0.01em;
+  transition: color 0.2s ease;
+}
+.color-circle-card:hover .color-circle-card__label {
+  color: #b8965a;
+}
+
+/* Dots pagination indicator at bottom */
+.colors-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+}
+.colors-dot-ring {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid #111111;
+  display: grid;
+  place-items: center;
+}
+.colors-dot-ring .inner-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #111111;
+}
+.colors-dot-small {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #b0b0b0;
 }
 
 /* ── Shop By Room ──────────────────────────────────────────── */

@@ -248,15 +248,14 @@ export const productsData = {
 };
 
 export const colorsData = [
-  { name: 'Green', hex: '#4f7a5a' },
-  { name: 'Purple', hex: '#7b5a8a' },
-  { name: 'Beige', hex: '#d8c7a8' },
-  { name: 'Orange', hex: '#d9833a' },
-  { name: 'Pink', hex: '#e6a1b2' },
-  { name: 'Red', hex: '#a8342f' },
-  { name: 'Grey', hex: '#8b8f94' },
-  { name: 'Sky blue', hex: '#8fc1de' },
-  { name: 'Black', hex: '#1f2227' }
+  { name: 'Green', hex: '#26483b', bg: 'radial-gradient(circle at 35% 35%, #3c6b57, #1c382e 85%)' },
+  { name: 'Purple', hex: '#837494', bg: 'radial-gradient(circle at 35% 35%, #9e8fae, #695a7b 85%)' },
+  { name: 'Beige', hex: '#d9c4a5', bg: 'radial-gradient(circle at 35% 35%, #ebdcc5, #beaa88 85%)' },
+  { name: 'Orange', hex: '#d47426', bg: 'radial-gradient(circle at 35% 35%, #ea8e45, #b35510 85%)' },
+  { name: 'Pink', hex: '#dfa6b2', bg: 'radial-gradient(circle at 35% 35%, #f0bdc8, #c48492 85%)' },
+  { name: 'Red', hex: '#8a1829', bg: 'radial-gradient(circle at 35% 35%, #a62337, #660d1b 85%)' },
+  { name: 'Grey', hex: '#8f9298', bg: 'radial-gradient(circle at 35% 35%, #abb0b7, #72757b 85%)' },
+  { name: 'Sky Blue', hex: '#63a3be', bg: 'radial-gradient(circle at 35% 35%, #84c0d9, #4a86a0 85%)' }
 ];
 
 export const roomsData = [

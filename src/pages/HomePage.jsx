@@ -368,18 +368,17 @@ export default function HomePage() {
         </section>
 
         {/* ── Shop By Color ──────────────────────────────────── */}
-        <section>
+        <section className="colors-section" id="colors-sec">
           <div className="wrap">
-            <div className="sh">
-              <h2>
-                Shop By <span className="gold-text">Color</span>
-              </h2>
+            <div className="colors-header">
+              <h2>Shop By Color</h2>
               <p>Find your shade, define your space.</p>
             </div>
-            <div className="colors" id="colors">
+
+            <div className="colors-row" id="colors">
               {colorsData.map((color) => (
                 <a
-                  className="col"
+                  className="color-circle-card"
                   href="#new"
                   key={color.name}
                   onClick={(e) => {
@@ -389,10 +388,24 @@ export default function HomePage() {
                     if (el) el.scrollIntoView({ behavior: 'smooth' });
                   }}
                 >
-                  <i style={{ background: color.hex }} />
-                  {color.name}
+                  <div className="color-circle-card__outer">
+                    <div
+                      className="color-circle-card__inner"
+                      style={{ background: color.bg || color.hex }}
+                    />
+                  </div>
+                  <span className="color-circle-card__label">{color.name}</span>
                 </a>
               ))}
+            </div>
+
+            {/* Pagination Dots at Bottom */}
+            <div className="colors-pagination" aria-hidden="true">
+              <span className="colors-dot-ring">
+                <span className="inner-dot" />
+              </span>
+              <span className="colors-dot-small" />
+              <span className="colors-dot-small" />
             </div>
           </div>
         </section>
