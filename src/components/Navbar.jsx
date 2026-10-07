@@ -5,7 +5,7 @@ import logoImg from '../assets/logo.png';
 
 const navLinks = [
   { label: 'Collections', href: '#collections' },
-  { label: '✦ AI Rug Designer', href: '/ai-designer', isRoute: true },
+  { label: '✦ AI Atelier Studio', href: '/ai-designer', isRoute: true },
   { label: 'Heritage', href: '#heritage' },
   { label: 'Testimonials', href: '#testimonials' },
   { label: 'Contact', href: '#contact' },
@@ -176,7 +176,7 @@ export default function Navbar() {
           </li>
           <li>
             <Link to="/ai-designer" className="sq-nav__drawer-link" onClick={() => setMenuOpen(false)}>
-              <span style={{ color: '#0c3b2e', fontWeight: 700 }}>✦ AI Rug Designer</span>
+              <span style={{ color: '#0c3b2e', fontWeight: 700 }}>✦ Design Custom Rug with Our AI Atelier</span>
               <span className="arrow">→</span>
             </Link>
           </li>

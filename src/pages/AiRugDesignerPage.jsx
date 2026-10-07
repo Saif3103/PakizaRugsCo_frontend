@@ -624,9 +624,11 @@ export default function AiRugDesignerPage() {
             <span>PAKIZA BESPOKE ATELIER • HANDCRAFTED IN BHADOHI</span>
           </div>
 
-          <h1 className="aid-prompt-title">Design Your Custom Rug</h1>
+          <h1 className="aid-prompt-title">
+            Design Your Custom Rug with Our <em>AI Atelier</em>
+          </h1>
           <p className="aid-prompt-subtitle">
-            Describe the carpet you envision for your room, or choose from our handcrafted styles below. Every rug is hand-tufted or hand-knotted by master artisans using 100% pure New Zealand wool and bamboo silk.
+            Describe the carpet you envision for your room, or choose from our handcrafted master styles. Our master weavers in Bhadohi handcraft every design to your exact dimensions using pure New Zealand wool and bamboo silk.
           </p>
 
           {/* Large Prompt Input Box */}

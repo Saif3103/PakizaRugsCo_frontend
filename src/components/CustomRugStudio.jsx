@@ -44,12 +44,12 @@ export default function CustomRugStudio() {
       <div className="container">
         {/* Header */}
         <div className="studio-section__header">
-          <span className="eyebrow eyebrow--gold">Custom Rug Studio</span>
+          <span className="eyebrow">PAKIZA BESPOKE ATELIER • HANDCRAFTED IN BHADOHI</span>
           <h2 className="studio-section__title">
-            Design your<br /><em>perfect rug.</em>
+            Design Your Custom Rug with Our <em>AI Atelier</em>
           </h2>
           <p className="studio-section__subtitle">
-            Configure shape, size, border, and colour. See your rug update instantly.
+            Describe the carpet you envision for your room, or choose from our handcrafted master styles. Our master weavers in Bhadohi handcraft every design to your exact dimensions using pure New Zealand wool and bamboo silk.
           </p>
         </div>
 

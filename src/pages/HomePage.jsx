@@ -443,7 +443,7 @@ export default function HomePage() {
               </li>
               <li>
                 <Link to="/ai-designer" style={{ color: '#0c3b2e', fontWeight: '700', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
-                  <span>✦ AI Rug Designer</span>
+                  <span>✦ AI Atelier Studio</span>
                 </Link>
               </li>
               <li><a href="#custom">Customization</a></li>
@@ -471,7 +471,7 @@ export default function HomePage() {
           <li><a href="#" onClick={() => setIsMobileMenuOpen(false)}><span>Home</span><span className="arrow">→</span></a></li>
           <li>
             <Link to="/ai-designer" onClick={() => setIsMobileMenuOpen(false)}>
-              <span style={{ color: '#0c3b2e', fontWeight: '700' }}>✦ AI Rug Designer</span>
+              <span style={{ color: '#0c3b2e', fontWeight: '700' }}>✦ Design Custom Rug with Our AI Atelier</span>
               <span className="arrow">→</span>
             </Link>
           </li>
@@ -1044,12 +1044,12 @@ export default function HomePage() {
         <div className="custom" id="custom">
           <div className="wrap custom-wrap">
             <div className="custom-editorial">
-              <span className="custom-eyebrow">BESPOKE HAND-KNOTTED ATELIER</span>
+              <span className="custom-eyebrow">PAKIZA BESPOKE ATELIER • HANDCRAFTED IN BHADOHI</span>
               <h2 className="custom-heading">
-                Custom Rugs by <em>Pakiza Rugs Co.</em>
+                Design Your Custom Rug with Our <em>AI Atelier</em>
               </h2>
               <p className="custom-desc">
-                Have a specific floor plan, colour palette, or family heirloom motif? Our master weavers in Bhadohi handcraft custom carpets to your exact millimeter dimensions.
+                Describe the carpet you envision for your room, or choose from our handcrafted master styles. Our master weavers in Bhadohi handcraft every design to your exact dimensions using pure New Zealand wool and bamboo silk.
               </p>
 
               <div className="custom-features">
@@ -1082,7 +1082,7 @@ export default function HomePage() {
                   to="/ai-designer"
                   style={{ background: '#0c3b2e', color: '#ffffff', borderColor: '#08281f', textDecoration: 'none' }}
                 >
-                  ✦ Launch AI Rug Designer →
+                  ✦ Launch Full AI Atelier Studio →
                 </Link>
                 <a
                   className="btn custom-btn"
