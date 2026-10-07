@@ -651,23 +651,7 @@ export default function ProductDetailPage() {
                   </div>
                 </div>
 
-                {/* Additional Lifestyle & Texture Visual Cards (Eliminating any empty space on left) */}
-                <div className="pdp-gallery-lifestyle-stack">
-                  <div className="pdp-lifestyle-card">
-                    <img src={galleryImages[1] || '/rugs/rug-10.jpeg'} alt="Room setting styling" />
-                    <div className="pdp-lifestyle-caption">
-                      <span>🛋️ Living Room Context</span>
-                      <small>Organic contouring creates a warm focal point</small>
-                    </div>
-                  </div>
-                  <div className="pdp-lifestyle-card">
-                    <img src={galleryImages[2] || '/rugs/rug-12.jpeg'} alt="Plush 14mm wool pile texture" />
-                    <div className="pdp-lifestyle-caption">
-                      <span>🧶 14mm Sculpted Wool Pile</span>
-                      <small>High density plush feel beneath bare feet</small>
-                    </div>
-                  </div>
-                </div>
+
 
                 {/* Bhadohi Master Atelier Guarantee Box */}
                 <div className="pdp-atelier-seal-card">
