@@ -653,12 +653,13 @@ export default function ProductDetailPage() {
 
 
 
-                {/* Pakiza Atelier Certified Heritage Banner */}
-                <div className="pdp-atelier-banner-wrap">
+                {/* Pakiza Atelier Certified Heritage Seal Banner */}
+                <div className="pdp-atelier-seal-banner-wrap">
                   <img
-                    src="/rugs/pakiza-atelier-certified-heritage.png"
-                    alt="Pakiza Atelier Certified Heritage — Direct from the Master Looms of Bhadohi, Uttar Pradesh"
-                    className="pdp-atelier-banner-img"
+                    src="/pakiza-atelier-heritage-seal.png"
+                    alt="Pakiza Atelier Certified Heritage - Direct from the Master Looms of Bhadohi, Uttar Pradesh"
+                    className="pdp-atelier-seal-banner-img"
+                    loading="lazy"
                   />
                 </div>
               </div>
