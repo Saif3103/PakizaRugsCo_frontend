@@ -1653,3 +1653,193 @@
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
+/* ── GOOGLE GEMINI AI CONNECTION STYLES ── */
+.aid-btn-gemini-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #ffffff;
+  border: 1px solid var(--aid-ivory-border);
+  color: var(--aid-charcoal);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.5rem 0.95rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.aid-btn-gemini-status .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #8b9690;
+}
+
+.aid-btn-gemini-status.connected {
+  border-color: #0c3b2e;
+  color: #0c3b2e;
+  background: #eef7f3;
+}
+
+.aid-btn-gemini-status.connected .dot {
+  background: #18a979;
+  box-shadow: 0 0 6px rgba(24, 169, 121, 0.6);
+}
+
+.aid-btn-gemini-status:hover {
+  border-color: #0c3b2e;
+  transform: translateY(-1px);
+}
+
+.aid-gemini-modal {
+  background: #ffffff;
+  width: 100%;
+  max-width: 540px;
+  border-radius: var(--aid-radius-lg);
+  box-shadow: var(--aid-shadow-lift);
+  overflow: hidden;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.aid-gemini-modal__head {
+  padding: 1.5rem 1.75rem;
+  border-bottom: 1px solid var(--aid-ivory-border);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.aid-gemini-modal__head .eyebrow {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--aid-emerald);
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.aid-gemini-modal__head h3 {
+  font-family: var(--aid-font-serif);
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--aid-charcoal);
+}
+
+.aid-gemini-modal__body {
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.aid-gemini-desc {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--aid-charcoal-muted);
+  margin: 0;
+}
+
+.aid-gemini-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.aid-gemini-field label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--aid-charcoal);
+}
+
+.aid-gemini-input {
+  width: 100%;
+  padding: 0.75rem 0.95rem;
+  border: 1px solid var(--aid-ivory-border);
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: var(--aid-charcoal);
+  outline: none;
+  box-sizing: border-box;
+}
+
+.aid-gemini-input:focus {
+  border-color: var(--aid-emerald);
+  box-shadow: 0 0 0 3px var(--aid-emerald-glow);
+}
+
+.aid-gemini-hint {
+  font-size: 0.8rem;
+  color: var(--aid-charcoal-muted);
+}
+
+.aid-gemini-link {
+  color: var(--aid-emerald);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.aid-gemini-status-card {
+  background: var(--aid-ivory-surface);
+  border: 1px solid var(--aid-ivory-border);
+  border-radius: 10px;
+  padding: 1rem 1.15rem;
+}
+
+.aid-gemini-status-card .status-pill {
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--aid-charcoal);
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.aid-gemini-status-card .status-pill.active {
+  color: #0c3b2e;
+}
+
+.aid-gemini-status-card p {
+  font-size: 0.78rem;
+  color: var(--aid-charcoal-muted);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.aid-gemini-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1.25rem 1.75rem;
+  border-top: 1px solid var(--aid-ivory-border-subtle);
+  background: var(--aid-ivory-surface);
+}
+
+.aid-btn-clear-key {
+  background: transparent;
+  border: 1px solid #d9a3a3;
+  color: #b33939;
+  padding: 0.65rem 1rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: auto;
+}
+
+.aid-btn-save-key {
+  background: var(--aid-emerald);
+  border: 1px solid var(--aid-emerald-deep);
+  color: #ffffff;
+  padding: 0.7rem 1.5rem;
+  border-radius: 999px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+

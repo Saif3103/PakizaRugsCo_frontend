@@ -4,6 +4,13 @@ import { useAuth } from '../context/AuthContext';
 import { toast } from '../utils/toast';
 import logoImg from '../assets/logo.png';
 import wordmark3DImg from '../assets/pakiza-3d-wordmark.png';
+import {
+  getGeminiApiKey,
+  setGeminiApiKey,
+  generateRugWithGemini,
+  createDynamicRugImageUrl,
+  generateSeed
+} from '../services/geminiRugService';
 import './aiDesigner.css';
 
 // ── Color Swatches (Emerald, Burgundy, Ivory, Charcoal & Curated Tones - NO GOLD) ──
@@ -316,6 +323,11 @@ export default function AiRugDesignerPage() {
   });
   const [showSavedDrawer, setShowSavedDrawer] = useState(false);
 
+  // Google Gemini API Key state
+  const [geminiApiKey, setLocalGeminiApiKey] = useState(() => getGeminiApiKey());
+  const [showGeminiModal, setShowGeminiModal] = useState(false);
+  const [tempApiKey, setTempApiKey] = useState('');
+
   // Custom Quote Request Modal
   const [showQuoteModal, setShowQuoteModal] = useState(false);
   const [quoteForm, setQuoteForm] = useState({
@@ -338,32 +350,8 @@ export default function AiRugDesignerPage() {
     'Finalizing realistic room & atelier preview...'
   ];
 
-  // Helper to resolve preset by text or style
-  const resolvePresetFromText = (text) => {
-    const t = text.toLowerCase();
-    if (t.includes('geometric') || t.includes('kilim') || t.includes('diamond') || t.includes('tribal')) {
-      return STYLE_PRESETS_MAP.geometric;
-    }
-    if (t.includes('floral') || t.includes('botanical') || t.includes('flower') || t.includes('vine') || t.includes('lotus')) {
-      return STYLE_PRESETS_MAP.floral;
-    }
-    if (t.includes('vintage') || t.includes('distressed') || t.includes('washed') || t.includes('antique') || t.includes('patina')) {
-      return STYLE_PRESETS_MAP.vintage;
-    }
-    if (t.includes('traditional') || t.includes('mughal') || t.includes('court') || t.includes('royal')) {
-      return STYLE_PRESETS_MAP.traditional;
-    }
-    if (t.includes('persian') || t.includes('burgundy') || t.includes('red') || t.includes('wine')) {
-      return STYLE_PRESETS_MAP.persian;
-    }
-    if (t.includes('minimal') || t.includes('sculpted') || t.includes('contour') || t.includes('wave') || t.includes('abstract')) {
-      return STYLE_PRESETS_MAP.minimal;
-    }
-    return STYLE_PRESETS_MAP.oushak;
-  };
-
-  // Handle Generate with AI
-  const handleGenerate = (customPromptText = prompt) => {
+  // Handle Generate with AI & Gemini
+  const handleGenerate = async (customPromptText = prompt) => {
     if (!customPromptText.trim()) {
       toast('Please describe your desired rug design.', 'error');
       return;
@@ -381,21 +369,60 @@ export default function AiRugDesignerPage() {
       });
     }, 600);
 
-    setTimeout(() => {
+    try {
+      const synthesized = await generateRugWithGemini(customPromptText, { seed: generateSeed() });
       clearInterval(stepInterval);
       setIsGenerating(false);
 
-      const matched = resolvePresetFromText(customPromptText);
-
       setActiveRug({
-        ...matched,
-        prompt: customPromptText,
-        title: `Bespoke ${matched.style}: ${customPromptText.slice(0, 32)}...`,
-        size: useCustomDim ? `${customWidthFt}' x ${customLengthFt}' Bespoke Dimensions` : matched.size
+        ...synthesized,
+        size: useCustomDim ? `${customWidthFt}' x ${customLengthFt}' Bespoke Dimensions` : synthesized.size
       });
 
-      toast('✦ Custom Rug Concept Created Successfully!', 'success');
-    }, 2400);
+      // Generate 3 unique dynamic AI variations for this prompt
+      const seedB = generateSeed();
+      const seedC = generateSeed();
+
+      setVariations([
+        {
+          id: 'var-1',
+          label: 'Variation A • Custom Palette',
+          diffTag: 'Authentic Primary Harmony',
+          image: synthesized.image,
+          primary: synthesized.primary,
+          secondary: synthesized.secondary,
+          border: synthesized.border,
+          pattern: synthesized.pattern
+        },
+        {
+          id: 'var-2',
+          label: 'Variation B • Burgundy Inversion',
+          diffTag: 'Imperial Shah Abbas Contrast',
+          image: createDynamicRugImageUrl(`${customPromptText}, rich deep burgundy and ivory field`, seedB),
+          primary: '#541424',
+          secondary: '#f7f4ed',
+          border: 'Flowing Lotus Vine Scroll',
+          pattern: 'Central Shah Abbas Rosette'
+        },
+        {
+          id: 'var-3',
+          label: 'Variation C • Architectural Relief',
+          diffTag: 'High-Low Sculpted Texture',
+          image: createDynamicRugImageUrl(`${customPromptText}, modern minimal high low wool relief`, seedC),
+          primary: '#161c18',
+          secondary: '#fbf8f3',
+          border: 'Slender Minimalist Fillet (1.5")',
+          pattern: 'Organic Sculpted Waves'
+        }
+      ]);
+
+      toast(synthesized.isGeminiPowered ? '✦ Gemini AI Crafted Your Custom Rug!' : '✦ Custom Rug Concept Created Successfully!', 'success');
+    } catch (err) {
+      clearInterval(stepInterval);
+      setIsGenerating(false);
+      console.error(err);
+      toast('✦ Rug concept crafted with atelier backup specifications.', 'info');
+    }
   };
 
   // Handle Quick Chip click
@@ -405,18 +432,7 @@ export default function AiRugDesignerPage() {
     if (chip === 'Modern Minimal') matched = STYLE_PRESETS_MAP.minimal;
 
     setPrompt(matched.defaultPrompt);
-    setIsGenerating(true);
-    setGenerationStep(0);
-
-    setTimeout(() => {
-      setIsGenerating(false);
-      setActiveRug({
-        ...matched,
-        prompt: matched.defaultPrompt,
-        size: useCustomDim ? `${customWidthFt}' x ${customLengthFt}' Bespoke Dimensions` : matched.size
-      });
-      toast(`✦ Loaded ${matched.style} Concept!`, 'success');
-    }, 1200);
+    handleGenerate(matched.defaultPrompt);
   };
 
   // Handle direct style selection in Customization Panel
@@ -584,6 +600,19 @@ export default function AiRugDesignerPage() {
           </Link>
 
           <div className="aid-header__right">
+            <button
+              type="button"
+              className={`aid-btn-gemini-status ${geminiApiKey ? 'connected' : ''}`}
+              onClick={() => {
+                setTempApiKey(geminiApiKey);
+                setShowGeminiModal(true);
+              }}
+              title="Connect Google Gemini AI"
+            >
+              <span className="dot" />
+              <span>{geminiApiKey ? 'Gemini AI Active' : 'Connect Gemini AI'}</span>
+            </button>
+
             {savedDesigns.length > 0 && (
               <button
                 type="button"
@@ -1426,6 +1455,101 @@ export default function AiRugDesignerPage() {
                 </div>
               </form>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* ════ GOOGLE GEMINI AI CONFIGURATION MODAL ════ */}
+      {showGeminiModal && (
+        <div className="aid-modal-backdrop" onClick={() => setShowGeminiModal(false)}>
+          <div className="aid-gemini-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="aid-gemini-modal__head">
+              <div>
+                <span className="eyebrow">GOOGLE GEMINI 1.5/2.0 FLASH ATELIER</span>
+                <h3>Connect Google Gemini AI</h3>
+              </div>
+              <button
+                type="button"
+                className="aid-close-btn"
+                onClick={() => setShowGeminiModal(false)}
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="aid-gemini-modal__body">
+              <p className="aid-gemini-desc">
+                Connect your Google Gemini API key to enable deep linguistic rug understanding, bespoke motif drafting, and dynamic photorealistic carpet generation.
+              </p>
+
+              <div className="aid-gemini-field">
+                <label>Gemini API Key (Google AI Studio)</label>
+                <input
+                  type="password"
+                  placeholder="AIzaSy..."
+                  value={tempApiKey}
+                  onChange={(e) => setTempApiKey(e.target.value)}
+                  className="aid-gemini-input"
+                />
+              </div>
+
+              <div className="aid-gemini-hint">
+                <span>Free API keys are available at: </span>
+                <a
+                  href="https://aistudio.google.com/app/apikey"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="aid-gemini-link"
+                >
+                  aistudio.google.com &rarr;
+                </a>
+              </div>
+
+              <div className="aid-gemini-status-card">
+                <span className={`status-pill ${geminiApiKey ? 'active' : ''}`}>
+                  {geminiApiKey ? '● Gemini API Connected & Ready' : '○ Using Dynamic Local & Cloud AI Loom'}
+                </span>
+                <p>
+                  Even without a key, our dynamic AI loom automatically crafts unique photorealistic rugs for any natural language prompt.
+                </p>
+              </div>
+            </div>
+
+            <div className="aid-gemini-modal__footer">
+              {geminiApiKey && (
+                <button
+                  type="button"
+                  className="aid-btn-clear-key"
+                  onClick={() => {
+                    setGeminiApiKey('');
+                    setLocalGeminiApiKey('');
+                    setTempApiKey('');
+                    toast('Gemini API key disconnected.', 'info');
+                  }}
+                >
+                  Disconnect Key
+                </button>
+              )}
+              <button
+                type="button"
+                className="aid-btn-cancel-modal"
+                onClick={() => setShowGeminiModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="aid-btn-save-key"
+                onClick={() => {
+                  setGeminiApiKey(tempApiKey);
+                  setLocalGeminiApiKey(tempApiKey.trim());
+                  setShowGeminiModal(false);
+                  toast(tempApiKey ? '✦ Gemini API Key Connected Successfully!' : 'Saved settings.', 'success');
+                }}
+              >
+                Save &amp; Activate Gemini &rarr;
+              </button>
+            </div>
           </div>
         </div>
       )}

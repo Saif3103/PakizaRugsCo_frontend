@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from '../utils/toast';
 import { STYLE_PRESETS_MAP } from '../pages/AiRugDesignerPage';
+import { generateRugWithGemini } from '../services/geminiRugService';
 import './aiRugDesignerHomeSection.css';
 
 const HOME_SUGGESTION_CHIPS = [
@@ -23,7 +24,7 @@ export default function AiRugDesignerHomeSection() {
   const [isWeaving, setIsWeaving] = useState(false);
   const [viewMode, setViewMode] = useState('studio'); // 'studio' | 'room'
 
-  const handleChipClick = (chip) => {
+  const handleChipClick = async (chip) => {
     const key = chip.toLowerCase().replace(/\s+/g, '');
     let matched = STYLE_PRESETS_MAP[key] || STYLE_PRESETS_MAP.oushak;
     if (chip === 'Modern Minimal') matched = STYLE_PRESETS_MAP.minimal;
@@ -31,41 +32,33 @@ export default function AiRugDesignerHomeSection() {
     setPrompt(matched.defaultPrompt);
     setIsWeaving(true);
 
-    setTimeout(() => {
+    try {
+      const synthesized = await generateRugWithGemini(matched.defaultPrompt);
       setIsWeaving(false);
-      setActiveRug({
-        ...matched,
-        prompt: matched.defaultPrompt
-      });
+      setActiveRug(synthesized);
       toast(`✦ Loaded ${matched.style} concept!`, 'success');
-    }, 900);
+    } catch {
+      setIsWeaving(false);
+      setActiveRug(matched);
+    }
   };
 
-  const handleCraft = () => {
+  const handleCraft = async () => {
     if (!prompt.trim()) {
       toast('Please describe your desired rug design.', 'error');
       return;
     }
 
     setIsWeaving(true);
-    setTimeout(() => {
+    try {
+      const synthesized = await generateRugWithGemini(prompt);
       setIsWeaving(false);
-      const t = prompt.toLowerCase();
-      let matched = STYLE_PRESETS_MAP.oushak;
-      if (t.includes('geometric') || t.includes('kilim') || t.includes('diamond')) matched = STYLE_PRESETS_MAP.geometric;
-      else if (t.includes('floral') || t.includes('vine') || t.includes('botanical')) matched = STYLE_PRESETS_MAP.floral;
-      else if (t.includes('vintage') || t.includes('distressed') || t.includes('patina')) matched = STYLE_PRESETS_MAP.vintage;
-      else if (t.includes('traditional') || t.includes('mughal') || t.includes('court')) matched = STYLE_PRESETS_MAP.traditional;
-      else if (t.includes('persian') || t.includes('burgundy') || t.includes('wine')) matched = STYLE_PRESETS_MAP.persian;
-      else if (t.includes('minimal') || t.includes('contour') || t.includes('abstract')) matched = STYLE_PRESETS_MAP.minimal;
-
-      setActiveRug({
-        ...matched,
-        title: `Bespoke ${matched.style}: ${prompt.slice(0, 32)}...`,
-        prompt: prompt
-      });
-      toast('✦ Custom Rug Concept Crafted Successfully!', 'success');
-    }, 1200);
+      setActiveRug(synthesized);
+      toast(synthesized.isGeminiPowered ? '✦ Gemini AI Crafted Your Custom Rug!' : '✦ Custom Rug Concept Crafted Successfully!', 'success');
+    } catch {
+      setIsWeaving(false);
+      toast('Could not weave rug, using atelier specs.', 'info');
+    }
   };
 
   return (
