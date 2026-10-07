@@ -30,14 +30,14 @@ const SECONDARY_COLORS = [
 ];
 
 const RUG_STYLES = [
-  { id: 'oushak', label: 'Oushak Heirloom', desc: 'Large botanical palmettes, antique wash & soft distressed field' },
-  { id: 'persian', label: 'Persian Imperial', desc: 'Dense arabesques, intricate Shah Abbas rosettes & layered borders' },
-  { id: 'minimal', label: 'Modern Minimal', desc: 'Architectural line contours, sculptural organic relief & open breathing room' },
-  { id: 'floral', label: 'Botanical Floral', desc: 'Natural vine scrolls, Mughal lotus leaves & refined florets' },
-  { id: 'geometric', label: 'Geometric Kilim', desc: 'Bespoke diamond lozenges, stepped medallions & crisp tribal rhythm' },
-  { id: 'vintage', label: 'Vintage Distressed', desc: 'Authentic stone-washed patina with intentional aged abrash shading' },
-  { id: 'abstract', label: 'Abstract Contour', desc: 'Sculpted fluid river-wave curves with dynamic high-low pile depths' },
-  { id: 'traditional', label: 'Traditional Mughal', desc: 'Royal Bhadohi atelier symmetry with courtly floral border guards' }
+  { id: 'oushak', label: 'Oushak Heirloom', desc: 'Large botanical palmettes, antique wash & soft distressed field', img: '/ai-designer/rug-emerald-oushak.jpg' },
+  { id: 'persian', label: 'Persian Imperial', desc: 'Dense arabesques, intricate Shah Abbas rosettes & layered borders', img: '/ai-designer/rug-burgundy-persian.jpg' },
+  { id: 'minimal', label: 'Modern Minimal', desc: 'Architectural line contours, sculptural organic relief & open space', img: '/ai-designer/rug-minimal-sculpted.jpg' },
+  { id: 'floral', label: 'Botanical Floral', desc: 'Natural vine scrolls, Mughal lotus leaves & refined florets', img: '/ai-designer/rug-vintage-floral.jpg' },
+  { id: 'geometric', label: 'Geometric Kilim', desc: 'Bespoke diamond lozenges, stepped medallions & crisp tribal rhythm', img: '/ai-designer/rug-geometric-kilim.jpg' },
+  { id: 'vintage', label: 'Vintage Distressed', desc: 'Authentic stone-washed patina with intentional aged abrash shading', img: '/ai-designer/rug-vintage-floral.jpg' },
+  { id: 'abstract', label: 'Abstract Contour', desc: 'Sculpted fluid river-wave curves with dynamic high-low pile depths', img: '/ai-designer/rug-minimal-sculpted.jpg' },
+  { id: 'traditional', label: 'Traditional Mughal', desc: 'Royal Bhadohi atelier symmetry with courtly floral border guards', img: '/ai-designer/rug-traditional-mughal.jpg' }
 ];
 
 const PATTERNS = [
@@ -99,11 +99,11 @@ const STANDARD_SIZES = [
   'Circular 6ft Diameter (180 cm)'
 ];
 
-// Curated Master Presets for Quick Inspiration
-const PRESET_CONCEPTS = [
-  {
-    title: 'The Oushak Emerald & Ivory Masterpiece',
-    prompt: 'Create a beige and emerald green Oushak-style rug with traditional floral motifs, vintage distressed texture, and a cream border.',
+// Curated Master Presets for all 8 core styles
+export const STYLE_PRESETS_MAP = {
+  oushak: {
+    id: 'oushak',
+    title: 'The Oushak Emerald & Ivory Heirloom',
     style: 'Oushak Heirloom',
     primary: '#0c3b2e',
     secondary: '#fbf8f3',
@@ -114,11 +114,12 @@ const PRESET_CONCEPTS = [
     pile: 'Medium Luxury Pile (12mm)',
     material: '100% Pure New Zealand Wool',
     size: '8x10 ft (240x300 cm)',
-    image: '/ai-designer/rug-emerald-oushak.jpg'
+    image: '/ai-designer/rug-emerald-oushak.jpg',
+    defaultPrompt: 'Create a beige and emerald green Oushak-style rug with traditional floral motifs, vintage distressed texture, and a cream border.'
   },
-  {
+  persian: {
+    id: 'persian',
     title: 'The Imperial Burgundy & Cream Persian Medallion',
-    prompt: 'A deep burgundy and warm ivory Persian heritage rug with dense arabesques, symmetrical Shah Abbas rosette, and fine fringe detailing.',
     style: 'Persian Imperial',
     primary: '#541424',
     secondary: '#f7f4ed',
@@ -129,11 +130,12 @@ const PRESET_CONCEPTS = [
     pile: 'Dense Heritage Knot (8mm)',
     material: 'Hand-Spun Wool & Bamboo Silk Blend (70/30)',
     size: '9x12 ft (270x360 cm)',
-    image: '/ai-designer/rug-burgundy-persian.jpg'
+    image: '/ai-designer/rug-burgundy-persian.jpg',
+    defaultPrompt: 'A deep burgundy and warm ivory Persian heritage rug with dense arabesques, symmetrical Shah Abbas rosette, and fine fringe detailing.'
   },
-  {
+  minimal: {
+    id: 'minimal',
     title: 'The Modern Sculpted Ivory & Charcoal Contour',
-    prompt: 'A modern minimalist ivory sculpted contour rug with charcoal organic relief lines, high-low cut wool pile, and architectural simplicity.',
     style: 'Modern Minimal',
     primary: '#f7f4ed',
     secondary: '#161c18',
@@ -144,8 +146,100 @@ const PRESET_CONCEPTS = [
     pile: 'High Sculpted Plush (18mm)',
     material: '100% Pure New Zealand Wool',
     size: '6x9 ft (180x270 cm)',
-    image: '/ai-designer/rug-minimal-sculpted.jpg'
+    image: '/ai-designer/rug-minimal-sculpted.jpg',
+    defaultPrompt: 'A modern minimalist ivory sculpted contour rug with charcoal organic relief lines, high-low cut wool pile, and architectural simplicity.'
+  },
+  floral: {
+    id: 'floral',
+    title: 'The Botanical Floral Garden Heirloom',
+    style: 'Botanical Floral',
+    primary: '#0c3b2e',
+    secondary: '#ded1bd',
+    pattern: 'All-Over Botanical Field',
+    border: 'Flowing Lotus Vine Scroll',
+    medallion: 'Grand 16-Point Rosette',
+    texture: 'Dense Velvety Micro-Tufted Finish',
+    pile: 'Medium Luxury Pile (12mm)',
+    material: 'Hand-Spun Wool & Bamboo Silk Blend (70/30)',
+    size: '8x10 ft (240x300 cm)',
+    image: '/ai-designer/rug-vintage-floral.jpg',
+    defaultPrompt: 'A botanical floral heirloom carpet with soft emerald green washed background, intricate cream vine scrolls, and delicate handmade fringes.'
+  },
+  geometric: {
+    id: 'geometric',
+    title: 'The Artisan Tribal Diamond Kilim',
+    style: 'Geometric Kilim',
+    primary: '#161c18',
+    secondary: '#fbf8f3',
+    pattern: 'Geometric Stepped Lozenge',
+    border: 'Bold Solid Contrast Enclosure',
+    medallion: 'Double Diamond Tribal Core',
+    texture: 'Organic Ribbed Loop Texture',
+    pile: 'Low Pile Flatweave (6mm)',
+    material: '100% Pure New Zealand Wool',
+    size: '5x8 ft (150x240 cm)',
+    image: '/ai-designer/rug-geometric-kilim.jpg',
+    defaultPrompt: 'A geometric stepped diamond tribal kilim rug with warm ivory, charcoal black, and emerald accents, woven with authentic flatweave wool.'
+  },
+  vintage: {
+    id: 'vintage',
+    title: 'The Vintage Distressed Stone-Washed Patina',
+    style: 'Vintage Distressed',
+    primary: '#2d5445',
+    secondary: '#f2eae0',
+    pattern: 'Distressed Abrash Shading',
+    border: 'Distressed Vintage Fringed Edging',
+    medallion: 'Subtle Botanical Star Crest',
+    texture: 'Antique Hand-Washed Matte Wool',
+    pile: 'Dense Heritage Knot (8mm)',
+    material: '100% Pure New Zealand Wool',
+    size: '8x10 ft (240x300 cm)',
+    image: '/ai-designer/rug-vintage-floral.jpg',
+    defaultPrompt: 'A vintage distressed antique washed rug with soft abrash fading, weathered ivory palmettes, and authentic timeworn heirloom charm.'
+  },
+  abstract: {
+    id: 'abstract',
+    title: 'The Sculptural Fluid Contour Wave',
+    style: 'Abstract Contour',
+    primary: '#161c18',
+    secondary: '#fbf8f3',
+    pattern: 'Organic Sculpted Waves',
+    border: 'Slender Minimalist Fillet (1.5")',
+    medallion: 'Curved Organic Contour Center',
+    texture: 'Hand-Sculpted High-Low Cut Pile',
+    pile: 'High Sculpted Plush (18mm)',
+    material: 'Hand-Spun Wool & Bamboo Silk Blend (70/30)',
+    size: '8x10 ft (240x300 cm)',
+    image: '/ai-designer/rug-minimal-sculpted.jpg',
+    defaultPrompt: 'An abstract fluid wave carpet with dramatic high-low pile depths, sculpted charcoal lines on warm ivory, and contemporary elegance.'
+  },
+  traditional: {
+    id: 'traditional',
+    title: 'The Royal Mughal Court Shah Abbas Carpet',
+    style: 'Traditional Mughal',
+    primary: '#541424',
+    secondary: '#f7f4ed',
+    pattern: 'Central Shah Abbas Rosette',
+    border: 'Intricate Tri-Band Guard Border',
+    medallion: 'Grand 16-Point Rosette',
+    texture: 'Dense Velvety Micro-Tufted Finish',
+    pile: 'Dense Heritage Knot (8mm)',
+    material: 'Pure Mulberry Silk & Wool Core',
+    size: '10x14 ft (300x420 cm)',
+    image: '/ai-designer/rug-traditional-mughal.jpg',
+    defaultPrompt: 'A majestic Mughal royal court rug in deep crimson burgundy and ivory, featuring an ornate Shah Abbas rosette center and fine hand-tied fringes.'
   }
+};
+
+const SUGGESTION_CHIPS = [
+  'Oushak',
+  'Persian',
+  'Modern Minimal',
+  'Floral',
+  'Geometric',
+  'Vintage',
+  'Abstract',
+  'Traditional'
 ];
 
 export default function AiRugDesignerPage() {
@@ -162,14 +256,14 @@ export default function AiRugDesignerPage() {
   const [generationStep, setGenerationStep] = useState(0);
 
   // Active rug configuration
-  const [activeRug, setActiveRug] = useState(PRESET_CONCEPTS[0]);
+  const [activeRug, setActiveRug] = useState(STYLE_PRESETS_MAP.oushak);
 
-  // Variations (3 alternatives)
+  // Variations (3 alternative concepts)
   const [variations, setVariations] = useState([
     {
       id: 'var-1',
-      label: 'Variation A • Emerald Palette',
-      diffTag: 'Emerald & Ivory Harmony',
+      label: 'Variation A • Emerald Harmony',
+      diffTag: 'Distressed Oushak Antique Field',
       image: '/ai-designer/rug-emerald-oushak.jpg',
       primary: '#0c3b2e',
       secondary: '#fbf8f3',
@@ -178,8 +272,8 @@ export default function AiRugDesignerPage() {
     },
     {
       id: 'var-2',
-      label: 'Variation B • Deep Burgundy Field',
-      diffTag: 'Burgundy Imperial Inversion',
+      label: 'Variation B • Burgundy Inversion',
+      diffTag: 'Imperial Shah Abbas Core',
       image: '/ai-designer/rug-burgundy-persian.jpg',
       primary: '#541424',
       secondary: '#f7f4ed',
@@ -188,13 +282,13 @@ export default function AiRugDesignerPage() {
     },
     {
       id: 'var-3',
-      label: 'Variation C • Sculpted Contour',
-      diffTag: 'Architectural Minimal Relief',
-      image: '/ai-designer/rug-minimal-sculpted.jpg',
-      primary: '#f7f4ed',
-      secondary: '#161c18',
-      border: 'Slender Minimalist Fillet (1.5")',
-      pattern: 'Organic Sculpted Waves'
+      label: 'Variation C • Geometric Relief',
+      diffTag: 'Stepped Diamond Tribal Weave',
+      image: '/ai-designer/rug-geometric-kilim.jpg',
+      primary: '#161c18',
+      secondary: '#fbf8f3',
+      border: 'Bold Solid Contrast Enclosure',
+      pattern: 'Geometric Stepped Lozenge'
     }
   ]);
   const [selectedVariationId, setSelectedVariationId] = useState('var-1');
@@ -236,30 +330,42 @@ export default function AiRugDesignerPage() {
   const [quoteSubmitting, setQuoteSubmitting] = useState(false);
   const [quoteSuccess, setQuoteSuccess] = useState(false);
 
-  // Generation Steps simulator
+  // Human, natural artisan crafting stages
   const GENERATION_PHASES = [
-    'Analyzing chromatic balance & raw natural fiber tensile specs...',
-    'Mapping Bhadohi knot matrix & heirloom botanical symmetry...',
-    'Simulating hand-spun New Zealand wool & bamboo silk sheen...',
-    'Rendering high-definition loom finish & authentic contact shadows...'
+    'Selecting natural yarn fibers & matching color palette...',
+    'Drafting custom motif layout & border proportions...',
+    'Applying hand-knotted wool texture & authentic fiber luster...',
+    'Finalizing realistic room & atelier preview...'
   ];
 
-  // Quick prompt suggestions
-  const SUGGESTION_CHIPS = [
-    'Oushak',
-    'Persian',
-    'Modern Minimal',
-    'Floral',
-    'Geometric',
-    'Vintage',
-    'Abstract',
-    'Traditional'
-  ];
+  // Helper to resolve preset by text or style
+  const resolvePresetFromText = (text) => {
+    const t = text.toLowerCase();
+    if (t.includes('geometric') || t.includes('kilim') || t.includes('diamond') || t.includes('tribal')) {
+      return STYLE_PRESETS_MAP.geometric;
+    }
+    if (t.includes('floral') || t.includes('botanical') || t.includes('flower') || t.includes('vine') || t.includes('lotus')) {
+      return STYLE_PRESETS_MAP.floral;
+    }
+    if (t.includes('vintage') || t.includes('distressed') || t.includes('washed') || t.includes('antique') || t.includes('patina')) {
+      return STYLE_PRESETS_MAP.vintage;
+    }
+    if (t.includes('traditional') || t.includes('mughal') || t.includes('court') || t.includes('royal')) {
+      return STYLE_PRESETS_MAP.traditional;
+    }
+    if (t.includes('persian') || t.includes('burgundy') || t.includes('red') || t.includes('wine')) {
+      return STYLE_PRESETS_MAP.persian;
+    }
+    if (t.includes('minimal') || t.includes('sculpted') || t.includes('contour') || t.includes('wave') || t.includes('abstract')) {
+      return STYLE_PRESETS_MAP.minimal;
+    }
+    return STYLE_PRESETS_MAP.oushak;
+  };
 
   // Handle Generate with AI
   const handleGenerate = (customPromptText = prompt) => {
     if (!customPromptText.trim()) {
-      toast('Please describe your dream rug design.', 'error');
+      toast('Please describe your desired rug design.', 'error');
       return;
     }
 
@@ -273,50 +379,58 @@ export default function AiRugDesignerPage() {
         }
         return prev;
       });
-    }, 700);
+    }, 600);
 
     setTimeout(() => {
       clearInterval(stepInterval);
       setIsGenerating(false);
 
-      // Determine matching preset or dynamic tailored configuration based on keywords
-      const pLower = customPromptText.toLowerCase();
-      let matched = PRESET_CONCEPTS[0];
-
-      if (pLower.includes('burgundy') || pLower.includes('red') || pLower.includes('persian') || pLower.includes('imperial')) {
-        matched = PRESET_CONCEPTS[1];
-      } else if (pLower.includes('minimal') || pLower.includes('sculpted') || pLower.includes('contour') || pLower.includes('wave') || pLower.includes('abstract')) {
-        matched = PRESET_CONCEPTS[2];
-      } else {
-        matched = {
-          ...PRESET_CONCEPTS[0],
-          prompt: customPromptText,
-          title: `Bespoke Heirloom Rug: ${customPromptText.slice(0, 36)}...`
-        };
-      }
+      const matched = resolvePresetFromText(customPromptText);
 
       setActiveRug({
         ...matched,
         prompt: customPromptText,
+        title: `Bespoke ${matched.style}: ${customPromptText.slice(0, 32)}...`,
         size: useCustomDim ? `${customWidthFt}' x ${customLengthFt}' Bespoke Dimensions` : matched.size
       });
 
-      toast('✦ AI Custom Rug Concept Generated Successfully!', 'success');
-    }, 3000);
+      toast('✦ Custom Rug Concept Created Successfully!', 'success');
+    }, 2400);
   };
 
   // Handle Quick Chip click
   const handleChipClick = (chip) => {
-    let newPrompt = `Create a bespoke ${chip.toLowerCase()}-style luxury rug with handcrafted wool texture, rich heritage symmetry, and refined contrast borders.`;
-    if (chip === 'Oushak') {
-      newPrompt = 'Create a beige and emerald green Oushak-style rug with traditional floral motifs, vintage distressed texture, and a cream border.';
-    } else if (chip === 'Persian') {
-      newPrompt = 'A deep burgundy and warm ivory Persian heritage rug with dense arabesques, symmetrical Shah Abbas rosette, and fine fringe detailing.';
-    } else if (chip === 'Modern Minimal') {
-      newPrompt = 'A modern minimalist ivory sculpted contour rug with charcoal organic relief lines, high-low cut wool pile, and architectural simplicity.';
-    }
-    setPrompt(newPrompt);
-    handleGenerate(newPrompt);
+    const key = chip.toLowerCase().replace(/\s+/g, '');
+    let matched = STYLE_PRESETS_MAP[key] || STYLE_PRESETS_MAP.oushak;
+    if (chip === 'Modern Minimal') matched = STYLE_PRESETS_MAP.minimal;
+
+    setPrompt(matched.defaultPrompt);
+    setIsGenerating(true);
+    setGenerationStep(0);
+
+    setTimeout(() => {
+      setIsGenerating(false);
+      setActiveRug({
+        ...matched,
+        prompt: matched.defaultPrompt,
+        size: useCustomDim ? `${customWidthFt}' x ${customLengthFt}' Bespoke Dimensions` : matched.size
+      });
+      toast(`✦ Loaded ${matched.style} Concept!`, 'success');
+    }, 1200);
+  };
+
+  // Handle direct style selection in Customization Panel
+  const handleSelectStyle = (styleObj) => {
+    const matched = STYLE_PRESETS_MAP[styleObj.id] || STYLE_PRESETS_MAP.oushak;
+    setActiveRug((prev) => ({
+      ...prev,
+      style: styleObj.label,
+      image: matched.image,
+      pattern: matched.pattern,
+      texture: matched.texture,
+      material: matched.material
+    }));
+    toast(`✦ Applied style: ${styleObj.label}`, 'info');
   };
 
   // Handle "Create Variations"
@@ -327,7 +441,6 @@ export default function AiRugDesignerPage() {
     setTimeout(() => {
       setIsGenerating(false);
 
-      // Re-order and enrich variations based on current active colors
       const newVars = [
         {
           id: 'var-1',
@@ -351,19 +464,19 @@ export default function AiRugDesignerPage() {
         },
         {
           id: 'var-3',
-          label: 'Variation 3 • Minimalist Relief',
-          diffTag: 'Architectural High-Low Sculpting',
-          image: '/ai-designer/rug-minimal-sculpted.jpg',
-          primary: '#f7f4ed',
-          secondary: '#161c18',
-          border: 'Slender Minimalist Fillet (1.5")',
-          pattern: 'Organic Sculpted Waves'
+          label: 'Variation 3 • Tribal Diamond Weave',
+          diffTag: 'Geometric Stepped Kilim Relief',
+          image: '/ai-designer/rug-geometric-kilim.jpg',
+          primary: '#161c18',
+          secondary: '#fbf8f3',
+          border: 'Bold Solid Contrast Enclosure',
+          pattern: 'Geometric Stepped Lozenge'
         }
       ];
 
       setVariations(newVars);
       toast('✦ 3 Alternative Design Variations Ready for Review!', 'info');
-    }, 1800);
+    }, 1500);
   };
 
   // Select Variation
@@ -436,7 +549,6 @@ export default function AiRugDesignerPage() {
       setQuoteSubmitting(false);
       setQuoteSuccess(true);
 
-      // Save order to custom orders in localStorage so admin can see it
       const customQuotePayload = {
         id: 'QUOTE-AI-' + Math.floor(1000 + Math.random() * 9000),
         timestamp: new Date().toISOString(),
@@ -468,7 +580,7 @@ export default function AiRugDesignerPage() {
           <Link to="/" className="aid-header__brand" title="Pakiza Rugs & Co. Boutique">
             <img src={logoImg} alt="Pakiza Monogram" className="aid-header__logo-monogram" />
             <img src={wordmark3DImg} alt="Pakiza Rugs Co." className="aid-header__logo-wordmark" />
-            <span className="aid-header__badge">AI ATELIER STUDIO</span>
+            <span className="aid-header__badge">CUSTOM ATELIER</span>
           </Link>
 
           <div className="aid-header__right">
@@ -509,12 +621,12 @@ export default function AiRugDesignerPage() {
         <section className="aid-prompt-card">
           <div className="aid-prompt-eyebrow">
             <span className="aid-dot-pulse" />
-            <span>BESPOKE RUG INTELLIGENCE • DIRECT FROM BHADOHI MASTER LOOMS</span>
+            <span>PAKIZA BESPOKE ATELIER • HANDCRAFTED IN BHADOHI</span>
           </div>
 
-          <h1 className="aid-prompt-title">Describe Your Dream Rug</h1>
+          <h1 className="aid-prompt-title">Design Your Custom Rug</h1>
           <p className="aid-prompt-subtitle">
-            Enter your aesthetic vision in natural language. Our atelier AI crafts photorealistic handmade wool &amp; silk rug concepts with authentic weaving geometry.
+            Describe the carpet you envision for your room, or choose from our handcrafted styles below. Every rug is hand-tufted or hand-knotted by master artisans using 100% pure New Zealand wool and bamboo silk.
           </p>
 
           {/* Large Prompt Input Box */}
@@ -542,14 +654,14 @@ export default function AiRugDesignerPage() {
                 {isGenerating ? (
                   <>
                     <span className="aid-spinner" />
-                    <span>Weaving Concept...</span>
+                    <span>Weaving Your Design Preview...</span>
                   </>
                 ) : (
                   <>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
                       <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
                     </svg>
-                    <span>Generate With AI</span>
+                    <span>Craft My Custom Rug</span>
                   </>
                 )}
               </button>
@@ -558,7 +670,7 @@ export default function AiRugDesignerPage() {
 
           {/* Quick Suggestion Chips */}
           <div className="aid-chips-row">
-            <span className="aid-chips-label">Aesthetic Inspirations:</span>
+            <span className="aid-chips-label">Popular Styles:</span>
             <div className="aid-chips-list">
               {SUGGESTION_CHIPS.map((chip) => (
                 <button
@@ -592,7 +704,7 @@ export default function AiRugDesignerPage() {
                     <line x1="3" y1="9" x2="21" y2="9" />
                     <line x1="9" y1="21" x2="9" y2="9" />
                   </svg>
-                  <span>Studio Flatlay</span>
+                  <span>Studio View</span>
                 </button>
 
                 <button
@@ -635,7 +747,7 @@ export default function AiRugDesignerPage() {
 
             {/* Visualizer Display Box */}
             <div className="aid-viewport-box">
-              {/* Generating Loader Animation Overlay */}
+              {/* Generating Loom Animation Overlay */}
               {isGenerating && (
                 <div className="aid-generating-overlay">
                   <div className="aid-generating-card">
@@ -646,7 +758,7 @@ export default function AiRugDesignerPage() {
                       <div className="aid-warp-line" />
                       <div className="aid-shuttle-beam" />
                     </div>
-                    <h3 className="aid-generating-heading">Weaving AI Concept</h3>
+                    <h3 className="aid-generating-heading">Weaving Design Preview</h3>
                     <p className="aid-generating-phase">{GENERATION_PHASES[generationStep]}</p>
                     <div className="aid-progress-bar">
                       <div
@@ -691,8 +803,8 @@ export default function AiRugDesignerPage() {
                   <div
                     className="aid-room-rug-plane"
                     style={{
-                      transform: `scale(${roomScale}) perspective(700px) rotateX(${roomPerspective}deg) rotateZ(-3deg)`,
-                      boxShadow: '0 30px 60px rgba(0, 0, 0, 0.45), 0 10px 20px rgba(0, 0, 0, 0.25)'
+                      transform: `scale(${roomScale}) perspective(750px) rotateX(${roomPerspective}deg) rotateZ(-3deg)`,
+                      boxShadow: '0 35px 70px rgba(0, 0, 0, 0.55), 0 12px 25px rgba(0, 0, 0, 0.3)'
                     }}
                   >
                     <img
@@ -742,13 +854,13 @@ export default function AiRugDesignerPage() {
               )}
             </div>
 
-            {/* ── DESIGN VARIATIONS ROW ("Create Variations") ── */}
+            {/* ── DESIGN VARIATIONS ROW ("Explore Design Variations") ── */}
             <div className="aid-variations-section">
               <div className="aid-variations-header">
                 <div>
-                  <h3 className="aid-variations-title">Design Variations</h3>
+                  <h3 className="aid-variations-title">Explore Design Variations</h3>
                   <p className="aid-variations-subtitle">
-                    Alternative colorways, borders, and medallion structures generated for your concept.
+                    Alternative color harmonies and border styles handcrafted for this design.
                   </p>
                 </div>
 
@@ -763,7 +875,7 @@ export default function AiRugDesignerPage() {
                     <polyline points="1 20 1 14 7 14" />
                     <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
                   </svg>
-                  <span>Generate Variations</span>
+                  <span>Show More Variations</span>
                 </button>
               </div>
 
@@ -794,50 +906,50 @@ export default function AiRugDesignerPage() {
             {/* ── PRODUCT INFORMATION & SPECIFICATIONS ── */}
             <div className="aid-spec-card">
               <div className="aid-spec-head">
-                <span className="aid-spec-eyebrow">ATELIER SPECIFICATION DOSSIER</span>
+                <span className="aid-spec-eyebrow">ATELIER CRAFT SPECIFICATIONS</span>
                 <h2 className="aid-spec-title">{activeRug.title}</h2>
               </div>
 
               <div className="aid-spec-grid">
                 <div className="aid-spec-item">
-                  <span className="label">Rug Style</span>
+                  <span className="label">Craft Style</span>
                   <span className="value">{activeRug.style}</span>
                 </div>
                 <div className="aid-spec-item">
-                  <span className="label">Suggested Material</span>
+                  <span className="label">Loom Material</span>
                   <span className="value">{activeRug.material}</span>
                 </div>
                 <div className="aid-spec-item">
-                  <span className="label">Suggested Dimensions</span>
+                  <span className="label">Recommended Dimensions</span>
                   <span className="value">
-                    {useCustomDim ? `${customWidthFt}' x ${customLengthFt}' (Bespoke)` : activeRug.size}
+                    {useCustomDim ? `${customWidthFt}' x ${customLengthFt}' (Custom Dimensions)` : activeRug.size}
                   </span>
                 </div>
                 <div className="aid-spec-item">
-                  <span className="label">Pile &amp; Knot Depth</span>
+                  <span className="label">Pile Height &amp; Depth</span>
                   <span className="value">{activeRug.pile}</span>
                 </div>
                 <div className="aid-spec-item">
-                  <span className="label">Texture Architecture</span>
+                  <span className="label">Surface Texture</span>
                   <span className="value">{activeRug.texture}</span>
                 </div>
                 <div className="aid-spec-item">
-                  <span className="label">Central Pattern</span>
+                  <span className="label">Central Motif</span>
                   <span className="value">{activeRug.pattern}</span>
                 </div>
                 <div className="aid-spec-item">
-                  <span className="label">Border Guard Framing</span>
+                  <span className="label">Border Framing</span>
                   <span className="value">{activeRug.border}</span>
                 </div>
                 <div className="aid-spec-item">
-                  <span className="label">Estimated Craft Time</span>
+                  <span className="label">Handcrafting Timeline</span>
                   <span className="value">6–8 Weeks by Master Weavers in Bhadohi</span>
                 </div>
               </div>
 
               {/* Color Palette Display */}
               <div className="aid-palette-display">
-                <span className="label">Chromatics:</span>
+                <span className="label">Palette Harmony:</span>
                 <div className="swatch-chips">
                   <div className="swatch-item">
                     <span className="circle" style={{ backgroundColor: activeRug.primary }} />
@@ -848,7 +960,7 @@ export default function AiRugDesignerPage() {
                     <span className="name">Secondary Fillet</span>
                   </div>
                   <div className="swatch-item">
-                    <span className="circle" style={{ backgroundColor: '#121614' }} />
+                    <span className="circle" style={{ backgroundColor: '#161c18' }} />
                     <span className="name">Charcoal Accent</span>
                   </div>
                 </div>
@@ -866,7 +978,7 @@ export default function AiRugDesignerPage() {
                     <polyline points="17 21 17 13 7 13 7 21" />
                     <polyline points="7 3 7 8 15 8" />
                   </svg>
-                  <span>Save Design</span>
+                  <span>Save to Portfolio</span>
                 </button>
 
                 <button
@@ -903,10 +1015,7 @@ export default function AiRugDesignerPage() {
                       key={st.id}
                       type="button"
                       className={`aid-style-btn ${activeRug.style.includes(st.label.split(' ')[0]) ? 'active' : ''}`}
-                      onClick={() => {
-                        setActiveRug((prev) => ({ ...prev, style: st.label }));
-                        toast(`Style set to ${st.label}`, 'info');
-                      }}
+                      onClick={() => handleSelectStyle(st)}
                     >
                       <span className="name">{st.label}</span>
                       <span className="desc">{st.desc}</span>
@@ -961,7 +1070,7 @@ export default function AiRugDesignerPage() {
 
               {/* 4. Pattern Architecture */}
               <div className="aid-ctrl-group">
-                <label className="aid-ctrl-label">4. Pattern Architecture</label>
+                <label className="aid-ctrl-label">4. Pattern Motif</label>
                 <select
                   className="aid-ctrl-select"
                   value={activeRug.pattern}
@@ -1195,14 +1304,14 @@ export default function AiRugDesignerPage() {
                 <div className="icon">✓</div>
                 <h3>Bespoke Inquiry Received</h3>
                 <p>
-                  Our Master Atelier Loom Director will review your AI concept ({activeRug.title}) and contact you via WhatsApp / Phone with precise yarn sourcing details, CAD knot graph, and formal commission quotation within 24 hours.
+                  Our Master Atelier Loom Director will review your design concept ({activeRug.title}) and contact you via WhatsApp / Phone with precise yarn sourcing details, CAD knot graph, and formal commission quotation within 24 hours.
                 </p>
                 <button
                   type="button"
                   className="aid-btn-done"
                   onClick={() => setShowQuoteModal(false)}
                 >
-                  Return to AI Studio
+                  Return to Studio
                 </button>
               </div>
             ) : (

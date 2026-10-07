@@ -16,6 +16,7 @@ import pakizaLuxuryLogo from '../assets/pakiza-luxury-logo.jpg';
 import pakizaRoyalGoldLogo from '../assets/pakiza-royal-gold-logo.png';
 import founderImg from '../assets/founder-saif-ali.jpg';
 import FloatingChatAndScroll from '../components/FloatingChatAndScroll';
+import AiRugDesignerHomeSection from '../components/AiRugDesignerHomeSection';
 
 const heroSlides = [
   {
@@ -1035,6 +1036,9 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* ── AI Rug Designer Interactive Section ── */}
+        <AiRugDesignerHomeSection />
 
         {/* ── Customization Banner (Authentic Atelier Layout) ── */}
         <div className="custom" id="custom">
