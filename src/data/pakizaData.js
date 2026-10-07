@@ -1,12 +1,12 @@
 export const categoriesData = [
-  { id: 'tufted', name: 'Hand Tufted', image: '/rugs/cat-tufted.jpg', badge: '', href: '#new' },
-  { id: 'shaggy', name: 'Shaggy Carpet', image: '/rugs/cat-shaggy.jpg', badge: '', href: '#grid-shag' },
-  { id: 'jute', name: 'Jute Carpets', image: '/rugs/cat-jute.jpg', badge: 'NEW', href: '#grid-jute' },
-  { id: 'irregular', name: 'Irregular Shaped', image: '/rugs/cat-irregular.jpg', badge: 'UP TO 50% OFF', href: '#grid-excl' },
-  { id: 'textured', name: 'Textured Rugs', image: '/rugs/rug-2.jpeg', badge: '', href: '#grid-lux-sec' },
-  { id: 'exclusive', name: 'Exclusive Carpets', image: '/rugs/rug-8.jpeg', badge: 'EXCLUSIVE', href: '#grid-excl' },
-  { id: 'traditional', name: 'Traditional Persian', image: '/rugs/rug-3.jpeg', badge: '', href: '#new' },
-  { id: 'silk', name: 'Silk & Wool', image: '/rugs/rug-12.jpeg', badge: 'UP TO 50% OFF', href: '#grid-lux-sec' }
+  { id: 'tufted', name: 'Hand Tufted', slug: 'hand-tufted', image: '/rugs/cat-tufted.jpg', badge: '', href: '/collections/hand-tufted' },
+  { id: 'shaggy', name: 'Shaggy Carpet', slug: 'shaggy-carpet', image: '/rugs/cat-shaggy.jpg', badge: '', href: '/collections/shaggy-carpet' },
+  { id: 'jute', name: 'Jute Carpets', slug: 'jute-carpets', image: '/rugs/cat-jute.jpg', badge: 'NEW', href: '/collections/jute-carpets' },
+  { id: 'irregular', name: 'Irregular Shaped', slug: 'irregular-shaped', image: '/rugs/cat-irregular.jpg', badge: 'UP TO 50% OFF', href: '/collections/irregular-shaped' },
+  { id: 'textured', name: 'Textured Rugs', slug: 'textured-rugs', image: '/rugs/rug-2.jpeg', badge: '', href: '/collections/textured-rugs' },
+  { id: 'exclusive', name: 'Exclusive Carpets', slug: 'exclusive-carpets', image: '/rugs/rug-8.jpeg', badge: 'EXCLUSIVE', href: '/collections/exclusive-carpets' },
+  { id: 'traditional', name: 'Traditional Persian', slug: 'traditional-persian', image: '/rugs/rug-3.jpeg', badge: '', href: '/collections/traditional-persian' },
+  { id: 'silk', name: 'Silk & Wool', slug: 'silk-wool', image: '/rugs/rug-12.jpeg', badge: 'UP TO 50% OFF', href: '/collections/silk-wool' }
 ];
 
 export const productsData = {

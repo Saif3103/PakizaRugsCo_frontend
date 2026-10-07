@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useProducts } from '../context/ProductContext';
 import {
   categoriesData,
   productsData,
@@ -58,6 +59,10 @@ const heroSlides = [
 
 export default function HomePage() {
   const { user, logout } = useAuth();
+  const productContext = useProducts();
+  const contextProducts = productContext?.products || [];
+  const contextCategories = productContext?.categories || [];
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const [cart, setCart] = useState([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -109,7 +114,7 @@ export default function HomePage() {
     return () => clearTimeout(timer);
   }, [currentSlide]);
 
-  const formatPrice = (num) => 'Rs. ' + num.toLocaleString('en-IN');
+  const formatPrice = (num) => 'Rs. ' + Number(num || 0).toLocaleString('en-IN');
 
   const addToCart = (product) => {
     setCart((prev) => [...prev, product]);
@@ -127,61 +132,117 @@ export default function HomePage() {
     }));
   };
 
-  const cartTotal = cart.reduce((sum, item) => sum + item.price, 0);
+  const cartTotal = cart.reduce((sum, item) => sum + (Number(item.price) || 0), 0);
 
   const handleCheckoutWhatsApp = () => {
     if (cart.length === 0) return;
-    const itemsList = cart.map((c) => `- ${c.name} (${formatPrice(c.price)})`).join('\n');
+    const itemsList = cart.map((c) => `- ${c.name || c.title} (${formatPrice(c.price)})`).join('\n');
     const msg = encodeURIComponent(
       `Hello Pakiza Rugs Co., I would like to order the following items:\n\n${itemsList}\n\n*Total Amount:* ${formatPrice(cartTotal)}\n\nPlease assist with the order confirmation & shipping.`
     );
     window.open(`https://wa.me/917007626680?text=${msg}`, '_blank');
   };
 
-  // Product Card Component
+  // Published live products from ProductContext (sorted newest first)
+  const publishedProducts = (contextProducts || [])
+    .filter(p => (p.status || 'published') === 'published')
+    .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+  // Filtered live lists for different homepage sections
+  // 1. New Arrivals: All newest published products first, fallback to productsData.new
+  const liveNewProducts = publishedProducts.length > 0
+    ? publishedProducts.slice(0, 12)
+    : productsData.new;
+
+  // 2. Luxury Viscose / Silk / Premium:
+  const luxMatches = publishedProducts.filter(p =>
+    p.categoryId === 'cat-8' || p.categoryId === 'cat-5' || p.categoryId === 'cat-6' ||
+    (p.material && (p.material.toLowerCase().includes('silk') || p.material.toLowerCase().includes('viscose'))) ||
+    (p.title && (p.title.toLowerCase().includes('silk') || p.title.toLowerCase().includes('viscose') || p.title.toLowerCase().includes('luxury'))) ||
+    Number(p.price) >= 10000
+  );
+  const liveLuxProducts = luxMatches.length > 0 ? luxMatches.slice(0, 8) : productsData.lux;
+
+  // 3. Jute Carpets:
+  const juteMatches = publishedProducts.filter(p =>
+    p.categoryId === 'cat-3' ||
+    (p.material && p.material.toLowerCase() === 'jute') ||
+    (p.title && p.title.toLowerCase().includes('jute'))
+  );
+  const liveJuteProducts = juteMatches.length > 0 ? juteMatches.slice(0, 8) : productsData.jute;
+
+  // 4. Shaggy Carpets:
+  const shagMatches = publishedProducts.filter(p =>
+    p.categoryId === 'cat-2' ||
+    (p.title && p.title.toLowerCase().includes('shag'))
+  );
+  const liveShagProducts = shagMatches.length > 0 ? shagMatches.slice(0, 8) : productsData.shag;
+
+  // 5. Exclusive Carpets:
+  const exclMatches = publishedProducts.filter(p =>
+    p.categoryId === 'cat-4' || p.categoryId === 'cat-6' ||
+    (p.badge && p.badge.toLowerCase().includes('excl'))
+  );
+  const liveExclProducts = exclMatches.length > 0 ? exclMatches.slice(0, 8) : productsData.excl;
+
+  // Product Card Component (supports both formats)
   const renderProductCard = (product) => {
+    const prodName = product.title || product.name || 'Handcrafted Rug';
+    const prodPrice = Number(product.price || 0);
+    const prodMrp = Number(product.discountPrice || product.mrp || 0);
+    const prodImg = product.image || (Array.isArray(product.images) && product.images[0]) || '/rugs/rug-8.jpeg';
+    const prodHoverImg = product.hoverImage || (Array.isArray(product.images) && product.images[1]) || prodImg;
+    const prodTag = product.badge || product.tag || '';
+    const prodId = product.id || String(Math.random());
+    const prodSlug = product.slug || (prodName ? prodName.toLowerCase().replace(/[^a-z0-9]+/g, '-') : prodId);
+
     const isVisible =
       !searchQuery ||
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      (product.tag && product.tag.toLowerCase().includes(searchQuery.toLowerCase()));
+      prodName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      (prodTag && prodTag.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (product.category && product.category.toLowerCase().includes(searchQuery.toLowerCase()));
 
     if (!isVisible) return null;
 
-    const isLiked = !!wishlist[product.id];
+    const isLiked = !!wishlist[prodId];
 
     return (
-      <article className="pc" key={product.id} id={product.id}>
+      <article className="pc" key={prodId} id={prodId}>
         <div className="pimg">
-          {product.mrp > 0 && <span className="badge">-50%</span>}
-          {product.tag && product.mrp === 0 && <span className="badge ex">{product.tag}</span>}
+          {prodMrp > prodPrice && <span className="badge">-{Math.round((1 - prodPrice / prodMrp) * 100)}%</span>}
+          {prodTag && prodMrp <= prodPrice && <span className="badge ex">{prodTag}</span>}
 
           <button
             className={`wish ${isLiked ? 'on' : ''}`}
-            onClick={() => toggleWishlist(product.id)}
+            onClick={() => toggleWishlist(prodId)}
             aria-label="Add to wishlist"
           >
             {isLiked ? '♥' : '♡'}
           </button>
 
-          <img src={product.image} alt={product.name} />
-          {product.hoverImage && (
-            <img src={product.hoverImage} alt={`${product.name} alternate view`} className="hover-img" />
-          )}
+          <Link to={`/products/${prodSlug}`} style={{ display: 'block', width: '100%', height: '100%' }}>
+            <img src={prodImg} alt={prodName} />
+            {prodHoverImg && (
+              <img src={prodHoverImg} alt={`${prodName} alternate view`} className="hover-img" />
+            )}
+          </Link>
         </div>
 
         <div className="pinfo">
-          <h3>{product.name}</h3>
+          <Link to={`/products/${prodSlug}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <h3>{prodName}</h3>
+          </Link>
           <div className="price">
-            {product.mrp > 0 ? (
+            {prodMrp > prodPrice ? (
               <>
-                <b>{formatPrice(product.price)}</b>
-                <s>{formatPrice(product.mrp)}</s>
+                <b>{formatPrice(prodPrice)}</b>
+                <s>{formatPrice(prodMrp)}</s>
               </>
             ) : (
-              <b>{formatPrice(product.price)}</b>
+              <b>{formatPrice(prodPrice)}</b>
             )}
           </div>
-          <button className="btn" onClick={() => addToCart(product)}>
+          <button className="btn" onClick={() => addToCart({ id: prodId, name: prodName, price: prodPrice, image: prodImg })}>
             Add to cart
           </button>
         </div>
@@ -362,15 +423,21 @@ export default function HomePage() {
             <ul>
               <li><a href="#">Home</a></li>
               <li>
-                <a href="#cats" className="nav-shop-link">
-                  Shop <span className="nav-caret">▾</span>
-                </a>
+                <Link to="/collections/all" className="nav-shop-link">
+                  Shop Collections <span className="nav-caret">▾</span>
+                </Link>
                 <div className="drop" id="drop">
-                  {categoriesData.map((cat) => (
-                    <a key={cat.id} href="#cats">
-                      {cat.name} Carpets
-                    </a>
-                  ))}
+                  {categoriesData.map((cat) => {
+                    const catSlug = cat.slug || (cat.name ? cat.name.toLowerCase().replace(/\s+/g, '-') : cat.id);
+                    return (
+                      <Link key={cat.id} to={`/collections/${catSlug}`}>
+                        {cat.name} Carpets
+                      </Link>
+                    );
+                  })}
+                  <Link to="/collections/all" style={{ borderTop: '1px solid #ede7df', fontWeight: '700', color: '#9d6e3f' }}>
+                    ✦ View All Collections →
+                  </Link>
                 </div>
               </li>
               <li><a href="#custom">Customization</a></li>
@@ -679,24 +746,27 @@ export default function HomePage() {
             </div>
 
             <div className="cats" id="catGrid">
-              {categoriesData.map((cat) => (
-                <a className="cat-card" href={cat.href || '#new'} key={cat.id}>
-                  <div className="cat-card__img-wrap">
-                    {cat.badge && <span className="cat-card__badge">{cat.badge}</span>}
-                    <img src={cat.image} alt={cat.name} className="cat-card__img" />
-                  </div>
-                  <div className="cat-card__footer">
-                    <span className="cat-card__title">{cat.name}</span>
-                    <span className="cat-card__arrow">&rarr;</span>
-                  </div>
-                </a>
-              ))}
+              {categoriesData.map((cat) => {
+                const catSlug = cat.slug || (cat.name ? cat.name.toLowerCase().replace(/\s+/g, '-') : cat.id);
+                return (
+                  <Link className="cat-card" to={`/collections/${catSlug}`} key={cat.id}>
+                    <div className="cat-card__img-wrap">
+                      {cat.badge && <span className="cat-card__badge">{cat.badge}</span>}
+                      <img src={cat.image} alt={cat.name} className="cat-card__img" />
+                    </div>
+                    <div className="cat-card__footer">
+                      <span className="cat-card__title">{cat.name}</span>
+                      <span className="cat-card__arrow">&rarr;</span>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
 
             <div className="more">
-              <a className="btn" href="#new">
+              <Link className="btn" to="/collections/all">
                 View all collections
-              </a>
+              </Link>
             </div>
           </div>
         </section>
@@ -711,7 +781,7 @@ export default function HomePage() {
               <p>Freshly woven designs, just in.</p>
             </div>
             <div className="grid" id="grid-new">
-              {productsData.new.map((product) => renderProductCard(product))}
+              {liveNewProducts.map((product) => renderProductCard(product))}
             </div>
           </div>
         </section>
@@ -769,7 +839,7 @@ export default function HomePage() {
               <p>Silk-like shine, modern design.</p>
             </div>
             <div className="grid" id="grid-lux">
-              {productsData.lux.map((product) => renderProductCard(product))}
+              {liveLuxProducts.map((product) => renderProductCard(product))}
             </div>
             <div className="more">
               <a className="btn" href="#new">
@@ -909,7 +979,7 @@ export default function HomePage() {
               <p>Natural fibre, timeless look.</p>
             </div>
             <div className="grid">
-              {productsData.jute.map((product) => renderProductCard(product))}
+              {liveJuteProducts.map((product) => renderProductCard(product))}
             </div>
           </div>
         </section>
@@ -950,7 +1020,7 @@ export default function HomePage() {
               <p>Soft underfoot, easy to love.</p>
             </div>
             <div className="grid">
-              {productsData.shag.map((product) => renderProductCard(product))}
+              {liveShagProducts.map((product) => renderProductCard(product))}
             </div>
           </div>
         </section>
@@ -1015,7 +1085,7 @@ export default function HomePage() {
               <p>Limited designs for special rooms.</p>
             </div>
             <div className="grid">
-              {productsData.excl.map((product) => renderProductCard(product))}
+              {liveExclProducts.map((product) => renderProductCard(product))}
             </div>
             <div className="more">
               <a className="btn" href="#new">

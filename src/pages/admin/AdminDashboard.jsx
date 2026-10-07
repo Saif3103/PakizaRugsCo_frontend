@@ -1,626 +1,601 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import AdminLayout from './AdminLayout';
-
-// Rug thumbnails
-import rug1 from '../../assets/celestial-arc-1.jpg';
-import rug2 from '../../assets/celestial-arc-2.jpg';
-import rug3 from '../../assets/emerald-bloom.jpg';
-import rug4 from '../../assets/octopus-rug-1.jpg';
-import rug5 from '../../assets/octopus-rug-2.jpg';
-
-const RECENT_ORDERS = [
-  {
-    id: '#1001',
-    customer: 'Ali Khan',
-    email: 'ali@example.com',
-    product: 'Hand Tufted Rug',
-    spec: '8x10 ft',
-    image: rug1,
-    amount: '$1,299',
-    status: 'Processing',
-    statusClass: 'adm-status-badge--processing',
-    date: '01 Oct 2026'
-  },
-  {
-    id: '#1002',
-    customer: 'Sarah M.',
-    email: 'sarah@example.com',
-    product: 'Oushak Rug',
-    spec: '6x9 ft',
-    image: rug2,
-    amount: '$950',
-    status: 'Shipped',
-    statusClass: 'adm-status-badge--shipped',
-    date: '01 Oct 2026'
-  },
-  {
-    id: '#1003',
-    customer: 'Rohit Sharma',
-    email: 'rohit@example.com',
-    product: 'Custom Rug',
-    spec: 'Custom Size',
-    image: rug3,
-    amount: '$1,750',
-    status: 'Pending',
-    statusClass: 'adm-status-badge--pending',
-    date: '30 Sep 2026'
-  },
-  {
-    id: '#1004',
-    customer: 'Ayesha Ansari',
-    email: 'ayesha@example.com',
-    product: 'Hand Knotted Rug',
-    spec: '9x12 ft',
-    image: rug4,
-    amount: '$2,200',
-    status: 'Delivered',
-    statusClass: 'adm-status-badge--delivered',
-    date: '30 Sep 2026'
-  },
-  {
-    id: '#1005',
-    customer: 'David Lee',
-    email: 'david@example.com',
-    product: 'Modern Rug',
-    spec: '5x8 ft',
-    image: rug5,
-    amount: '$780',
-    status: 'Processing',
-    statusClass: 'adm-status-badge--processing',
-    date: '29 Sep 2026'
-  }
-];
-
-const TOP_PRODUCTS = [
-  {
-    rank: 1,
-    title: 'Hand Tufted Rug',
-    spec: '8x10 ft',
-    image: rug1,
-    sales: 45,
-    revenue: '$58,500'
-  },
-  {
-    rank: 2,
-    title: 'Oushak Collection',
-    spec: '6x9 ft',
-    image: rug2,
-    sales: 38,
-    revenue: '$36,100'
-  },
-  {
-    rank: 3,
-    title: 'Custom Rugs',
-    spec: 'Custom Size',
-    image: rug3,
-    sales: 28,
-    revenue: '$42,000'
-  },
-  {
-    rank: 4,
-    title: 'Hand Knotted Rug',
-    spec: '9x12 ft',
-    image: rug4,
-    sales: 22,
-    revenue: '$48,400'
-  },
-  {
-    rank: 5,
-    title: 'Modern Rug',
-    spec: '5x8 ft',
-    image: rug5,
-    sales: 18,
-    revenue: '$14,040'
-  }
-];
+import { useProducts } from '../../context/ProductContext';
 
 export default function AdminDashboard() {
-  const [timeRange, setTimeRange] = useState('This Month');
+  const { stats, categories, products, recentProducts, getCategoryProductCount } = useProducts();
+  const [filterTab, setFilterTab] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // Donut chart circumferences and offsets
-  // C = 2 * PI * 58 ≈ 364.42
-  const C = 364.42;
-  const pPending = 0.136 * C;     // 49.56
-  const pProc    = 0.237 * C;     // 86.37
-  const pShip    = 0.492 * C;     // 179.30
-  const pDeliv   = 0.113 * C;     // 41.18
-  const pCanc    = 0.022 * C;     // 8.01
+  // Category-wise product distribution
+  const catDistribution = useMemo(() => {
+    return categories
+      .filter(c => c.active !== false)
+      .map(c => ({ ...c, count: getCategoryProductCount(c.id) }))
+      .sort((a, b) => b.count - a.count);
+  }, [categories, getCategoryProductCount]);
 
-  const offPending = 0;
-  const offProc    = -pPending;
-  const offShip    = -(pPending + pProc);
-  const offDeliv   = -(pPending + pProc + pShip);
-  const offCanc    = -(pPending + pProc + pShip + pDeliv);
+  const maxCount = Math.max(...catDistribution.map(c => c.count), 1);
+
+  // Total catalog valuation
+  const totalValuation = useMemo(() => {
+    return products.reduce((acc, p) => acc + (Number(p.price) || 0), 0);
+  }, [products]);
+
+  const avgPrice = stats.total > 0 ? Math.round(totalValuation / stats.total) : 0;
+
+  // Filtered recent/display products
+  const filteredProducts = useMemo(() => {
+    let list = [...products];
+    if (filterTab === 'published') {
+      list = list.filter(p => p.status === 'published');
+    } else if (filterTab === 'draft') {
+      list = list.filter(p => p.status === 'draft');
+    } else if (filterTab === 'bestseller') {
+      list = list.filter(p => p.badge?.toLowerCase().includes('bestseller') || p.badge?.toLowerCase().includes('best'));
+    }
+
+    if (searchQuery.trim()) {
+      const q = searchQuery.toLowerCase();
+      list = list.filter(p =>
+        (p.title || p.name || '').toLowerCase().includes(q) ||
+        (p.category || '').toLowerCase().includes(q)
+      );
+    }
+
+    return list.slice(0, 8);
+  }, [products, filterTab, searchQuery]);
+
+  // Donut Gauge math
+  const C = 2 * Math.PI * 46; // radius 46
+  const pubPercent = stats.total > 0 ? (stats.published / stats.total) : 0;
+  const draftPercent = stats.total > 0 ? (stats.draft / stats.total) : 0;
+  const oosPercent = stats.total > 0 ? (stats.outOfStock / stats.total) : 0;
+
+  const pubDash = pubPercent * C;
+  const draftDash = draftPercent * C;
+  const oosDash = oosPercent * C;
 
   return (
     <AdminLayout>
-      <div className="adm-dashboard-page">
-        {/* Header */}
-        <div className="adm-dash-header">
-          <div>
-            <h1 className="adm-dash-title">
-              Dashboard <span>👋</span>
-            </h1>
-            <p className="adm-dash-subtitle">
-              Welcome back, Admin! Here&apos;s what&apos;s happening with your store.
-            </p>
-          </div>
+      <div className="adm-dashboard-page adm-luxury-vault">
+        
+        {/* ══════════════════════════════════════════════════════════
+            1. ATELIER EXECUTIVE BANNER
+            ══════════════════════════════════════════════════════════ */}
+        <div className="adm-atelier-hero">
+          <div className="adm-atelier-hero__ambient" />
+          <div className="adm-atelier-hero__content">
+            <div className="adm-atelier-hero__left">
+              <div className="adm-atelier-badge">
+                <span className="adm-atelier-badge__dot" />
+                <span>ATELIER MASTER VAULT &bull; BHADOHI GUILD</span>
+              </div>
+              <h1 className="adm-atelier-title">
+                Executive <span className="adm-atelier-title__gold">Dashboard</span>
+              </h1>
+              <p className="adm-atelier-subtitle">
+                Welcome to the Pakiza Rugs Co. curation suite. Monitor handcrafted inventory, live showroom listings, and artisanal collections.
+              </p>
+            </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Link
-              to="/admin/settings"
-              className="adm-date-pill"
-              id="dash-hero-video-btn"
-              style={{
-                textDecoration: 'none',
-                backgroundColor: '#9d6e3f',
-                color: '#ffffff',
-                borderColor: '#9d6e3f',
-                fontWeight: '600'
-              }}
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polygon points="23 7 16 12 23 17 23 7"/>
-                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
-              </svg>
-              <span>Change Hero Video</span>
-            </Link>
-
-            <button className="adm-date-pill" id="adm-date-range-btn">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-                <line x1="16" y1="2" x2="16" y2="6"/>
-                <line x1="8" y1="2" x2="8" y2="6"/>
-                <line x1="3" y1="10" x2="21" y2="10"/>
-              </svg>
-              <span>Oct 1, 2026 - Oct 31, 2026</span>
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        {/* 4 Stat Cards */}
-        <div className="adm-stats-grid">
-          {/* Card 1: Total Orders */}
-          <div className="adm-stat-card adm-stat-card--orders" id="stat-orders">
-            <div className="adm-stat-card__left">
-              <div className="adm-stat-card__icon-box">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="9" cy="21" r="1"/>
-                  <circle cx="20" cy="21" r="1"/>
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            <div className="adm-atelier-hero__actions">
+              <Link to="/admin/products/new" className="adm-btn-gold" id="dash-add-product-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
                 </svg>
-              </div>
-              <div className="adm-stat-card__info">
-                <span className="adm-stat-card__label">Total Orders</span>
-                <span className="adm-stat-card__value">177</span>
-                <span className="adm-stat-card__trend adm-stat-card__trend--up">
-                  ↗ 12% this month
-                </span>
-              </div>
-            </div>
-            <div className="adm-stat-card__sparkline">
-              <div className="adm-spark-bar" style={{ height: '35%' }}/>
-              <div className="adm-spark-bar" style={{ height: '60%' }}/>
-              <div className="adm-spark-bar" style={{ height: '45%' }}/>
-              <div className="adm-spark-bar" style={{ height: '85%' }}/>
-            </div>
-          </div>
+                <span>+ Curate New Rug</span>
+              </Link>
 
-          {/* Card 2: Total Revenue */}
-          <div className="adm-stat-card adm-stat-card--revenue" id="stat-revenue">
-            <div className="adm-stat-card__left">
-              <div className="adm-stat-card__icon-box">
-                <span style={{ fontSize: '20px', fontWeight: '700' }}>₹</span>
-              </div>
-              <div className="adm-stat-card__info">
-                <span className="adm-stat-card__label">Total Revenue</span>
-                <span className="adm-stat-card__value">$231K</span>
-                <span className="adm-stat-card__trend adm-stat-card__trend--up">
-                  ↑ 12% this month
-                </span>
-              </div>
-            </div>
-            <div className="adm-stat-card__sparkline">
-              <div className="adm-spark-bar" style={{ height: '40%' }}/>
-              <div className="adm-spark-bar" style={{ height: '55%' }}/>
-              <div className="adm-spark-bar" style={{ height: '70%' }}/>
-              <div className="adm-spark-bar" style={{ height: '95%' }}/>
-            </div>
-          </div>
-
-          {/* Card 3: Total Products */}
-          <div className="adm-stat-card adm-stat-card--products" id="stat-products">
-            <div className="adm-stat-card__left">
-              <div className="adm-stat-card__icon-box">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
-                  <line x1="12" y1="22.08" x2="12" y2="12"/>
+              <Link to="/admin/settings" className="adm-btn-ghost-gold" id="dash-hero-video-btn">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polygon points="23 7 16 12 23 17 23 7" />
+                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
                 </svg>
-              </div>
-              <div className="adm-stat-card__info">
-                <span className="adm-stat-card__label">Total Products</span>
-                <span className="adm-stat-card__value">177</span>
-                <span className="adm-stat-card__trend adm-stat-card__trend--neutral">
-                  → 0% this month
-                </span>
-              </div>
-            </div>
-            <div className="adm-stat-card__sparkline">
-              <div className="adm-spark-bar" style={{ height: '65%' }}/>
-              <div className="adm-spark-bar" style={{ height: '65%' }}/>
-              <div className="adm-spark-bar" style={{ height: '65%' }}/>
-              <div className="adm-spark-bar" style={{ height: '65%' }}/>
-            </div>
-          </div>
+                <span>Hero Cinematics</span>
+              </Link>
 
-          {/* Card 4: Total Customers */}
-          <div className="adm-stat-card adm-stat-card--customers" id="stat-customers">
-            <div className="adm-stat-card__left">
-              <div className="adm-stat-card__icon-box">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-                  <circle cx="9" cy="7" r="4"/>
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              <a href="/" target="_blank" rel="noopener noreferrer" className="adm-btn-ghost" title="Open live storefront">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
                 </svg>
-              </div>
-              <div className="adm-stat-card__info">
-                <span className="adm-stat-card__label">Total Customers</span>
-                <span className="adm-stat-card__value">283</span>
-                <span className="adm-stat-card__trend adm-stat-card__trend--up">
-                  ↗ 18% this month
-                </span>
-              </div>
-            </div>
-            <div className="adm-stat-card__sparkline">
-              <div className="adm-spark-bar" style={{ height: '30%' }}/>
-              <div className="adm-spark-bar" style={{ height: '50%' }}/>
-              <div className="adm-spark-bar" style={{ height: '75%' }}/>
-              <div className="adm-spark-bar" style={{ height: '90%' }}/>
+                <span>Live Boutique</span>
+              </a>
             </div>
           </div>
         </div>
 
-        {/* Charts Row */}
-        <div className="adm-charts-grid">
-          {/* Sales Overview */}
-          <div className="adm-card" id="chart-sales-overview">
-            <div className="adm-card__header">
-              <h2 className="adm-card__title">Sales Overview</h2>
-              <div className="adm-card__actions">
-                <div className="adm-legend">
-                  <div className="adm-legend__item">
-                    <span className="adm-legend__dot" style={{ background: '#541525' }}/>
-                    <span>Orders</span>
-                  </div>
-                  <div className="adm-legend__item">
-                    <span className="adm-legend__dot" style={{ background: '#c9933e' }}/>
-                    <span>Revenue</span>
-                  </div>
-                </div>
-                <select
-                  value={timeRange}
-                  onChange={(e) => setTimeRange(e.target.value)}
-                  className="adm-select-pill"
-                >
-                  <option value="This Month">This Month</option>
-                  <option value="Last Month">Last Month</option>
-                  <option value="This Year">This Year</option>
-                </select>
+        {/* ══════════════════════════════════════════════════════════
+            2. BESPOKE METRIC MATRIX (5 REFINED ATELIER TILES)
+            ══════════════════════════════════════════════════════════ */}
+        <div className="adm-metric-matrix">
+          {/* Card 1: Total Catalog Vault */}
+          <div className="adm-metric-tile" id="stat-total-products">
+            <div className="adm-metric-tile__header">
+              <span className="adm-metric-tile__label">VAULT PIECES</span>
+              <div className="adm-metric-tile__icon-wrap adm-metric-tile__icon-wrap--gold">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96" /><line x1="12" y1="22.08" x2="12" y2="12" />
+                </svg>
+              </div>
+            </div>
+            <div className="adm-metric-tile__body">
+              <span className="adm-metric-tile__number">{stats.total}</span>
+              <div className="adm-metric-tile__trend">
+                <span className="adm-metric-pill adm-metric-pill--gold">
+                  ₹{totalValuation.toLocaleString('en-IN')}
+                </span>
+                <span className="adm-metric-note">Catalog valuation</span>
+              </div>
+            </div>
+            <div className="adm-metric-tile__footer-bar" style={{ width: '100%', background: 'linear-gradient(90deg, #c9a84c, transparent)' }} />
+          </div>
+
+          {/* Card 2: Showroom Live */}
+          <div className="adm-metric-tile" id="stat-published">
+            <div className="adm-metric-tile__header">
+              <span className="adm-metric-tile__label">LIVE IN SHOWROOM</span>
+              <div className="adm-metric-tile__icon-wrap adm-metric-tile__icon-wrap--green">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="12" cy="12" r="10" /><polyline points="8 12 11 15 16 9" />
+                </svg>
+              </div>
+            </div>
+            <div className="adm-metric-tile__body">
+              <span className="adm-metric-tile__number" style={{ color: '#4ade80' }}>{stats.published}</span>
+              <div className="adm-metric-tile__trend">
+                <span className="adm-metric-pill adm-metric-pill--green">
+                  {stats.total > 0 ? Math.round((stats.published / stats.total) * 100) : 0}% Active
+                </span>
+                <span className="adm-metric-note">Publicly visible</span>
+              </div>
+            </div>
+            <div className="adm-metric-tile__footer-bar" style={{ width: `${stats.total > 0 ? (stats.published / stats.total) * 100 : 0}%`, background: 'linear-gradient(90deg, #22c55e, #4ade80)' }} />
+          </div>
+
+          {/* Card 3: Private Reserve / Drafts */}
+          <div className="adm-metric-tile" id="stat-draft">
+            <div className="adm-metric-tile__header">
+              <span className="adm-metric-tile__label">PRIVATE RESERVE</span>
+              <div className="adm-metric-tile__icon-wrap adm-metric-tile__icon-wrap--amber">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                </svg>
+              </div>
+            </div>
+            <div className="adm-metric-tile__body">
+              <span className="adm-metric-tile__number">{stats.draft}</span>
+              <div className="adm-metric-tile__trend">
+                <span className="adm-metric-pill adm-metric-pill--muted">
+                  In staging
+                </span>
+                <span className="adm-metric-note">Unpublished drafts</span>
+              </div>
+            </div>
+            <div className="adm-metric-tile__footer-bar" style={{ width: '40%', background: 'linear-gradient(90deg, #eab308, transparent)' }} />
+          </div>
+
+          {/* Card 4: Reserve Health / Out of Stock */}
+          <div className="adm-metric-tile" id="stat-out-of-stock">
+            <div className="adm-metric-tile__header">
+              <span className="adm-metric-tile__label">RESERVE STATUS</span>
+              <div className={`adm-metric-tile__icon-wrap ${stats.outOfStock > 0 ? 'adm-metric-tile__icon-wrap--red' : 'adm-metric-tile__icon-wrap--green'}`}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <path d="M16 10a4 4 0 0 1-8 0" />
+                </svg>
+              </div>
+            </div>
+            <div className="adm-metric-tile__body">
+              <span className="adm-metric-tile__number" style={{ color: stats.outOfStock > 0 ? '#f87171' : '#e2d5c8' }}>
+                {stats.outOfStock}
+              </span>
+              <div className="adm-metric-tile__trend">
+                <span className={`adm-metric-pill ${stats.outOfStock > 0 ? 'adm-metric-pill--red' : 'adm-metric-pill--green'}`}>
+                  {stats.outOfStock > 0 ? 'Low stock alert' : 'Optimal stock'}
+                </span>
+                <span className="adm-metric-note">Out of stock items</span>
+              </div>
+            </div>
+            <div className="adm-metric-tile__footer-bar" style={{ width: '100%', background: stats.outOfStock > 0 ? 'linear-gradient(90deg, #ef4444, transparent)' : 'linear-gradient(90deg, #10b981, transparent)' }} />
+          </div>
+
+          {/* Card 5: Weaving Collections */}
+          <div className="adm-metric-tile" id="stat-categories">
+            <div className="adm-metric-tile__header">
+              <span className="adm-metric-tile__label">COLLECTIONS</span>
+              <div className="adm-metric-tile__icon-wrap adm-metric-tile__icon-wrap--gold">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <rect x="3" y="3" width="7" height="9" rx="1.5" />
+                  <rect x="14" y="3" width="7" height="5" rx="1.5" />
+                  <rect x="14" y="12" width="7" height="9" rx="1.5" />
+                  <rect x="3" y="16" width="7" height="5" rx="1.5" />
+                </svg>
+              </div>
+            </div>
+            <div className="adm-metric-tile__body">
+              <span className="adm-metric-tile__number">{categories.length}</span>
+              <div className="adm-metric-tile__trend">
+                <span className="adm-metric-pill adm-metric-pill--gold">
+                  ₹{avgPrice.toLocaleString('en-IN')} avg
+                </span>
+                <span className="adm-metric-note">Weave categories</span>
+              </div>
+            </div>
+            <div className="adm-metric-tile__footer-bar" style={{ width: '100%', background: 'linear-gradient(90deg, #c9a84c, #9d6e3f)' }} />
+          </div>
+        </div>
+
+        {/* ══════════════════════════════════════════════════════════
+            3. MIDDLE SECTION: WEAVING COLLECTIONS & ATELIER HEALTH
+            ══════════════════════════════════════════════════════════ */}
+        <div className="adm-vault-columns">
+          
+          {/* Left Panel: Collections Portfolio Distribution */}
+          <div className="adm-luxury-panel" id="chart-category-distribution">
+            <div className="adm-luxury-panel__header">
+              <div>
+                <div className="adm-section-eyebrow">PORTFOLIO COMPOSITION</div>
+                <h2 className="adm-luxury-panel__title">Weaving Collections & Depth</h2>
+              </div>
+              <Link to="/admin/categories" className="adm-luxury-link">
+                <span>Manage Collections</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                  <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+                </svg>
+              </Link>
+            </div>
+
+            {catDistribution.length === 0 ? (
+              <div className="adm-empty-state">
+                <p>No rug categories populated.</p>
+                <Link to="/admin/products/new" className="adm-btn-gold">Create First Rug</Link>
+              </div>
+            ) : (
+              <div className="adm-cat-stack">
+                {catDistribution.slice(0, 6).map((cat, idx) => {
+                  const percent = maxCount > 0 ? Math.round((cat.count / maxCount) * 100) : 0;
+                  const totalShare = stats.total > 0 ? Math.round((cat.count / stats.total) * 100) : 0;
+                  return (
+                    <div key={cat.id || idx} className="adm-cat-row">
+                      <div className="adm-cat-row__meta">
+                        <div className="adm-cat-row__name-wrap">
+                          <span className="adm-cat-row__index">0{idx + 1}</span>
+                          <span className="adm-cat-row__name">{cat.name}</span>
+                          {cat.badge && (
+                            <span className="adm-cat-row__badge">{cat.badge}</span>
+                          )}
+                        </div>
+                        <div className="adm-cat-row__stats">
+                          <span className="adm-cat-row__count">{cat.count} Rugs</span>
+                          <span className="adm-cat-row__share">({totalShare}% share)</span>
+                        </div>
+                      </div>
+
+                      <div className="adm-cat-bar-bg">
+                        <div
+                          className="adm-cat-bar-fill"
+                          style={{
+                            width: `${Math.max(percent, 6)}%`,
+                            background: idx === 0
+                              ? 'linear-gradient(90deg, #c9a84c, #f3e3a2)'
+                              : idx === 1
+                              ? 'linear-gradient(90deg, #a67c4e, #c9a84c)'
+                              : 'linear-gradient(90deg, #5a4838, #8c6d48)'
+                          }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
+          {/* Right Panel: Showroom Status Gauge & Atelier Health */}
+          <div className="adm-luxury-panel adm-luxury-panel--compact" id="chart-product-status">
+            <div className="adm-luxury-panel__header">
+              <div>
+                <div className="adm-section-eyebrow">SHOWROOM HEALTH</div>
+                <h2 className="adm-luxury-panel__title">Inventory Pulse</h2>
               </div>
             </div>
 
-            <div className="adm-spline-wrap">
-              <svg viewBox="0 0 700 240" className="adm-spline-svg">
-                <defs>
-                  <linearGradient id="goldGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#c9933e" stopOpacity="0.25" />
-                    <stop offset="100%" stopColor="#c9933e" stopOpacity="0.0" />
-                  </linearGradient>
-                </defs>
-
-                {/* Y Axis Grid Lines & Labels */}
-                {[
-                  { val: '250K', y: 30 },
-                  { val: '200K', y: 68 },
-                  { val: '150K', y: 106 },
-                  { val: '100K', y: 144 },
-                  { val: '50K',  y: 182 },
-                  { val: '0',    y: 220 }
-                ].map((item) => (
-                  <g key={item.val}>
-                    <line x1="55" y1={item.y} x2="680" y2={item.y} stroke="#f0ece4" strokeWidth="1" />
-                    <text x="45" y={item.y + 4} textAnchor="end" fontSize="11" fill="#999" fontFamily="Inter, sans-serif">
-                      {item.val}
-                    </text>
-                  </g>
-                ))}
-
-                {/* Revenue Area Fill */}
-                <path
-                  d="M 60 196
-                     C 100 196, 120 185, 160 185
-                     C 200 185, 220 148, 260 148
-                     C 300 148, 320 162, 360 162
-                     C 400 162, 420 120, 460 120
-                     C 500 120, 520 72, 560 72
-                     C 600 72, 620 98, 660 68
-                     L 660 220 L 60 220 Z"
-                  fill="url(#goldGradient)"
-                />
-
-                {/* Revenue Curve */}
-                <path
-                  d="M 60 196
-                     C 100 196, 120 185, 160 185
-                     C 200 185, 220 148, 260 148
-                     C 300 148, 320 162, 360 162
-                     C 400 162, 420 120, 460 120
-                     C 500 120, 520 72, 560 72
-                     C 600 72, 620 98, 660 68"
-                  fill="none"
-                  stroke="#c9933e"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-
-                {/* Orders Curve */}
-                <path
-                  d="M 60 208
-                     C 100 208, 120 200, 160 200
-                     C 200 200, 220 180, 260 180
-                     C 300 180, 320 192, 360 192
-                     C 400 192, 420 164, 460 164
-                     C 500 164, 520 182, 560 182
-                     C 600 182, 620 140, 660 140"
-                  fill="none"
-                  stroke="#541525"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-
-                {/* Revenue Dots */}
-                {[
-                  { cx: 60, cy: 196 },
-                  { cx: 160, cy: 185 },
-                  { cx: 260, cy: 148 },
-                  { cx: 360, cy: 162 },
-                  { cx: 460, cy: 120 },
-                  { cx: 560, cy: 72 },
-                  { cx: 660, cy: 68 }
-                ].map((pt, i) => (
-                  <circle key={`r-${i}`} cx={pt.cx} cy={pt.cy} r="4.5" fill="#c9933e" stroke="#ffffff" strokeWidth="2" />
-                ))}
-
-                {/* Orders Dots */}
-                {[
-                  { cx: 60, cy: 208 },
-                  { cx: 160, cy: 200 },
-                  { cx: 260, cy: 180 },
-                  { cx: 360, cy: 192 },
-                  { cx: 460, cy: 164 },
-                  { cx: 560, cy: 182 },
-                  { cx: 660, cy: 140 }
-                ].map((pt, i) => (
-                  <circle key={`o-${i}`} cx={pt.cx} cy={pt.cy} r="4" fill="#541525" stroke="#ffffff" strokeWidth="1.5" />
-                ))}
-
-                {/* X Axis Labels */}
-                {[
-                  { label: '1 Oct', x: 60 },
-                  { label: '5 Oct', x: 160 },
-                  { label: '10 Oct', x: 260 },
-                  { label: '15 Oct', x: 360 },
-                  { label: '20 Oct', x: 460 },
-                  { label: '25 Oct', x: 560 },
-                  { label: '31 Oct', x: 660 }
-                ].map((item) => (
-                  <text key={item.label} x={item.x} y="238" textAnchor="middle" fontSize="11" fill="#888" fontFamily="Inter, sans-serif">
-                    {item.label}
-                  </text>
-                ))}
-              </svg>
-            </div>
-          </div>
-
-          {/* Orders Status */}
-          <div className="adm-card" id="chart-orders-status">
-            <div className="adm-card__header">
-              <h2 className="adm-card__title">Orders Status</h2>
-              <select className="adm-select-pill">
-                <option>This Month</option>
-                <option>Last Month</option>
-              </select>
-            </div>
-
-            <div className="adm-donut-body">
-              <div className="adm-donut-chart-wrap">
-                <svg viewBox="0 0 160 160" className="adm-donut-svg">
+            {/* Circular Atelier Dial */}
+            <div className="adm-dial-container">
+              <div className="adm-dial-wrap">
+                <svg viewBox="0 0 120 120" className="adm-dial-svg">
                   {/* Background Track */}
-                  <circle cx="80" cy="80" r="58" fill="none" stroke="#f4efe6" strokeWidth="18" />
-
-                  {/* Yellow: Pending (13.6%) */}
-                  <circle
-                    cx="80" cy="80" r="58" fill="none" stroke="#f59e0b" strokeWidth="18"
-                    strokeDasharray={`${pPending} ${C}`}
-                    strokeDashoffset={offPending}
-                  />
-
-                  {/* Blue: Processing (23.7%) */}
-                  <circle
-                    cx="80" cy="80" r="58" fill="none" stroke="#3b82f6" strokeWidth="18"
-                    strokeDasharray={`${pProc} ${C}`}
-                    strokeDashoffset={offProc}
-                  />
-
-                  {/* Green: Shipped (49.2%) */}
-                  <circle
-                    cx="80" cy="80" r="58" fill="none" stroke="#10b981" strokeWidth="18"
-                    strokeDasharray={`${pShip} ${C}`}
-                    strokeDashoffset={offShip}
-                  />
-
-                  {/* Teal: Delivered (11.3%) */}
-                  <circle
-                    cx="80" cy="80" r="58" fill="none" stroke="#14b8a6" strokeWidth="18"
-                    strokeDasharray={`${pDeliv} ${C}`}
-                    strokeDashoffset={offDeliv}
-                  />
-
-                  {/* Red: Cancelled (2.2%) */}
-                  <circle
-                    cx="80" cy="80" r="58" fill="none" stroke="#ef4444" strokeWidth="18"
-                    strokeDasharray={`${pCanc} ${C}`}
-                    strokeDashoffset={offCanc}
-                  />
+                  <circle cx="60" cy="60" r="46" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="10" />
+                  
+                  {/* Segments */}
+                  {stats.total > 0 && (
+                    <>
+                      {/* Published (Gold / Green) */}
+                      <circle
+                        cx="60" cy="60" r="46" fill="none"
+                        stroke="#c9a84c"
+                        strokeWidth="10"
+                        strokeDasharray={`${pubDash} ${C}`}
+                        strokeDashoffset={0}
+                        strokeLinecap="round"
+                      />
+                      {/* Draft */}
+                      <circle
+                        cx="60" cy="60" r="46" fill="none"
+                        stroke="#786146"
+                        strokeWidth="10"
+                        strokeDasharray={`${draftDash} ${C}`}
+                        strokeDashoffset={-pubDash}
+                        strokeLinecap="round"
+                      />
+                      {/* Out of stock */}
+                      {stats.outOfStock > 0 && (
+                        <circle
+                          cx="60" cy="60" r="46" fill="none"
+                          stroke="#ef4444"
+                          strokeWidth="10"
+                          strokeDasharray={`${oosDash} ${C}`}
+                          strokeDashoffset={-(pubDash + draftDash)}
+                          strokeLinecap="round"
+                        />
+                      )}
+                    </>
+                  )}
                 </svg>
 
-                <div className="adm-donut-center">
-                  <span className="adm-donut-center__val">177</span>
-                  <span className="adm-donut-center__label">Total Orders</span>
+                <div className="adm-dial-center">
+                  <span className="adm-dial-center__num">{stats.total}</span>
+                  <span className="adm-dial-center__lbl">TOTAL RUGS</span>
                 </div>
               </div>
 
               {/* Status Breakdown Legend */}
-              <div className="adm-status-legend">
-                <div className="adm-status-item">
-                  <span className="adm-status-item__label">
-                    <span className="adm-legend__dot" style={{ background: '#f59e0b' }}/>
-                    Pending
-                  </span>
-                  <span className="adm-status-item__val">24 (13.6%)</span>
+              <div className="adm-dial-legend">
+                <div className="adm-dial-legend__item">
+                  <div className="adm-dial-legend__key">
+                    <span className="adm-dial-dot" style={{ background: '#c9a84c', boxShadow: '0 0 8px rgba(201,168,76,0.6)' }} />
+                    <span>Live in Showroom</span>
+                  </div>
+                  <strong className="adm-dial-legend__val">{stats.published}</strong>
                 </div>
-                <div className="adm-status-item">
-                  <span className="adm-status-item__label">
-                    <span className="adm-legend__dot" style={{ background: '#3b82f6' }}/>
-                    Processing
-                  </span>
-                  <span className="adm-status-item__val">42 (23.7%)</span>
+
+                <div className="adm-dial-legend__item">
+                  <div className="adm-dial-legend__key">
+                    <span className="adm-dial-dot" style={{ background: '#786146' }} />
+                    <span>Private Reserve</span>
+                  </div>
+                  <strong className="adm-dial-legend__val">{stats.draft}</strong>
                 </div>
-                <div className="adm-status-item">
-                  <span className="adm-status-item__label">
-                    <span className="adm-legend__dot" style={{ background: '#10b981' }}/>
-                    Shipped
-                  </span>
-                  <span className="adm-status-item__val">87 (49.2%)</span>
+
+                <div className="adm-dial-legend__item">
+                  <div className="adm-dial-legend__key">
+                    <span className="adm-dial-dot" style={{ background: '#ef4444' }} />
+                    <span>Out of Stock</span>
+                  </div>
+                  <strong className="adm-dial-legend__val" style={{ color: stats.outOfStock > 0 ? '#ef4444' : 'inherit' }}>
+                    {stats.outOfStock}
+                  </strong>
                 </div>
-                <div className="adm-status-item">
-                  <span className="adm-status-item__label">
-                    <span className="adm-legend__dot" style={{ background: '#14b8a6' }}/>
-                    Delivered
-                  </span>
-                  <span className="adm-status-item__val">20 (11.3%)</span>
-                </div>
-                <div className="adm-status-item">
-                  <span className="adm-status-item__label">
-                    <span className="adm-legend__dot" style={{ background: '#ef4444' }}/>
-                    Cancelled
-                  </span>
-                  <span className="adm-status-item__val">4 (2.2%)</span>
-                </div>
+              </div>
+            </div>
+
+            {/* Atelier Live Services Health */}
+            <div className="adm-services-bar">
+              <div className="adm-service-item">
+                <div className="adm-service-item__dot adm-service-item__dot--live" />
+                <span className="adm-service-item__title">Cloudinary HD Assets</span>
+              </div>
+              <div className="adm-service-item">
+                <div className="adm-service-item__dot adm-service-item__dot--live" />
+                <span className="adm-service-item__title">WhatsApp Concierge</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Row Tables */}
-        <div className="adm-tables-grid">
-          {/* Recent Orders */}
-          <div className="adm-card" id="table-recent-orders">
-            <div className="adm-card__header">
-              <h2 className="adm-card__title">Recent Orders</h2>
-              <Link to="/admin/orders" className="adm-card__link">View All</Link>
+        {/* ══════════════════════════════════════════════════════════
+            4. RECENT MASTERPIECES (BESPOKE ATELIER REGISTRY TABLE)
+            ══════════════════════════════════════════════════════════ */}
+        <div className="adm-luxury-panel adm-table-panel" id="table-recent-products">
+          <div className="adm-luxury-panel__header adm-table-panel__header">
+            <div>
+              <div className="adm-section-eyebrow">VAULT REGISTRY</div>
+              <h2 className="adm-luxury-panel__title">Recently Curated Masterpieces</h2>
             </div>
 
-            <div className="adm-table-wrap">
-              <table className="adm-table">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Customer</th>
-                    <th>Product</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {RECENT_ORDERS.map((order) => (
-                    <tr key={order.id}>
-                      <td className="adm-order-num">{order.id}</td>
-                      <td>
-                        <div className="adm-customer-cell">
-                          <span className="adm-customer-name">{order.customer}</span>
-                          <span className="adm-customer-email">{order.email}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="adm-product-cell">
-                          <img src={order.image} alt={order.product} className="adm-product-thumb" />
-                          <div className="adm-product-meta">
-                            <span className="adm-product-title">{order.product}</span>
-                            <span className="adm-product-spec">{order.spec}</span>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="adm-amount">{order.amount}</td>
-                      <td>
-                        <span className={`adm-status-badge ${order.statusClass}`}>
-                          {order.status}
-                        </span>
-                      </td>
-                      <td className="adm-date">{order.date}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            {/* Search & Filter bar */}
+            <div className="adm-table-toolbar">
+              <div className="adm-filter-chips">
+                <button
+                  className={`adm-filter-chip ${filterTab === 'all' ? 'adm-filter-chip--active' : ''}`}
+                  onClick={() => setFilterTab('all')}
+                >
+                  All ({products.length})
+                </button>
+                <button
+                  className={`adm-filter-chip ${filterTab === 'published' ? 'adm-filter-chip--active' : ''}`}
+                  onClick={() => setFilterTab('published')}
+                >
+                  ✦ Live ({stats.published})
+                </button>
+                <button
+                  className={`adm-filter-chip ${filterTab === 'draft' ? 'adm-filter-chip--active' : ''}`}
+                  onClick={() => setFilterTab('draft')}
+                >
+                  Drafts ({stats.draft})
+                </button>
+                <button
+                  className={`adm-filter-chip ${filterTab === 'bestseller' ? 'adm-filter-chip--active' : ''}`}
+                  onClick={() => setFilterTab('bestseller')}
+                >
+                  Best Sellers
+                </button>
+              </div>
+
+              <div className="adm-table-search">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input
+                  type="text"
+                  placeholder="Search rug title..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="adm-table-search__input"
+                />
+              </div>
+
+              <Link to="/admin/products" className="adm-luxury-link">
+                <span>View Full Catalog</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                  <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+                </svg>
+              </Link>
             </div>
           </div>
 
-          {/* Top Selling Products */}
-          <div className="adm-card" id="table-top-selling">
-            <div className="adm-card__header">
-              <h2 className="adm-card__title">Top Selling Products</h2>
-              <Link to="/admin/products" className="adm-card__link">View All</Link>
+          {filteredProducts.length === 0 ? (
+            <div className="adm-empty-state">
+              <div className="adm-empty-state__icon">🏺</div>
+              <p className="adm-empty-state__title">No matching rug creations found</p>
+              <p className="adm-empty-state__sub">Try changing your search term or tab filter above.</p>
+              <Link to="/admin/products/new" className="adm-btn-gold" style={{ marginTop: '14px' }}>
+                Curate New Rug
+              </Link>
             </div>
-
+          ) : (
             <div className="adm-table-wrap">
-              <table className="adm-table">
+              <table className="adm-table adm-table--luxury">
                 <thead>
                   <tr>
-                    <th>#</th>
-                    <th>Product</th>
-                    <th>Sales</th>
-                    <th>Revenue</th>
+                    <th>MASTERPIECE & WEAVE</th>
+                    <th>COLLECTION</th>
+                    <th>VALUATION</th>
+                    <th>INVENTORY</th>
+                    <th>SHOWROOM STATUS</th>
+                    <th>CURATED DATE</th>
+                    <th style={{ textAlign: 'right' }}>ACTIONS</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {TOP_PRODUCTS.map((prod) => (
-                    <tr key={prod.rank}>
-                      <td className="adm-rank">{prod.rank}</td>
-                      <td>
-                        <div className="adm-product-cell">
-                          <img src={prod.image} alt={prod.title} className="adm-product-thumb" />
-                          <div className="adm-product-meta">
-                            <span className="adm-product-title">{prod.title}</span>
-                            <span className="adm-product-spec">{prod.spec}</span>
+                  {filteredProducts.map(p => {
+                    const cat = categories.find(c => c.id === p.categoryId);
+                    const mainImg = p.images?.[0] || p.image;
+                    return (
+                      <tr key={p.id} className="adm-table-row">
+                        <td>
+                          <div className="adm-rug-cell">
+                            <div className="adm-rug-thumb-wrap">
+                              {mainImg ? (
+                                <img src={mainImg} alt={p.title} className="adm-rug-thumb" />
+                              ) : (
+                                <div className="adm-rug-thumb adm-rug-thumb--empty">🏺</div>
+                              )}
+                              {p.badge && (
+                                <span className="adm-rug-badge-micro">{p.badge}</span>
+                              )}
+                            </div>
+                            <div className="adm-rug-cell__info">
+                              <span className="adm-rug-cell__title">{p.title || p.name}</span>
+                              <span className="adm-rug-cell__sku">SKU: {p.id.slice(-6).toUpperCase()}</span>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="adm-amount">{prod.sales}</td>
-                      <td className="adm-amount" style={{ fontWeight: 600 }}>{prod.revenue}</td>
-                    </tr>
-                  ))}
+                        </td>
+
+                        <td>
+                          <span className="adm-tag-pill">
+                            {cat?.name || p.category || 'Handcrafted'}
+                          </span>
+                        </td>
+
+                        <td>
+                          <span className="adm-rug-price">
+                            ₹{Number(p.price || 0).toLocaleString('en-IN')}
+                          </span>
+                        </td>
+
+                        <td>
+                          <span className={`adm-stock-pill ${p.inStock ? 'adm-stock-pill--in' : 'adm-stock-pill--out'}`}>
+                            <span className="adm-stock-pill__dot" />
+                            {p.inStock ? 'In Vault' : 'Reserved'}
+                          </span>
+                        </td>
+
+                        <td>
+                          <span className={`adm-status-chip ${p.status === 'published' ? 'adm-status-chip--live' : 'adm-status-chip--draft'}`}>
+                            {p.status === 'published' ? '✦ LIVE' : 'DRAFT'}
+                          </span>
+                        </td>
+
+                        <td>
+                          <span className="adm-date-cell">
+                            {p.createdAt ? new Date(p.createdAt).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' }) : 'Recent'}
+                          </span>
+                        </td>
+
+                        <td style={{ textAlign: 'right' }}>
+                          <div className="adm-row-actions">
+                            <Link
+                              to={`/admin/products/${p.id}/edit`}
+                              className="adm-action-btn adm-action-btn--edit"
+                              title="Edit Rug Specifications"
+                            >
+                              Edit
+                            </Link>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             </div>
-          </div>
+          )}
         </div>
+
+        {/* ══════════════════════════════════════════════════════════
+            5. QUICK ATELIER OPERATIONS RIBBON
+            ══════════════════════════════════════════════════════════ */}
+        <div className="adm-operations-grid">
+          <Link to="/admin/products/new" className="adm-op-card">
+            <div className="adm-op-card__icon">✦</div>
+            <div className="adm-op-card__body">
+              <strong className="adm-op-card__title">Add New Rug Masterpiece</strong>
+              <p className="adm-op-card__sub">Upload 4K imagery, dimension matrices & weaves</p>
+            </div>
+          </Link>
+
+          <Link to="/admin/categories" className="adm-op-card">
+            <div className="adm-op-card__icon">❖</div>
+            <div className="adm-op-card__body">
+              <strong className="adm-op-card__title">Curate Categories</strong>
+              <p className="adm-op-card__sub">Organize Hand Tufted, Shag, Jute & Shapes</p>
+            </div>
+          </Link>
+
+          <Link to="/admin/settings" className="adm-op-card">
+            <div className="adm-op-card__icon">▶</div>
+            <div className="adm-op-card__body">
+              <strong className="adm-op-card__title">Hero Cinematics & Video</strong>
+              <p className="adm-op-card__sub">Manage storefront ambient video & branding</p>
+            </div>
+          </Link>
+
+          <Link to="/admin/customers" className="adm-op-card">
+            <div className="adm-op-card__icon">♕</div>
+            <div className="adm-op-card__body">
+              <strong className="adm-op-card__title">VIP Client Registry</strong>
+              <p className="adm-op-card__sub">Track customer profiles & bespoke inquiries</p>
+            </div>
+          </Link>
+        </div>
+
       </div>
     </AdminLayout>
   );
