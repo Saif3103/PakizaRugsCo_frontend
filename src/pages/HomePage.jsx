@@ -1151,132 +1151,36 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── Instagram Feed & Video Reels ────────────────────── */}
-        <section className="insta-luxury-section">
+        {/* ── Instagram Feed ─────────────────────────────────── */}
+        <section>
           <div className="wrap">
-            {/* Header with Profile Card & Follow CTA */}
-            <div className="insta-header-wrap">
-              <div className="insta-profile-block">
-                <a
-                  href="https://www.instagram.com/pakiza_rugs_co?stkn=MTYzMzZoMjZiOWdwdA=="
-                  target="_blank"
-                  rel="noreferrer"
-                  className="insta-avatar-ring"
-                  title="View Pakiza Rugs Co on Instagram"
-                >
-                  <div className="insta-avatar-inner">
-                    <img src={pakizaRoyalGoldLogo} alt="Pakiza Rugs Co" />
-                  </div>
-                </a>
-                <div className="insta-profile-meta">
-                  <div className="insta-handle-row">
-                    <a
-                      href="https://www.instagram.com/pakiza_rugs_co?stkn=MTYzMzZoMjZiOWdwdA=="
-                      target="_blank"
-                      rel="noreferrer"
-                      className="insta-handle"
-                    >
-                      @pakiza_rugs_co
-                    </a>
-                    <span className="insta-verified-badge" title="Official Artisan Atelier">
-                      <svg viewBox="0 0 24 24" fill="#3897f0" width="16" height="16">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15-5-5 1.41-1.41L11 14.17l7.59-7.59L20 8l-9 9z"/>
-                      </svg>
-                    </span>
-                  </div>
-                  <h2 className="insta-main-heading">
-                    Follow Pakiza Rugs Co on <span className="gold-text">Instagram</span>
-                  </h2>
-                  <p className="insta-subtitle">
-                    Live updates from the master looms of Bhadohi • Watch artisanal rug-making reels, bespoke textures &amp; decor inspiration
-                  </p>
-                </div>
-              </div>
-
-              {/* Follow Button */}
-              <div className="insta-cta-actions">
-                <a
-                  href="https://www.instagram.com/pakiza_rugs_co?stkn=MTYzMzZoMjZiOWdwdA=="
-                  target="_blank"
-                  rel="noreferrer"
-                  className="insta-follow-btn"
-                >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                  </svg>
-                  <span>Follow @pakiza_rugs_co</span>
-                  <span className="insta-arrow">&rarr;</span>
-                </a>
-              </div>
+            <div className="sh">
+              <h2>
+                Follow Pakiza Rugs Co on <span className="gold-text">Instagram</span>
+              </h2>
+              <p>Get inspired by handmade decor.</p>
             </div>
-
-            {/* Instagram Feed Grid (Videos & Posts) */}
-            <div className="insta-modern-grid" id="insta">
+            <div className="insta" id="insta">
               {instagramData.map((item) => (
                 <a
-                  href={item.url || "https://www.instagram.com/pakiza_rugs_co?stkn=MTYzMzZoMjZiOWdwdA=="}
+                  href={item.url || "https://www.instagram.com/pakiza_rugs_co/reel/Dc3FARURs06/"}
                   target="_blank"
                   rel="noreferrer"
                   key={item.id}
-                  className={`insta-tile ${item.type === 'video' ? 'insta-tile--video' : 'insta-tile--photo'}`}
-                  aria-label={item.caption || "Pakiza Instagram post"}
+                  aria-label={item.caption || "Pakiza Instagram inspiration"}
                 >
-                  {/* Media Content: Video or Image */}
                   {item.type === 'video' ? (
-                    <div className="insta-media-container">
-                      <video
-                        src={item.src}
-                        poster={item.poster}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="insta-media-video"
-                      />
-                      {/* Reel Badge */}
-                      <div className="insta-reel-badge">
-                        <svg viewBox="0 0 24 24" fill="currentColor" width="13" height="13">
-                          <polygon points="5 3 19 12 5 21 5 3"/>
-                        </svg>
-                        <span>Reel</span>
-                      </div>
-                    </div>
+                    <video
+                      src={item.src}
+                      poster={item.poster}
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                    />
                   ) : (
-                    <div className="insta-media-container">
-                      <img
-                        src={item.src || item.image}
-                        alt={item.caption || "Pakiza Instagram inspiration"}
-                        className="insta-media-img"
-                        loading="lazy"
-                      />
-                      <div className="insta-photo-badge">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="13" height="13">
-                          <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                          <circle cx="8.5" cy="8.5" r="1.5"/>
-                          <polyline points="21 15 16 10 5 21"/>
-                        </svg>
-                      </div>
-                    </div>
+                    <img src={item.image || item.src} alt={item.caption || "Pakiza Instagram inspiration"} />
                   )}
-
-                  {/* Glassmorphism Hover Overlay */}
-                  <div className="insta-tile-overlay">
-                    <div className="insta-tile-ig-icon">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                      </svg>
-                    </div>
-                    <div className="insta-tile-stats">
-                      <span>❤️ {item.likes}</span>
-                      <span>💬 {item.comments}</span>
-                    </div>
-                    {item.caption && (
-                      <p className="insta-tile-caption">{item.caption}</p>
-                    )}
-                    <span className="insta-tile-view-btn">
-                      {item.type === 'video' ? 'Watch Reel' : 'View Post'} &rarr;
-                    </span>
-                  </div>
                 </a>
               ))}
             </div>
