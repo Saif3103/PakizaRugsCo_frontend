@@ -21,6 +21,7 @@ import AdminCategories from './pages/admin/AdminCategories';
 import AdminOrders from './pages/admin/AdminOrders';
 import AdminCustomers from './pages/admin/AdminCustomers';
 import AdminSettings from './pages/admin/AdminSettings';
+import AiRugDesignerPage from './pages/AiRugDesignerPage';
 
 // Protected admin route
 function AdminRoute({ children }) {
@@ -51,6 +52,10 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/account" element={<AccountPage />} />
+            <Route path="/ai-designer" element={<AiRugDesignerPage />} />
+            <Route path="/custom-studio" element={<AiRugDesignerPage />} />
+            <Route path="/bespoke" element={<AiRugDesignerPage />} />
+            <Route path="/bespoke-designer" element={<AiRugDesignerPage />} />
             <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
             <Route path="/admin/products" element={<AdminRoute><AdminProducts /></AdminRoute>} />
             <Route path="/admin/products/new" element={<AdminRoute><AdminAddProduct /></AdminRoute>} />

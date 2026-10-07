@@ -5,6 +5,7 @@ import logoImg from '../assets/logo.png';
 
 const navLinks = [
   { label: 'Collections', href: '#collections' },
+  { label: '✦ AI Rug Designer', href: '/ai-designer', isRoute: true },
   { label: 'Heritage', href: '#heritage' },
   { label: 'Testimonials', href: '#testimonials' },
   { label: 'Contact', href: '#contact' },
@@ -51,7 +52,13 @@ export default function Navbar() {
         <ul className="sq-nav__links" role="navigation" aria-label="Main navigation">
           {navLinks.map((l) => (
             <li key={l.label}>
-              <a href={l.href} className="sq-nav__link">{l.label}</a>
+              {l.isRoute ? (
+                <Link to={l.href} className="sq-nav__link" style={{ color: '#0c3b2e', fontWeight: 700 }}>
+                  {l.label}
+                </Link>
+              ) : (
+                <a href={l.href} className="sq-nav__link">{l.label}</a>
+              )}
             </li>
           ))}
         </ul>
@@ -166,6 +173,12 @@ export default function Navbar() {
               <span>Home</span>
               <span className="arrow">→</span>
             </a>
+          </li>
+          <li>
+            <Link to="/ai-designer" className="sq-nav__drawer-link" onClick={() => setMenuOpen(false)}>
+              <span style={{ color: '#0c3b2e', fontWeight: 700 }}>✦ AI Rug Designer</span>
+              <span className="arrow">→</span>
+            </Link>
           </li>
           <li>
             <a href="#collections" className="sq-nav__drawer-link" onClick={() => setMenuOpen(false)}>

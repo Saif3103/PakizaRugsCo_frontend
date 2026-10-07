@@ -440,6 +440,11 @@ export default function HomePage() {
                   </Link>
                 </div>
               </li>
+              <li>
+                <Link to="/ai-designer" style={{ color: '#0c3b2e', fontWeight: '700', display: 'inline-flex', alignItems: 'center', gap: '4px' }}>
+                  <span>✦ AI Rug Designer</span>
+                </Link>
+              </li>
               <li><a href="#custom">Customization</a></li>
               <li><a href="#founder-story">About Us</a></li>
               <li><a href="#rev">Customer Reviews</a></li>
@@ -463,6 +468,12 @@ export default function HomePage() {
         </div>
         <ul className="mobile-side-menu-list">
           <li><a href="#" onClick={() => setIsMobileMenuOpen(false)}><span>Home</span><span className="arrow">→</span></a></li>
+          <li>
+            <Link to="/ai-designer" onClick={() => setIsMobileMenuOpen(false)}>
+              <span style={{ color: '#0c3b2e', fontWeight: '700' }}>✦ AI Rug Designer</span>
+              <span className="arrow">→</span>
+            </Link>
+          </li>
           <li><a href="#cats" onClick={() => setIsMobileMenuOpen(false)}><span>Shop Collections</span><span className="arrow">→</span></a></li>
           <li><a href="#cats" onClick={() => setIsMobileMenuOpen(false)}><span>Shop by Category</span><span className="arrow">→</span></a></li>
           <li><a href="#new" onClick={() => setIsMobileMenuOpen(false)}><span>New Arrivals</span><span className="arrow">→</span></a></li>
@@ -1061,14 +1072,22 @@ export default function HomePage() {
                 </div>
               </div>
 
-              <div className="custom-cta">
+              <div className="custom-cta" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                <Link
+                  className="btn custom-btn"
+                  to="/ai-designer"
+                  style={{ background: '#0c3b2e', color: '#ffffff', borderColor: '#08281f', textDecoration: 'none' }}
+                >
+                  ✦ Launch AI Rug Designer →
+                </Link>
                 <a
                   className="btn custom-btn"
                   href="https://wa.me/917007626680?text=Hello%20Pakiza%20Rugs,%20I%20would%20like%20to%20customize%20a%20rug%20design."
                   target="_blank"
                   rel="noreferrer"
+                  style={{ background: 'transparent', color: '#1d2420', borderColor: '#d3c9ba' }}
                 >
-                  Start Custom Order on WhatsApp →
+                  WhatsApp Atelier Inquiries
                 </a>
               </div>
             </div>
