@@ -10,12 +10,14 @@ import './productDetail.css';
 
 // Dimension size multiplier and options
 const SIZE_OPTIONS = [
-  { label: '3 x 5 ft', dims: '3x5 ft', multiplier: 1.0, fixedPrice: 9999, fixedMrp: 19999 },
-  { label: '4 x 6 ft', dims: '4x6 ft', multiplier: 1.6, fixedPrice: 15999, fixedMrp: 29999 },
-  { label: '5 x 8 ft', dims: '5x8 ft', multiplier: 2.5, fixedPrice: 24999, fixedMrp: 45999 },
-  { label: '6 x 9 ft', dims: '6x9 ft', multiplier: 3.4, fixedPrice: 33999, fixedMrp: 59999 },
-  { label: '8 x 10 ft', dims: '8x10 ft', multiplier: 5.0, fixedPrice: 49999, fixedMrp: 89999 },
-  { label: '9 x 12 ft', dims: '9x12 ft', multiplier: 7.0, fixedPrice: 69999, fixedMrp: 119999 },
+  { label: '4x6 Feet', dims: '4x6 ft', multiplier: 1.0, fixedPrice: 4799, fixedMrp: 9600 },
+  { label: '5x7 Feet', dims: '5x7 ft', multiplier: 1.35, fixedPrice: 6499, fixedMrp: 12999 },
+  { label: '5x8 Feet', dims: '5x8 ft', multiplier: 1.65, fixedPrice: 7999, fixedMrp: 15999 },
+  { label: '6x8 Feet', dims: '6x8 ft', multiplier: 2.0, fixedPrice: 9999, fixedMrp: 19999 },
+  { label: '6x9 Feet', dims: '6x9 ft', multiplier: 2.4, fixedPrice: 11999, fixedMrp: 23999 },
+  { label: '7x10 Feet', dims: '7x10 ft', multiplier: 3.1, fixedPrice: 15499, fixedMrp: 30999 },
+  { label: '8x11 Feet', dims: '8x11 ft', multiplier: 4.0, fixedPrice: 19999, fixedMrp: 39999 },
+  { label: '9x12 Feet', dims: '9x12 ft', multiplier: 5.2, fixedPrice: 24999, fixedMrp: 49999 },
 ];
 
 const COLOR_VARIANTS = [
@@ -206,10 +208,9 @@ export default function ProductDetailPage() {
 
   // Accordion state
   const [openAccordions, setOpenAccordions] = useState({
-    desc: true,
-    specs: true,
-    care: false,
-    shipping: false
+    desc: false,
+    shipping: false,
+    discount: false
   });
 
   // Footer Accordion state
@@ -688,121 +689,140 @@ export default function ProductDetailPage() {
 
               {/* ── RIGHT COLUMN: Product Information & Purchase Form ── */}
               <div className="pdp-info-col">
-                <div className="pdp-vendor">Pakiza Rugs &amp; Co. Atelier</div>
-                <h1 className="pdp-title">{product.title || product.name}</h1>
-
-                {/* Rating & Live View urgency */}
-                <div className="pdp-rating-row">
-                  <span className="pdp-stars">★★★★★</span>
-                  <span className="pdp-rating-count">5.0 (34 Customer Reviews)</span>
-                  <span className="pdp-live-views">
-                    🔥 4 people are viewing this rug now
+                {/* Top Badges Row */}
+                <div className="pdp-top-badges-row">
+                  <span className="pdp-discount-pill-red">
+                    -{discountPercent || 50}%
+                  </span>
+                  <span className="pdp-made-in-india-pill">
+                    <span className="pdp-flag-icon">🇮🇳</span> Proudly made in India
                   </span>
                 </div>
 
-                {/* Price Display Card */}
-                {/* Price Display Card */}
-                <div className="pdp-price-box">
-                  <div className="pdp-price-row">
-                    <span className="pdp-price">Rs. {calculatedPrice.toLocaleString('en-IN')}.00</span>
-                    {calculatedMrp > calculatedPrice && (
-                      <>
-                        <span className="pdp-mrp">Rs. {calculatedMrp.toLocaleString('en-IN')}.00</span>
-                        <span className="pdp-save-badge">
-                          Save Rs. {savingsAmount.toLocaleString('en-IN')} ({discountPercent}% OFF)
-                        </span>
-                      </>
-                    )}
+                {/* Category Subtitle */}
+                <div className="pdp-category-subtitle">
+                  {product.category ? `${product.category.charAt(0).toUpperCase() + product.category.slice(1)} Room` : 'Rug Room'}
+                </div>
+
+                {/* Main Product Title */}
+                <h1 className="pdp-title">{product.title || product.name}</h1>
+
+                {/* Rating & Reviews */}
+                <div className="pdp-rating-row">
+                  <span className="pdp-stars">★★★★★</span>
+                  <a href="#customer-reviews" className="pdp-rating-count">2 reviews</a>
+                </div>
+
+                {/* Price Display */}
+                <div className="pdp-price-row-new">
+                  <span className="pdp-price-current">Rs. {calculatedPrice.toLocaleString('en-IN')}.00</span>
+                  {calculatedMrp > calculatedPrice && (
+                    <span className="pdp-price-mrp">Rs. {calculatedMrp.toLocaleString('en-IN')}.00</span>
+                  )}
+                </div>
+
+                {/* Warranty & Free Shipping Card */}
+                <div className="pdp-warranty-shipping-card">
+                  <div className="pdp-warranty-item">
+                    <svg className="pdp-warranty-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                      <path d="m9 12 2 2 4-4"/>
+                    </svg>
+                    <span>1-Year <strong>Craftsmanship</strong> Warranty</span>
                   </div>
-                  <div className="pdp-tax-note">
-                    Inclusive of all taxes &amp; Free Insured Delivery across India.
+                  <div className="pdp-warranty-item">
+                    <svg className="pdp-warranty-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                      <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                      <line x1="12" y1="22.08" x2="12" y2="12"/>
+                    </svg>
+                    <span>Free shipping : <strong>On all orders.</strong></span>
                   </div>
                 </div>
 
-                {/* Live Stock Urgency */}
-                <div className="pdp-stock-status">
-                  <span className="pdp-pulse-dot" />
-                  <span>In Stock — Handcrafted and ready to dispatch within 2-3 business days</span>
+                {/* Additional Offer Card */}
+                <div className="pdp-additional-offer-wrapper">
+                  <div className="pdp-additional-offer-badge">Additional Offer</div>
+                  <div className="pdp-additional-offer-card">
+                    <div className="pdp-offer-line">
+                      <span className="pdp-offer-check">✓</span>
+                      <span>10% Off on Prepaid Order (No Coupon Required)</span>
+                    </div>
+                    <div className="pdp-offer-divider" />
+                    <div className="pdp-offer-line">
+                      <span className="pdp-offer-check">✓</span>
+                      <span>No Cost EMI Options Available.</span>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Option 1: Sizes Pills */}
+                {/* Live Viewing Urgency */}
+                <div className="pdp-live-views-black-box">
+                  <span className="pdp-eye-icon-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                      <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                  </span>
+                  <span>15 peoples are viewing this right now</span>
+                </div>
+
+                {/* Option 1: Sizes Grid 3-Columns */}
                 <div className="pdp-option-group">
                   <div className="pdp-option-header">
-                    <span className="pdp-option-label">Select Rug Dimensions:</span>
-                    <button
-                      type="button"
-                      className="pdp-size-guide-btn"
-                      onClick={() => setShowSizeGuide(true)}
-                    >
-                      📐 View Rug Size Guide
-                    </button>
+                    <span className="pdp-option-label">Size: <strong>{selectedSize.label}</strong></span>
                   </div>
-                  <div className="pdp-size-pills">
-                    {SIZE_OPTIONS.map((opt) => {
-                      const itemPrice = product?.id === 'prod-driftic-beige'
-                        ? opt.fixedPrice
-                        : Math.round(basePrice * opt.multiplier);
-                      return (
-                        <button
-                          key={opt.dims}
-                          type="button"
-                          className={`pdp-size-pill ${selectedSize.dims === opt.dims ? 'pdp-size-pill--active' : ''}`}
-                          onClick={() => setSelectedSize(opt)}
-                        >
-                          <span>{opt.label}</span>
-                          <span className="pdp-size-subprice">
-                            Rs. {itemPrice.toLocaleString('en-IN')}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Option 2: Color Variant Swatches */}
-                <div className="pdp-option-group">
-                  <div className="pdp-option-header">
-                    <span className="pdp-option-label">Colorway: <strong>{selectedColor.name}</strong></span>
-                  </div>
-                  <div className="pdp-color-swatches">
-                    {COLOR_VARIANTS.map((c) => (
+                  <div className="pdp-size-grid-3col">
+                    {SIZE_OPTIONS.map((opt) => (
                       <button
-                        key={c.name}
+                        key={opt.dims}
                         type="button"
-                        className={`pdp-color-swatch-btn ${selectedColor.name === c.name ? 'pdp-color-swatch-btn--active' : ''}`}
-                        onClick={() => setSelectedColor(c)}
+                        className={`pdp-size-grid-btn ${selectedSize.dims === opt.dims ? 'pdp-size-grid-btn--active' : ''}`}
+                        onClick={() => setSelectedSize(opt)}
                       >
-                        <span className="pdp-swatch-circle" style={{ backgroundColor: c.hex }} />
-                        <span>{c.name}</span>
+                        {opt.label}
                       </button>
                     ))}
                   </div>
                 </div>
 
-                {/* Option 3: Shape Selector */}
-                <div className="pdp-option-group">
-                  <div className="pdp-option-header">
-                    <span className="pdp-option-label">Rug Shape:</span>
-                  </div>
-                  <div className="pdp-size-pills">
-                    {['Irregular', 'Rectangle', 'Round', 'Runner'].map((sh) => (
-                      <button
-                        key={sh}
-                        type="button"
-                        className={`pdp-size-pill ${selectedShape === sh ? 'pdp-size-pill--active' : ''}`}
-                        onClick={() => setSelectedShape(sh)}
-                        style={{ padding: '8px 22px' }}
-                      >
-                        <span>{sh}</span>
-                      </button>
-                    ))}
+                {/* Share Link */}
+                <div className="pdp-share-row">
+                  <button
+                    type="button"
+                    className="pdp-share-link-btn"
+                    onClick={() => {
+                      if (navigator.share) {
+                        navigator.share({ title: product.title, url: window.location.href });
+                      } else {
+                        navigator.clipboard.writeText(window.location.href);
+                        toast('Link copied to clipboard!', 'info');
+                      }
+                    }}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                    </svg>
+                    <span>Share</span>
+                  </button>
+                </div>
+
+                {/* Stock Scarcity Bar */}
+                <div className="pdp-scarcity-box">
+                  <p className="pdp-scarcity-text">
+                    Hurry up! Only <u>21 item(s)</u> items left in stock
+                  </p>
+                  <div className="pdp-scarcity-bar-track">
+                    <div className="pdp-scarcity-bar-fill" />
                   </div>
                 </div>
 
-                {/* Quantity & Add to Cart + WhatsApp Buy */}
-                <div className="pdp-action-area">
-                  <div className="pdp-qty-and-cart">
-                    <div className="pdp-qty-box">
+                {/* Quantity & Add to Cart Row + Buy It Now */}
+                <div className="pdp-purchase-actions-new">
+                  <div className="pdp-qty-add-row">
+                    <div className="pdp-qty-pill">
                       <button
                         type="button"
                         className="pdp-qty-btn"
@@ -824,114 +844,31 @@ export default function ProductDetailPage() {
 
                     <button
                       type="button"
-                      className="pdp-btn-add-cart"
+                      className="pdp-btn-add-cart-gold"
                       onClick={handleAddToCart}
                     >
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-                        <line x1="3" y1="6" x2="21" y2="6" />
-                        <path d="M16 10a4 4 0 01-8 0" />
-                      </svg>
-                      ✦ Add to Cart
-                    </button>
-
-                    <button
-                      type="button"
-                      className="pdp-btn-buy-now"
-                      onClick={handleBuyNow}
-                    >
-                      ⚡ Buy It Now
+                      Add to Cart
                     </button>
                   </div>
 
-                  {/* WhatsApp Instant Checkout */}
                   <button
                     type="button"
-                    className="pdp-btn-whatsapp-buy"
-                    onClick={handleWhatsAppBuy}
+                    className="pdp-btn-buy-it-now-green"
+                    onClick={handleBuyNow}
                   >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.77 14.16c-.24.68-1.2 1.25-1.68 1.3-.47.05-1.07.07-3.46-.92-2.88-1.19-4.73-4.14-4.87-4.33-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.09.99-2.37.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.42-.07.66.5.24.58.82 2.01.9 2.16.07.15.12.33.02.53-.1.2-.15.33-.3.5-.15.18-.32.4-.46.54-.15.15-.31.31-.13.62.18.31.79 1.3 1.7 2.11 1.17 1.04 2.15 1.36 2.46 1.51.31.15.49.13.67-.08.18-.21.78-.91.99-1.22.21-.31.42-.26.71-.15.29.11 1.84.87 2.16 1.03.32.16.53.24.61.37.08.13.08.77-.16 1.45z" />
-                    </svg>
-                    ⚡ Buy with WhatsApp / Instant Checkout
+                    Buy it now
                   </button>
-
-                  {/* Sub Actions: Wishlist & Share */}
-                  <div className="pdp-sub-actions">
-                    <button
-                      type="button"
-                      className="pdp-sub-btn"
-                      onClick={() => {
-                        setIsWishlisted(!isWishlisted);
-                        toast(isWishlisted ? 'Removed from Wishlist' : '✦ Added to Your Luxury Wishlist', 'success');
-                      }}
-                    >
-                      <span style={{ color: isWishlisted ? '#dc2626' : 'inherit' }}>
-                        {isWishlisted ? '♥ Saved in Wishlist' : '♡ Add to Wishlist'}
-                      </span>
-                    </button>
-
-                    <button
-                      type="button"
-                      className="pdp-sub-btn"
-                      onClick={() => {
-                        if (navigator.share) {
-                          navigator.share({ title: product.title, url: window.location.href });
-                        } else {
-                          navigator.clipboard.writeText(window.location.href);
-                          toast('Link copied to clipboard!', 'info');
-                        }
-                      }}
-                    >
-                      <span>🔗 Share This Rug</span>
-                    </button>
-                  </div>
                 </div>
 
-                {/* Trust Badges Grid */}
-                <div className="pdp-trust-grid">
-                  <div className="pdp-trust-item">
-                    <div className="pdp-trust-icon">🚚</div>
-                    <div className="pdp-trust-text">
-                      <strong>Free Doorstep Delivery</strong>
-                      <span>Insured shipping pan-India</span>
-                    </div>
-                  </div>
-
-                  <div className="pdp-trust-item">
-                    <div className="pdp-trust-icon">🧶</div>
-                    <div className="pdp-trust-text">
-                      <strong>Pure NZ Wool &amp; Silk</strong>
-                      <span>High-density plush pile</span>
-                    </div>
-                  </div>
-
-                  <div className="pdp-trust-item">
-                    <div className="pdp-trust-icon">✋</div>
-                    <div className="pdp-trust-text">
-                      <strong>100% Handcrafted</strong>
-                      <span>By master Bhadohi weavers</span>
-                    </div>
-                  </div>
-
-                  <div className="pdp-trust-item">
-                    <div className="pdp-trust-icon">🔄</div>
-                    <div className="pdp-trust-text">
-                      <strong>7-Day Easy Exchange</strong>
-                      <span>Hassle-free guarantee</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Accordion Tabs */}
+                {/* Accordions */}
                 <div className="pdp-accordions">
-                  {/* 1. Description & Craft Story */}
+                  {/* 1. Description */}
                   <div className="pdp-acc-item">
                     <button
                       className="pdp-acc-header"
                       onClick={() => toggleAccordion('desc')}
                     >
-                      <span className="pdp-acc-title">Product Details &amp; Craft Story</span>
+                      <span className="pdp-acc-title-simple">Description</span>
                       <span className="pdp-acc-icon">{openAccordions.desc ? '−' : '+'}</span>
                     </button>
                     {openAccordions.desc && (() => {
@@ -971,85 +908,13 @@ export default function ProductDetailPage() {
                     })()}
                   </div>
 
-                  {/* 2. Specifications */}
-                  <div className="pdp-acc-item">
-                    <button
-                      className="pdp-acc-header"
-                      onClick={() => toggleAccordion('specs')}
-                    >
-                      <span className="pdp-acc-title">Specifications &amp; Craft Details</span>
-                      <span className="pdp-acc-icon">{openAccordions.specs ? '−' : '+'}</span>
-                    </button>
-                    {openAccordions.specs && (
-                      <div className="pdp-acc-body">
-                        <table className="pdp-spec-table">
-                          <tbody>
-                            <tr>
-                              <td>Craft / Weave</td>
-                              <td>100% Hand-Tufted on Traditional Vertical Looms</td>
-                            </tr>
-                            <tr>
-                              <td>Material Composition</td>
-                              <td>
-                                {product.material && product.material.length > 8 && !product.material.toLowerCase().startsWith('wool')
-                                  ? product.material
-                                  : '100% Pure New Zealand Wool with Bamboo Silk highlights'}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Pile Height</td>
-                              <td>14mm Sculpted High-Low Plush Pile</td>
-                            </tr>
-                            <tr>
-                              <td>Backing</td>
-                              <td>100% Natural Cotton Canvas Backing with Odorless Natural Latex</td>
-                            </tr>
-                            <tr>
-                              <td>Origin</td>
-                              <td>Bhadohi, Uttar Pradesh, India (Carpet Capital)</td>
-                            </tr>
-                            <tr>
-                              <td>Quality Grade</td>
-                              <td>Export-Grade Tier 1 Luxury Finish</td>
-                            </tr>
-                            <tr>
-                              <td>SKU</td>
-                              <td>{product.sku || 'PAK-LUX-01'}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* 3. Care Instructions */}
-                  <div className="pdp-acc-item">
-                    <button
-                      className="pdp-acc-header"
-                      onClick={() => toggleAccordion('care')}
-                    >
-                      <span className="pdp-acc-title">Care &amp; Maintenance</span>
-                      <span className="pdp-acc-icon">{openAccordions.care ? '−' : '+'}</span>
-                    </button>
-                    {openAccordions.care && (
-                      <div className="pdp-acc-body">
-                        <ul style={{ paddingLeft: '20px', margin: 0 }}>
-                          <li style={{ marginBottom: '8px' }}>Vacuum regularly in the direction of the pile using a brushless suction attachment.</li>
-                          <li style={{ marginBottom: '8px' }}>Blot spills immediately with a clean, un-dyed damp cloth. Avoid vigorous rubbing.</li>
-                          <li style={{ marginBottom: '8px' }}>Professional rug cleaning is recommended every 12–18 months for best longevity.</li>
-                          <li>Rotate your carpet every 6 months to ensure even wear and light exposure.</li>
-                        </ul>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* 4. Shipping & Returns */}
+                  {/* 2. Shipping and Returns */}
                   <div className="pdp-acc-item">
                     <button
                       className="pdp-acc-header"
                       onClick={() => toggleAccordion('shipping')}
                     >
-                      <span className="pdp-acc-title">Shipping &amp; Returns Policy</span>
+                      <span className="pdp-acc-title-simple">Shipping and Returns</span>
                       <span className="pdp-acc-icon">{openAccordions.shipping ? '−' : '+'}</span>
                     </button>
                     {openAccordions.shipping && (
@@ -1057,9 +922,29 @@ export default function ProductDetailPage() {
                         <p style={{ margin: '0 0 10px', lineHeight: '1.7' }}>
                           We offer complimentary insured doorstep shipping for all rug orders across India. Ready stock dispatches within 2-3 business days. Custom bespoke orders take approximately 14-21 days to hand weave and finish.
                         </p>
-                        <p style={{ margin: 0, lineHeight: '1.7', color: '#8c6738', fontWeight: 600 }}>
+                        <p style={{ margin: 0, lineHeight: '1.7', color: '#2e4f38', fontWeight: 600 }}>
                           ✓ 7-Day Hassle-Free Exchange Guarantee on all standard sizes.
                         </p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* 3. How to Claim Your Discount */}
+                  <div className="pdp-acc-item">
+                    <button
+                      className="pdp-acc-header"
+                      onClick={() => toggleAccordion('discount')}
+                    >
+                      <span className="pdp-acc-title-simple">How to Claim Your Discount</span>
+                      <span className="pdp-acc-icon">{openAccordions.discount ? '−' : '+'}</span>
+                    </button>
+                    {openAccordions.discount && (
+                      <div className="pdp-acc-body">
+                        <ul style={{ paddingLeft: '20px', margin: 0 }}>
+                          <li style={{ marginBottom: '8px' }}><strong>Prepaid Orders:</strong> Extra 10% discount is automatically applied at the payment step. No coupon code needed!</li>
+                          <li style={{ marginBottom: '8px' }}><strong>EMI Options:</strong> Choose No-Cost EMI during checkout on eligible debit and credit cards.</li>
+                          <li><strong>VIP Welcome:</strong> Use code <code>PAKIZA10</code> for an instant introductory gift voucher on your first atelier order.</li>
+                        </ul>
                       </div>
                     )}
                   </div>
