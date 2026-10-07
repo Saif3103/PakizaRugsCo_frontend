@@ -653,21 +653,13 @@ export default function ProductDetailPage() {
 
 
 
-                {/* Bhadohi Master Atelier Guarantee Box */}
-                <div className="pdp-atelier-seal-card">
-                  <div className="pdp-atelier-seal-header">
-                    <span className="pdp-atelier-seal-icon">🏆</span>
-                    <div>
-                      <h4>Pakiza Atelier Certified Heritage</h4>
-                      <p>Direct from the Master Looms of Bhadohi, Uttar Pradesh</p>
-                    </div>
-                  </div>
-                  <ul className="pdp-atelier-seal-list">
-                    <li>✓ 100% Pure New Zealand Wool &amp; Bamboo Silk Blend</li>
-                    <li>✓ Hand-Knotted &amp; Sculpted by Master Weavers</li>
-                    <li>✓ Hypoallergenic &amp; Naturally Stain-Resistant</li>
-                    <li>✓ Insured Pan-India Doorstep Dispatch</li>
-                  </ul>
+                {/* Pakiza Atelier Certified Heritage Banner */}
+                <div className="pdp-atelier-banner-wrap">
+                  <img
+                    src="/rugs/pakiza-atelier-certified-heritage.png"
+                    alt="Pakiza Atelier Certified Heritage — Direct from the Master Looms of Bhadohi, Uttar Pradesh"
+                    className="pdp-atelier-banner-img"
+                  />
                 </div>
               </div>
 
