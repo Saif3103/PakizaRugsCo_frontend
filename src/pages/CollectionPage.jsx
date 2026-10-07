@@ -1056,7 +1056,7 @@ export default function CollectionPage() {
                   </svg>
                 </a>
                 {/* Instagram */}
-                <a href="https://instagram.com" target="_blank" rel="noreferrer" className="footer-social-btn" aria-label="Instagram">
+                <a href="https://www.instagram.com/pakiza_rugs_co?stkn=MTYzMzZoMjZiOWdwdA==" target="_blank" rel="noreferrer" className="footer-social-btn" aria-label="Instagram">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <rect x="2" y="2" width="20" height="20" rx="5" />
                     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />

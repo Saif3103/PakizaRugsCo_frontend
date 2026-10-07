@@ -274,10 +274,66 @@ export const reviewsData = [
 ];
 
 export const instagramData = [
-  { id: 1, image: '/rugs/rug-6.jpeg' },
-  { id: 2, image: '/rugs/rug-7.jpeg' },
-  { id: 3, image: '/rugs/rug-8.jpeg' },
-  { id: 4, image: '/rugs/rug-9.jpeg' },
-  { id: 5, image: '/rugs/rug-10.jpeg' },
-  { id: 6, image: '/rugs/rug-11.jpeg' }
+  {
+    id: 1,
+    type: 'video',
+    src: '/hero-artisan.mp4',
+    poster: '/hero-artisan-poster.jpg',
+    likes: '18.4K',
+    comments: '248',
+    isReel: true,
+    caption: 'Master loom hand-tufting & sculpting at our Bhadohi atelier 🧶',
+    url: 'https://www.instagram.com/pakiza_rugs_co?stkn=MTYzMzZoMjZiOWdwdA=='
+  },
+  {
+    id: 2,
+    type: 'image',
+    src: '/rugs/cat-tufted.jpg',
+    likes: '2,420',
+    comments: '94',
+    isReel: false,
+    caption: 'Sculpted Organic Wave Carpet in warm ambient sunlight ✨',
+    url: 'https://www.instagram.com/pakiza_rugs_co?stkn=MTYzMzZoMjZiOWdwdA=='
+  },
+  {
+    id: 3,
+    type: 'image',
+    src: '/rugs/cat-irregular.jpg',
+    likes: '3,890',
+    comments: '162',
+    isReel: false,
+    caption: 'Curved contour statement rug for modern architecture 🌿',
+    url: 'https://www.instagram.com/pakiza_rugs_co?stkn=MTYzMzZoMjZiOWdwdA=='
+  },
+  {
+    id: 4,
+    type: 'video',
+    src: '/hero.mp4',
+    poster: '/rugs/bought-1.jpg',
+    likes: '24.1K',
+    comments: '312',
+    isReel: true,
+    caption: 'From raw New Zealand fleece to luxury living room floor 🏛️',
+    url: 'https://www.instagram.com/pakiza_rugs_co?stkn=MTYzMzZoMjZiOWdwdA=='
+  },
+  {
+    id: 5,
+    type: 'image',
+    src: '/rugs/why-wool.jpg',
+    likes: '1,980',
+    comments: '78',
+    isReel: false,
+    caption: '100% Pure New Zealand Wool & Bamboo Silk underfoot luxury 🔍',
+    url: 'https://www.instagram.com/pakiza_rugs_co?stkn=MTYzMzZoMjZiOWdwdA=='
+  },
+  {
+    id: 6,
+    type: 'image',
+    src: '/rugs/why-handmade.jpg',
+    likes: '4,150',
+    comments: '280',
+    isReel: false,
+    caption: 'Preserving 400-year-old weaving legacy in every knot 👑',
+    url: 'https://www.instagram.com/pakiza_rugs_co?stkn=MTYzMzZoMjZiOWdwdA=='
+  }
 ];

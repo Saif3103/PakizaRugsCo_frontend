@@ -51,12 +51,12 @@ export default function Footer() {
             </p>
             <div className="sq-footer__socials">
               {[
-                { label: 'IG', name: 'Instagram', href: '#' },
+                { label: 'IG', name: 'Instagram', href: 'https://www.instagram.com/pakiza_rugs_co?stkn=MTYzMzZoMjZiOWdwdA==' },
                 { label: 'FB', name: 'Facebook', href: '#' },
                 { label: 'PT', name: 'Pinterest', href: '#' },
-                { label: 'WA', name: 'WhatsApp', href: '#' },
+                { label: 'WA', name: 'WhatsApp', href: 'https://wa.me/917007626680' },
               ].map((s) => (
-                <a key={s.name} href={s.href} className="sq-footer__social" aria-label={s.name}>{s.label}</a>
+                <a key={s.name} href={s.href} target="_blank" rel="noreferrer" className="sq-footer__social" aria-label={s.name}>{s.label}</a>
               ))}
             </div>
           </div>
