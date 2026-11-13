@@ -2,6 +2,8 @@ import { useState, useMemo, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import pakizaRoyalGoldLogo from '../assets/pakiza-royal-gold-logo.png';
 import { toast } from '../utils/toast';
+import { getWhatsAppNumber } from '../utils/whatsappOrder';
+import WhatsAppOrderModal from '../components/WhatsAppOrderModal';
 import './checkout.css';
 
 const INDIAN_STATES = [
@@ -70,6 +72,7 @@ export default function CheckoutPage() {
   // Order Placement Modal
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
+  const [isWaModalOpen, setIsWaModalOpen] = useState(false);
 
   // Calculate Subtotal & Totals
   const subtotal = useMemo(() => {
@@ -146,12 +149,20 @@ export default function CheckoutPage() {
 
     setOrderPlaced(true);
     toast(`🎉 Order ${newOrderNum} placed successfully!`, 'success');
+
+    // If WhatsApp payment selected, directly open WhatsApp with order details
+    if (paymentMethod === 'whatsapp') {
+      const waUrl = getWhatsAppOrderLink(newOrderNum);
+      window.open(waUrl, '_blank');
+    }
   };
 
-  const getWhatsAppOrderLink = () => {
-    const itemsText = items.map(i => `• ${i.name || i.title} (Qty: ${i.qty || 1}) - Rs. ${(Number(i.price) * (i.qty || 1)).toLocaleString('en-IN')}`).join('\n');
-    const msg = `🌟 *PAKIZA RUGS CO. — NEW ORDER CONFIRMATION*\n\n• *Order #:* ${orderNumber}\n• *Customer:* ${firstName} ${lastName}\n• *Contact:* ${contact} | ${phone}\n• *Address:* ${address}, ${city}, ${state} - ${pinCode}\n\n*Ordered Rugs:*\n${itemsText}\n\n• *Total Amount:* Rs. ${total.toLocaleString('en-IN')}.00\n• *Payment Option:* ${paymentMethod.toUpperCase()}\n\nPlease verify shipment & dispatch schedule. Thank you!`;
-    return `https://wa.me/917007626680?text=${encodeURIComponent(msg)}`;
+  const getWhatsAppOrderLink = (overrideNum) => {
+    const num = overrideNum || orderNumber || `PAK-${Math.floor(100000 + Math.random() * 900000)}`;
+    const itemsText = items.map((i, idx) => `${idx + 1}. *${i.name || i.title}*\n   • Size: ${i.size || 'Standard'} | Color: ${i.color || 'Custom'}\n   • Qty: ${i.qty || 1} | Price: Rs. ${(Number(i.price) * (i.qty || 1)).toLocaleString('en-IN')}`).join('\n\n');
+    const msg = `🌟 *PAKIZA RUGS CO. — NEW ATELIER ORDER* 🌟\n━━━━━━━━━━━━━━━━━━━━━\n🏷️ *Order ID:* #${num}\n📅 *Date:* ${new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}\n\n👤 *CUSTOMER DETAILS:*\n• *Name:* ${firstName} ${lastName}\n• *Phone / WA:* ${phone || contact}\n• *Email:* ${contact}\n• *Delivery Address:* ${address}, ${apartment ? apartment + ', ' : ''}${city}, ${state} - ${pinCode}\n\n🧶 *ORDERED RUG(S):*\n${itemsText}\n\n━━━━━━━━━━━━━━━━━━━━━\n💰 *Total Amount:* Rs. ${total.toLocaleString('en-IN')}.00\n🚚 *Shipping:* Complimentary Express Insured Delivery\n💳 *Payment Method:* ${paymentMethod === 'whatsapp' ? 'Direct WhatsApp Atelier Invoice / COD' : paymentMethod.toUpperCase()}\n\nPlease confirm loom weaving progress, invoice, and dispatch schedule. Thank you!`;
+    const targetNumber = getWhatsAppNumber();
+    return `https://wa.me/${targetNumber}?text=${encodeURIComponent(msg)}`;
   };
 
   return (
@@ -181,6 +192,14 @@ export default function CheckoutPage() {
           <div className="chk-express-box">
             <div className="chk-express-title">Express Checkout</div>
             <div className="chk-express-btns">
+              <button
+                type="button"
+                className="chk-exp-btn"
+                style={{ background: '#25d366', color: '#fff', border: 'none', fontWeight: 700 }}
+                onClick={() => setIsWaModalOpen(true)}
+              >
+                💬 WhatsApp Fast Order
+              </button>
               <button
                 type="button"
                 className="chk-exp-btn chk-exp-btn--gpay"
@@ -456,6 +475,12 @@ export default function CheckoutPage() {
                   Instant
                 </span>
               </div>
+
+              {paymentMethod === 'whatsapp' && (
+                <div className="chk-payment-subbox" style={{ background: '#f0fdf4', borderTop: '1px solid #bbf7d0', color: '#166534', fontSize: '13.5px', lineHeight: '1.5' }}>
+                  💬 <strong>Instant WhatsApp Dispatch:</strong> When you click below, your complete shipping address and ordered rugs will open directly in WhatsApp with our master atelier in Bhadohi. We will verify loom dimensions and dispatch directly!
+                </div>
+              )}
             </div>
 
             {/* 5. Action Buttons */}
@@ -463,8 +488,16 @@ export default function CheckoutPage() {
               <Link to="/cart" className="chk-back-link">
                 ‹ Return to cart
               </Link>
-              <button type="submit" className="chk-submit-btn">
-                {paymentMethod === 'razorpay' ? `Pay Now (Rs. ${total.toLocaleString('en-IN')})` : 'Complete Order'}
+              <button
+                type="submit"
+                className="chk-submit-btn"
+                style={paymentMethod === 'whatsapp' ? { background: '#25d366', color: '#ffffff', boxShadow: '0 4px 16px rgba(37,211,102,0.35)' } : {}}
+              >
+                {paymentMethod === 'razorpay'
+                  ? `Pay Now (Rs. ${total.toLocaleString('en-IN')})`
+                  : paymentMethod === 'whatsapp'
+                  ? `💬 Send Order via WhatsApp (Rs. ${total.toLocaleString('en-IN')})`
+                  : 'Complete Order'}
               </button>
             </div>
 
@@ -610,6 +643,24 @@ export default function CheckoutPage() {
           </div>
         </div>
       )}
+      {/* WhatsApp Quick Order Modal */}
+      <WhatsAppOrderModal
+        isOpen={isWaModalOpen}
+        onClose={() => setIsWaModalOpen(false)}
+        items={items}
+        totalPrice={total}
+        onOrderSuccess={(ord) => {
+          if (ord) {
+            setOrderNumber(ord.orderId);
+            setOrderPlaced(true);
+            try {
+              localStorage.removeItem('pakiza_cart');
+            } catch (e) {
+              // ignore
+            }
+          }
+        }}
+      />
     </div>
   );
 }

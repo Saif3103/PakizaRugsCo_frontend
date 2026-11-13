@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import AdminLayout from './AdminLayout';
+import { getWhatsAppNumber, setWhatsAppNumber } from '../../utils/whatsappOrder';
+import { toast } from '../../utils/toast';
 import {
   saveHeroVideoBlob,
   saveHeroVideoUrl,
@@ -41,8 +43,23 @@ export default function AdminSettings() {
   const [urlInput, setUrlInput] = useState('');
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState(null);
+  const [waNumber, setWaNumber] = useState(() => getWhatsAppNumber());
+  const [waSaved, setWaSaved] = useState(false);
   const fileInputRef = useRef(null);
   const previewPlayerRef = useRef(null);
+
+  const handleSaveWhatsApp = (e) => {
+    e.preventDefault();
+    const clean = setWhatsAppNumber(waNumber);
+    setWaNumber(clean);
+    setWaSaved(true);
+    toast('✓ WhatsApp order receiver updated successfully!', 'success');
+    setTimeout(() => setWaSaved(false), 3000);
+  };
+
+  const handleTestWhatsApp = () => {
+    window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent('Hello Pakiza Rugs! This is a test message to verify order routing.')}`, '_blank');
+  };
 
   useEffect(() => {
     loadCurrentVideo();
@@ -204,6 +221,105 @@ export default function AdminSettings() {
             </button>
           </div>
         )}
+
+        {/* ── WhatsApp Business Order Receiver Configuration ── */}
+        <div
+          style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '16px',
+            border: '1px solid #ede7df',
+            padding: '24px',
+            marginBottom: '28px',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.03)'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '8px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#25d366', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff' }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.77 14.16c-.24.68-1.2 1.25-1.68 1.3-.47.05-1.07.07-3.46-.92-2.88-1.19-4.73-4.14-4.87-4.33-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.09.99-2.37.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.42-.07.66.5.24.58.82 2.01.9 2.16.07.15.12.33.02.53-.1.2-.15.33-.3.5-.15.18-.32.4-.46.54-.15.15-.31.31-.13.62.18.31.79 1.3 1.7 2.11 1.17 1.04 2.15 1.36 2.46 1.51.31.15.49.13.67-.08.18-.21.78-.91.99-1.22.21-.31.42-.26.71-.15.29.11 1.84.87 2.16 1.03.32.16.53.24.61.37.08.13.08.77-.16 1.45z" />
+                </svg>
+              </div>
+              <div>
+                <h2 style={{ fontSize: '18px', fontWeight: '700', color: '#2b0b14', margin: 0, fontFamily: 'Playfair Display, serif' }}>
+                  WhatsApp Order Routing Number
+                </h2>
+                <div style={{ fontSize: '11px', color: '#16a34a', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Active WhatsApp Order Gateway
+                </div>
+              </div>
+            </div>
+
+            <span style={{ background: '#f0fdf4', color: '#15803d', border: '1px solid #bbf7d0', fontSize: '12px', fontWeight: 600, padding: '4px 10px', borderRadius: '100px' }}>
+              ● Ready to receive customer orders
+            </span>
+          </div>
+
+          <p style={{ fontSize: '13px', color: '#786e64', margin: '0 0 18px 0', lineHeight: '1.5' }}>
+            Whenever customers order via <strong>"Order on WhatsApp"</strong>, <strong>"Checkout via WhatsApp"</strong>, or <strong>"Bespoke Rug Studio"</strong>, their complete order slip, carpet size, price, and delivery address will be sent directly to this WhatsApp number.
+          </p>
+
+          <form onSubmit={handleSaveWhatsApp} style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', border: '1px solid #d9d2c5', borderRadius: '10px', overflow: 'hidden', width: '320px', background: '#fff' }}>
+              <span style={{ padding: '10px 14px', background: '#f5f0ea', color: '#666', fontSize: '13px', fontWeight: '600', borderRight: '1px solid #d9d2c5' }}>
+                WhatsApp ID
+              </span>
+              <input
+                type="text"
+                value={waNumber}
+                onChange={(e) => setWaNumber(e.target.value)}
+                placeholder="e.g. 917007626680"
+                style={{
+                  border: 'none',
+                  padding: '10px 14px',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  color: '#2b0b14',
+                  outline: 'none',
+                  flex: 1
+                }}
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              style={{
+                backgroundColor: '#25d366',
+                color: '#ffffff',
+                border: 'none',
+                borderRadius: '10px',
+                padding: '11px 22px',
+                fontSize: '13.5px',
+                fontWeight: '700',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                boxShadow: '0 4px 12px rgba(37, 211, 102, 0.3)'
+              }}
+            >
+              <span>{waSaved ? '✓ Saved!' : 'Save WhatsApp Number'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={handleTestWhatsApp}
+              style={{
+                backgroundColor: 'transparent',
+                border: '1px solid #d9d2c5',
+                color: '#2b0b14',
+                borderRadius: '10px',
+                padding: '11px 18px',
+                fontSize: '13px',
+                fontWeight: '600',
+                cursor: 'pointer'
+              }}
+            >
+              Test WhatsApp Ping
+            </button>
+          </form>
+        </div>
 
         {/* Video Management Section */}
         <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '24px', alignItems: 'start' }}>

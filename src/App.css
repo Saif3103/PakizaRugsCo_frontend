@@ -1777,6 +1777,11 @@ footer li a:hover {
 .rug-chat-pill__text {
   letter-spacing: 0.01em;
 }
+.rug-chat-pill__sparkle {
+  margin-left: 2px;
+  animation: geminiSpin 6s linear infinite;
+  display: inline-block;
+}
 
 /* Scroll To Top with Dynamic Circular Progress Fill */
 .rug-scroll-indicator {
@@ -3100,3 +3105,373 @@ input[type="submit"],
     transform: translateX(calc(-100% - 14px));
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   WHATSAPP ORDER MODAL & DIRECT ORDER STYLING
+   ══════════════════════════════════════════════════════════════ */
+.wa-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 16, 13, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: waFadeIn 0.25s ease-out;
+}
+
+@keyframes waFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.wa-modal-box {
+  background: #ffffff;
+  border: 1px solid #e5d8c5;
+  border-radius: 16px !important;
+  width: 100%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(197, 160, 89, 0.2);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  animation: waSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes waSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.wa-modal-header {
+  padding: 22px 24px 16px;
+  background: linear-gradient(135deg, #0d281e 0%, #173e30 100%);
+  color: #ffffff;
+  position: relative;
+  border-bottom: 2px solid #c5a059;
+}
+
+.wa-modal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(197, 160, 89, 0.2);
+  border: 1px solid rgba(197, 160, 89, 0.5);
+  color: #f3dfb2;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 3px 9px;
+  border-radius: 100px !important;
+  margin-bottom: 8px;
+}
+
+.wa-modal-badge__dot {
+  width: 6px;
+  height: 6px;
+  background: #25d366;
+  border-radius: 50% !important;
+  box-shadow: 0 0 8px #25d366;
+}
+
+.wa-modal-title {
+  font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 4px;
+}
+
+.wa-modal-sub {
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.wa-modal-close-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.12) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50% !important;
+  transition: all 0.2s;
+}
+
+.wa-modal-close-btn:hover {
+  background: rgba(255, 255, 255, 0.25) !important;
+  transform: rotate(90deg);
+}
+
+.wa-modal-items-summary {
+  padding: 16px 24px;
+  background: #fbf9f5;
+  border-bottom: 1px solid #ebd9c2;
+}
+
+.wa-modal-item-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.wa-modal-item-img {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 8px !important;
+  border: 1px solid #d9cbbe;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.wa-modal-item-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.wa-modal-item-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #17201b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wa-modal-item-meta {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+.wa-modal-item-price {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0c3b2e;
+  white-space: nowrap;
+}
+
+.wa-modal-total-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  margin-top: 6px;
+  border-top: 1px dashed #d6c6b2;
+  font-size: 13px;
+  color: #374151;
+}
+
+.wa-modal-total-bar strong {
+  font-size: 16px;
+  color: #0c3b2e;
+}
+
+.wa-modal-form {
+  padding: 20px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.wa-form-row {
+  display: grid;
+  gap: 12px;
+}
+
+.wa-form-row--2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.wa-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.wa-form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.wa-form-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px !important;
+  font-size: 14px;
+  color: #1f2937;
+  background: #ffffff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.wa-form-input:focus {
+  border-color: #0c3b2e;
+  box-shadow: 0 0 0 3px rgba(12, 59, 46, 0.12);
+}
+
+.wa-phone-input-wrap {
+  display: flex;
+  align-items: center;
+  border: 1px solid #d1d5db;
+  border-radius: 8px !important;
+  background: #fff;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.wa-phone-input-wrap:focus-within {
+  border-color: #0c3b2e;
+  box-shadow: 0 0 0 3px rgba(12, 59, 46, 0.12);
+}
+
+.wa-phone-prefix {
+  padding: 10px 12px;
+  background: #f3f4f6;
+  color: #4b5563;
+  font-size: 13.5px;
+  font-weight: 600;
+  border-right: 1px solid #e5e7eb;
+}
+
+.wa-form-input--phone {
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.wa-modal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.wa-btn-order {
+  width: 100%;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #25d366 0%, #1ea952 100%) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  border: none !important;
+  border-radius: 100px !important;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 18px rgba(37, 211, 102, 0.38);
+  transition: all 0.2s;
+}
+
+.wa-btn-order:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(37, 211, 102, 0.48);
+}
+
+.wa-btn-quick-skip {
+  background: none !important;
+  border: none !important;
+  color: #0c3b2e !important;
+  font-size: 12.5px !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 6px;
+  text-align: center;
+}
+
+.wa-btn-quick-skip:hover {
+  color: #c5a059 !important;
+}
+
+.wa-modal-guarantee {
+  text-align: center;
+  font-size: 11.5px;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+/* Direct PDP WhatsApp Order Button */
+.pdp-btn-whatsapp-order {
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(135deg, #25d366 0%, #1fa851 100%) !important;
+  color: #ffffff !important;
+  border: 1px solid #1fa851 !important;
+  border-radius: 30px !important;
+  font-size: 15.5px !important;
+  font-weight: 700 !important;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+  transition: all 0.2s ease;
+}
+
+.pdp-btn-whatsapp-order:hover {
+  background: #1ba04a !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.42);
+}
+
+.pdp-sticky-wa-btn {
+  background: #25d366 !important;
+  color: #fff !important;
+  border: none !important;
+  border-radius: 999px !important;
+  padding: 0 20px;
+  height: 44px;
+  font-weight: 700;
+  font-size: 13.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.pdp-sticky-wa-btn:hover {
+  background: #1fa851 !important;
+}
+
+@media (max-width: 640px) {
+  .wa-form-row--2 {
+    grid-template-columns: 1fr;
+  }
+  .wa-modal-box {
+    max-height: 94vh;
+  }
+}
+

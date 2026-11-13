@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
+import GeminiAIChatModal from './GeminiAIChatModal';
 
 export default function FloatingChatAndScroll() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const [chatMessage, setChatMessage] = useState('');
+  const [isGeminiChatOpen, setIsGeminiChatOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,14 +25,6 @@ export default function FloatingChatAndScroll() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleSendWhatsApp = (msg) => {
-    const textToSend = msg || chatMessage || 'Hello Pakiza Rugs Co., I have an inquiry.';
-    const encoded = encodeURIComponent(textToSend);
-    window.open(`https://wa.me/917007626680?text=${encoded}`, '_blank');
-    setIsChatOpen(false);
-    setChatMessage('');
-  };
-
   // SVG Circular progress math
   const radius = 19;
   const circumference = 2 * Math.PI * radius; // ~119.38
@@ -40,96 +32,20 @@ export default function FloatingChatAndScroll() {
 
   return (
     <>
-      {/* ── Chat Modal Popup (Non-AI Direct Customer Support) ── */}
-      {isChatOpen && (
-        <div className="chat-popup-overlay" onClick={() => setIsChatOpen(false)}>
-          <div className="chat-popup" onClick={(e) => e.stopPropagation()}>
-            <div className="chat-popup__header">
-              <div className="chat-popup__agent">
-                <div className="chat-popup__avatar">
-                  <span>PR</span>
-                  <span className="chat-popup__online-dot" />
-                </div>
-                <div>
-                  <h4 className="chat-popup__title">Pakiza Rugs Support</h4>
-                  <span className="chat-popup__status">Online · Replies in 5 mins</span>
-                </div>
-              </div>
-              <button
-                className="chat-popup__close"
-                onClick={() => setIsChatOpen(false)}
-                aria-label="Close Chat"
-              >
-                ×
-              </button>
-            </div>
+      {/* ── Pakiza Rugs Co. AI Chat Modal ── */}
+      <GeminiAIChatModal
+        isOpen={isGeminiChatOpen}
+        onClose={() => setIsGeminiChatOpen(false)}
+      />
 
-            <div className="chat-popup__body">
-              <p className="chat-popup__welcome">
-                Hello! How can we help you create your perfect handcrafted space today?
-              </p>
-
-              <div className="chat-popup__quick-prompts">
-                <button
-                  className="chat-popup__quick-btn"
-                  onClick={() =>
-                    handleSendWhatsApp('Hi! I want to inquire about custom rug sizing and designs.')
-                  }
-                >
-                  ✂️ Custom Size / Design Inquiry
-                </button>
-                <button
-                  className="chat-popup__quick-btn"
-                  onClick={() =>
-                    handleSendWhatsApp('Hello, can you help me choose the best carpet for my living room?')
-                  }
-                >
-                  🛋️ Need Help Choosing Rug Style
-                </button>
-                <button
-                  className="chat-popup__quick-btn"
-                  onClick={() =>
-                    handleSendWhatsApp('Hi, I want to track my carpet order / check delivery status.')
-                  }
-                >
-                  📦 Track Order / Delivery Status
-                </button>
-              </div>
-            </div>
-
-            <form
-              className="chat-popup__footer"
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleSendWhatsApp();
-              }}
-            >
-              <input
-                type="text"
-                placeholder="Type a message..."
-                value={chatMessage}
-                onChange={(e) => setChatMessage(e.target.value)}
-                className="chat-popup__input"
-                autoFocus
-              />
-              <button type="submit" className="chat-popup__send-btn" aria-label="Send message">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="22" y1="2" x2="11" y2="13" />
-                  <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                </svg>
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* ── Floating Controls (Chat Pill + Scroll Circle) ── */}
+      {/* ── Floating Controls (Message Chat Pill + Scroll Circle) ── */}
       <div className="rug-floating-container">
         {/* Chat Pill Button */}
         <button
           className="rug-chat-pill"
-          onClick={() => setIsChatOpen(!isChatOpen)}
-          aria-label="Open Chat"
+          onClick={() => setIsGeminiChatOpen(true)}
+          aria-label="Open Pakiza Rugs Chat"
+          id="rug-floating-chat-btn"
         >
           <svg
             className="rug-chat-pill__icon"

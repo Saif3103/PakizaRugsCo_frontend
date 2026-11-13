@@ -164,13 +164,15 @@ export default function HomePage() {
   );
   const liveLuxProducts = luxMatches.length > 0 ? luxMatches.slice(0, 8) : productsData.lux;
 
-  // 3. Jute Carpets:
-  const juteMatches = publishedProducts.filter(p =>
-    p.categoryId === 'cat-3' ||
-    (p.material && p.material.toLowerCase() === 'jute') ||
-    (p.title && p.title.toLowerCase().includes('jute'))
+  // 3. Hand Tufted Carpets:
+  const tuftedMatches = publishedProducts.filter(p =>
+    p.categoryId === 'cat-1' ||
+    (p.category && p.category.toLowerCase().includes('tufted')) ||
+    (p.title && p.title.toLowerCase().includes('tufted')) ||
+    (p.name && p.name.toLowerCase().includes('tufted')) ||
+    (p.craft && p.craft.toLowerCase().includes('tufted'))
   );
-  const liveJuteProducts = juteMatches.length > 0 ? juteMatches.slice(0, 8) : productsData.jute;
+  const liveTuftedProducts = tuftedMatches.length > 0 ? tuftedMatches.slice(0, 8) : (productsData.tufted || productsData.new);
 
   // 4. Shaggy Carpets:
   const shagMatches = publishedProducts.filter(p =>
@@ -289,7 +291,7 @@ export default function HomePage() {
             <input
               type="search"
               id="q"
-              placeholder="Search carpets, rugs, jute..."
+              placeholder="Search carpets, rugs, hand tufted..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               aria-label="Search"
@@ -401,7 +403,7 @@ export default function HomePage() {
           <div className="mobile-search-dropdown-bar">
             <input
               type="search"
-              placeholder="Search carpets, rugs, jute..."
+              placeholder="Search carpets, rugs, hand tufted..."
               autoFocus
               className="mobile-search-dropdown-input"
               value={searchQuery}
@@ -981,17 +983,17 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ── Jute Carpets ───────────────────────────────────── */}
-        <section style={{ background: '#fff' }} id="grid-jute">
+        {/* ── Hand Tufted Carpets ───────────────────────────── */}
+        <section style={{ background: '#fff' }} id="grid-tufted">
           <div className="wrap">
             <div className="sh">
               <h2>
-                Jute <span className="gold-text">Carpets</span>
+                Hand <span className="gold-text">Tufted</span>
               </h2>
-              <p>Natural fibre, timeless look.</p>
+              <p>Sculptural New Zealand wool &amp; silk relief, handcrafted by master artisans in Bhadohi.</p>
             </div>
             <div className="grid">
-              {liveJuteProducts.map((product) => renderProductCard(product))}
+              {liveTuftedProducts.map((product) => renderProductCard(product))}
             </div>
           </div>
         </section>
@@ -1064,7 +1066,7 @@ export default function HomePage() {
                   <span className="custom-feat-num">02</span>
                   <div>
                     <strong>100% Pure Fibres</strong>
-                    <p>Hand-spun New Zealand wool, bamboo silk &amp; jute</p>
+                    <p>Hand-spun New Zealand wool, bamboo silk &amp; lustrous relief</p>
                   </div>
                 </div>
                 <div className="custom-feat">

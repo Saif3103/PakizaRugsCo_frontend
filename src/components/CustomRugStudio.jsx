@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import WhatsAppOrderModal from './WhatsAppOrderModal';
 
 const shapes = [
   { id: 'rect', label: 'Rectangle', path: 'M 20 20 L 180 20 L 180 130 L 20 130 Z' },
@@ -31,6 +32,16 @@ export default function CustomRugStudio() {
   const [activeSize, setActiveSize] = useState(sizes[2]);
   const [activeBorder, setActiveBorder] = useState(borders[1]);
   const [activeColor, setActiveColor] = useState(colorPalettes[0]);
+  const [isWaModalOpen, setIsWaModalOpen] = useState(false);
+
+  const priceMap = {
+    '2×3 ft': 4499,
+    '4×6 ft': 12499,
+    '6×9 ft': 24999,
+    '8×10 ft': 38999,
+    '9×12 ft': 49999
+  };
+  const customPrice = priceMap[activeSize] || 24999;
 
   const shapeTransform = {
     rect: 'translate(0 0)',
@@ -213,9 +224,47 @@ export default function CustomRugStudio() {
                 ))}
               </div>
             </div>
+
+            {/* Custom Rug Order Bar */}
+            <div style={{ marginTop: '24px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 18px', background: '#f5f0ea', borderRadius: '10px', border: '1px solid #e2d5c3' }}>
+                <span style={{ fontSize: '13px', color: '#555', fontWeight: 500 }}>Estimated Atelier Price:</span>
+                <strong style={{ fontSize: '18px', color: '#0c3b2e' }}>₹{customPrice.toLocaleString('en-IN')}.00</strong>
+              </div>
+
+              <button
+                type="button"
+                className="pdp-btn-whatsapp-order"
+                onClick={() => setIsWaModalOpen(true)}
+                style={{ height: '48px', fontSize: '15px' }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.77 14.16c-.24.68-1.2 1.25-1.68 1.3-.47.05-1.07.07-3.46-.92-2.88-1.19-4.73-4.14-4.87-4.33-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.09.99-2.37.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.42-.07.66.5.24.58.82 2.01.9 2.16.07.15.12.33.02.53-.1.2-.15.33-.3.5-.15.18-.32.4-.46.54-.15.15-.31.31-.13.62.18.31.79 1.3 1.7 2.11 1.17 1.04 2.15 1.36 2.46 1.51.31.15.49.13.67-.08.18-.21.78-.91.99-1.22.21-.31.42-.26.71-.15.29.11 1.84.87 2.16 1.03.32.16.53.24.61.37.08.13.08.77-.16 1.45z" />
+                </svg>
+                <span>Order Custom Rug on WhatsApp</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
+
+      {/* WhatsApp Quick Order Modal for Bespoke Rug */}
+      <WhatsAppOrderModal
+        isOpen={isWaModalOpen}
+        onClose={() => setIsWaModalOpen(false)}
+        items={[{
+          id: `custom-rug-${activeShape.id}-${activeSize}-${activeColor.id}`,
+          title: `Bespoke ${activeShape.label} Rug (${activeColor.label})`,
+          name: `Bespoke ${activeShape.label} Rug - ${activeColor.label} (Border: ${activeBorder.label})`,
+          price: customPrice,
+          size: activeSize,
+          color: activeColor.label,
+          shape: activeShape.label,
+          qty: 1,
+          image: '/rugs/cat-irregular.jpg'
+        }]}
+        totalPrice={customPrice}
+      />
     </section>
   );
 }

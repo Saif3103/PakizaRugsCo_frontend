@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { toast } from '../utils/toast';
 import logoImg from '../assets/logo.png';
 import wordmark3DImg from '../assets/pakiza-3d-wordmark.png';
+import { getWhatsAppNumber } from '../utils/whatsappOrder';
 import './account.css';
 
 // Default mock orders for luxury experience
@@ -150,7 +151,30 @@ export default function AccountPage() {
     upiId: 'emma.watson@okaxis'
   });
 
-  const [orders, setOrders] = useState(initialOrders);
+  const [orders, setOrders] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem('pakiza_orders') || '[]');
+      if (saved && Array.isArray(saved) && saved.length > 0) {
+        const mapped = saved.map(o => ({
+          id: o.orderId,
+          date: new Date(o.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
+          status: o.status === 'Delivered' ? 'delivered' : o.status === 'Shipped' ? 'shipped' : 'in-transit',
+          statusLabel: o.status || 'Confirmed • In Atelier Weave',
+          courier: 'Pakiza Express Delivery',
+          trackingNumber: o.orderId,
+          estimatedDelivery: '3-5 business days',
+          progressStep: o.status === 'Delivered' ? 4 : o.status === 'Shipped' ? 3 : 2,
+          items: o.items || [],
+          total: o.total || 0,
+          shippingAddress: o.customer?.address || 'India'
+        }));
+        return [...mapped, ...initialOrders];
+      }
+    } catch (e) {
+      // fallback
+    }
+    return initialOrders;
+  });
   const [wishlist, setWishlist] = useState(initialWishlist);
   const [addresses, setAddresses] = useState(initialAddresses);
   const [showAddAddress, setShowAddAddress] = useState(false);
@@ -305,6 +329,101 @@ export default function AccountPage() {
           </div>
         </div>
       </header>
+
+      {/* ── Mobile-Only Customer Profile Hero Banner (<= 900px) ── */}
+      <div className="acc-mobile-hero">
+        <div className="acc-mobile-hero__card">
+          <div className="acc-mobile-hero__avatar-box">
+            <img src={avatarUrl} alt={firstName} className="acc-mobile-hero__avatar" />
+            <button
+              type="button"
+              className="acc-mobile-hero__camera-btn"
+              onClick={() => fileInputRef.current?.click()}
+              aria-label="Upload profile photo"
+              title="Change Photo"
+            >
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+                <circle cx="12" cy="13" r="4" />
+              </svg>
+            </button>
+          </div>
+
+          <div className="acc-mobile-hero__info">
+            <div className="acc-mobile-hero__badge">
+              <span className="acc-mobile-hero__badge-dot" />
+              <span>👑 ROYAL ATELIER PATRON</span>
+            </div>
+            <h2 className="acc-mobile-hero__name">{firstName} {lastName}</h2>
+            <div className="acc-mobile-hero__contacts">
+              <span className="acc-mobile-hero__contact-item">📞 {phone}</span>
+              <span className="acc-mobile-hero__contact-item">✉️ {email}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Quick 4-Tile Metric Strip */}
+        <div className="acc-mobile-hero__stats">
+          <button
+            type="button"
+            className={`acc-mobile-stat-card ${activeTab === 'profile' ? 'active' : ''}`}
+            onClick={() => setActiveTab('profile')}
+          >
+            <span className="acc-mobile-stat-val">👤</span>
+            <span className="acc-mobile-stat-lbl">My Profile</span>
+          </button>
+
+          <button
+            type="button"
+            className={`acc-mobile-stat-card ${activeTab === 'orders' ? 'active' : ''}`}
+            onClick={() => setActiveTab('orders')}
+          >
+            <span className="acc-mobile-stat-val">{orders.length}</span>
+            <span className="acc-mobile-stat-lbl">📦 Orders</span>
+          </button>
+
+          <button
+            type="button"
+            className={`acc-mobile-stat-card ${activeTab === 'wishlist' ? 'active' : ''}`}
+            onClick={() => setActiveTab('wishlist')}
+          >
+            <span className="acc-mobile-stat-val">{wishlist.length}</span>
+            <span className="acc-mobile-stat-lbl">❤️ Wishlist</span>
+          </button>
+
+          <button
+            type="button"
+            className={`acc-mobile-stat-card ${activeTab === 'addresses' ? 'active' : ''}`}
+            onClick={() => setActiveTab('addresses')}
+          >
+            <span className="acc-mobile-stat-val">{addresses.length}</span>
+            <span className="acc-mobile-stat-lbl">📍 Addresses</span>
+          </button>
+        </div>
+
+        {/* Mobile Horizontal Pill Navigation Bar */}
+        <div className="acc-mobile-tab-nav" role="tablist">
+          {[
+            { id: 'profile', label: '👤 Profile Details' },
+            { id: 'orders', label: `📦 Orders (${orders.length})` },
+            { id: 'addresses', label: `📍 Addresses (${addresses.length})` },
+            { id: 'wishlist', label: `❤️ Wishlist (${wishlist.length})` },
+            { id: 'bank', label: '🏦 Bank Details' },
+            { id: 'payments', label: '💳 Payment Methods' },
+            { id: 'wallet', label: '👛 Atelier Wallet' },
+            { id: 'rewards', label: '🎁 Rewards & Gifts' },
+          ].map(tab => (
+            <button
+              key={tab.id}
+              type="button"
+              className={`acc-mobile-tab-pill ${activeTab === tab.id ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       {/* ── Main Dashboard Container ─────────────────────────── */}
       <div className="account-dashboard-layout">
@@ -1154,6 +1273,46 @@ export default function AccountPage() {
           )}
         </main>
       </div>
+
+      {/* ── Mobile Fixed Bar ───────────────────────────────── */}
+      <nav className="bar" aria-label="Mobile Navigation">
+        <Link to="/" className="bar-item">
+          <svg className="bar-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 10.2L12 3l9 7.2v9.3a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19.5V10.2z" />
+            <path d="M9.5 21v-6a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v6" />
+          </svg>
+          <span className="bar-label">Home</span>
+        </Link>
+
+        <Link to="/account" className="bar-item bar-item--active" style={{ color: '#0f4c9c' }}>
+          <svg className="bar-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0f4c9c" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="7" r="4" />
+            <path d="M5.5 20.5a6.5 6.5 0 0 1 13 0" />
+          </svg>
+          <span className="bar-label" style={{ color: '#0f4c9c', fontWeight: 700 }}>Account</span>
+        </Link>
+
+        <Link to="/collections/all" className="bar-item">
+          <svg className="bar-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 7.5L4.5 3h15L21 7.5" />
+            <path d="M3 7.5a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0V20a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 20V7.5z" />
+            <path d="M9.5 21.5v-6a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v6" />
+          </svg>
+          <span className="bar-label">Shop</span>
+        </Link>
+
+        <a
+          href={`https://wa.me/${getWhatsAppNumber()}?text=${encodeURIComponent('Hello Pakiza Rugs! I have an inquiry regarding my customer profile.')}`}
+          target="_blank"
+          rel="noreferrer"
+          className="bar-item bar-item-whatsapp"
+        >
+          <svg className="bar-icon bar-icon-whatsapp" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.77 14.16c-.24.68-1.2 1.25-1.68 1.3-.47.05-1.07.07-3.46-.92-2.88-1.19-4.73-4.14-4.87-4.33-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.09.99-2.37.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.42-.07.66.5.24.58.82 2.01.9 2.16.07.15.12.33.02.53-.1.2-.15.33-.3.5-.15.18-.32.4-.46.54-.15.15-.31.31-.13.62.18.31.79 1.3 1.7 2.11 1.17 1.04 2.15 1.36 2.46 1.51.31.15.49.13.67-.08.18-.21.78-.91.99-1.22.21-.31.42-.26.71-.15.29.11 1.84.87 2.16 1.03.32.16.53.24.61.37.08.13.08.77-.16 1.45z" />
+          </svg>
+          <span className="bar-label">WhatsApp</span>
+        </a>
+      </nav>
     </div>
   );
 }

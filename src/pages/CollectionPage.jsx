@@ -5,6 +5,8 @@ import { useAuth } from '../context/AuthContext';
 import { categoriesData } from '../data/pakizaData';
 import pakizaRoyalGoldLogo from '../assets/pakiza-royal-gold-logo.png';
 import FloatingChatAndScroll from '../components/FloatingChatAndScroll';
+import WhatsAppOrderModal from '../components/WhatsAppOrderModal';
+import { getWhatsAppNumber } from '../utils/whatsappOrder';
 import { toast } from '../utils/toast';
 import './collection.css';
 
@@ -52,6 +54,7 @@ export default function CollectionPage() {
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState(null);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+  const [waModalItems, setWaModalItems] = useState(null);
 
   const [openFooterAccordions, setOpenFooterAccordions] = useState({
     quickLinks: false,
@@ -263,9 +266,8 @@ export default function CollectionPage() {
 
   const handleCheckoutWhatsApp = () => {
     if (cart.length === 0) return;
-    const lines = cart.map(i => `- ${i.title || i.name} (Qty: ${i.qty || 1}) - Rs. ${(i.price || 0).toLocaleString('en-IN')}`);
-    const msg = `Hello Pakiza Rugs,\n\nI would like to order the following bespoke rugs:\n\n${lines.join('\n')}\n\n*Total Amount: Rs. ${cartTotal.toLocaleString('en-IN')}.00*\n\nPlease confirm order and delivery timeline.`;
-    window.open(`https://wa.me/917007626680?text=${encodeURIComponent(msg)}`, '_blank');
+    setWaModalItems(cart);
+    setIsDrawerOpen(false);
   };
 
   return (
@@ -920,15 +922,40 @@ export default function CollectionPage() {
                 </div>
               </div>
 
-              <button
-                className="qv-modal__add-btn"
-                onClick={(e) => {
-                  handleAddToCart(quickViewProduct, e);
-                  setQuickViewProduct(null);
-                }}
-              >
-                ✦ Add to Atelier Cart
-              </button>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '16px' }}>
+                <button
+                  className="qv-modal__add-btn"
+                  onClick={(e) => {
+                    handleAddToCart(quickViewProduct, e);
+                    setQuickViewProduct(null);
+                  }}
+                >
+                  ✦ Add to Atelier Cart
+                </button>
+
+                <button
+                  type="button"
+                  className="pdp-btn-whatsapp-order"
+                  style={{ height: '42px', fontSize: '13.5px' }}
+                  onClick={() => {
+                    setWaModalItems([{
+                      id: quickViewProduct.id,
+                      title: quickViewProduct.title || quickViewProduct.name,
+                      name: quickViewProduct.title || quickViewProduct.name,
+                      price: quickViewProduct.price,
+                      image: quickViewProduct.image,
+                      size: 'Standard (4x6 ft)',
+                      qty: 1
+                    }]);
+                    setQuickViewProduct(null);
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm5.77 14.16c-.24.68-1.2 1.25-1.68 1.3-.47.05-1.07.07-3.46-.92-2.88-1.19-4.73-4.14-4.87-4.33-.14-.19-1.16-1.54-1.16-2.94 0-1.4.73-2.09.99-2.37.26-.28.57-.35.76-.35.19 0 .38 0 .55.01.18.01.42-.07.66.5.24.58.82 2.01.9 2.16.07.15.12.33.02.53-.1.2-.15.33-.3.5-.15.18-.32.4-.46.54-.15.15-.31.31-.13.62.18.31.79 1.3 1.7 2.11 1.17 1.04 2.15 1.36 2.46 1.51.31.15.49.13.67-.08.18-.21.78-.91.99-1.22.21-.31.42-.26.71-.15.29.11 1.84.87 2.16 1.03.32.16.53.24.61.37.08.13.08.77-.16 1.45z" />
+                  </svg>
+                  <span>Order Directly via WhatsApp</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1178,6 +1205,22 @@ export default function CollectionPage() {
 
       {/* Floating Chat & Scroll To Top Widget */}
       <FloatingChatAndScroll />
+
+      {/* WhatsApp Quick Order Modal */}
+      <WhatsAppOrderModal
+        isOpen={!!waModalItems}
+        onClose={() => setWaModalItems(null)}
+        items={waModalItems || []}
+        totalPrice={waModalItems ? waModalItems.reduce((acc, i) => acc + (Number(i.price || 0) * (i.qty || 1)), 0) : 0}
+        onOrderSuccess={() => {
+          setCart([]);
+          try {
+            localStorage.removeItem('pakiza_cart');
+          } catch (e) {
+            // ignore
+          }
+        }}
+      />
 
       {/* ── Mobile Fixed Bar ───────────────────────────────── */}
       <nav className="bar" aria-label="Mobile Navigation">

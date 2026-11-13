@@ -1,16 +1,56 @@
 export const categoriesData = [
-  { id: 'tufted', name: 'Hand Tufted', slug: 'hand-tufted', image: '/rugs/cat-tufted.jpg', badge: '', href: '/collections/hand-tufted' },
-  { id: 'shaggy', name: 'Shaggy Carpet', slug: 'shaggy-carpet', image: '/rugs/cat-shaggy.jpg', badge: '', href: '/collections/shaggy-carpet' },
-  { id: 'jute', name: 'Jute Carpets', slug: 'jute-carpets', image: '/rugs/cat-jute.jpg', badge: 'NEW', href: '/collections/jute-carpets' },
-  { id: 'irregular', name: 'Irregular Shaped', slug: 'irregular-shaped', image: '/rugs/cat-irregular.jpg', badge: 'UP TO 50% OFF', href: '/collections/irregular-shaped' },
-  { id: 'textured', name: 'Textured Rugs', slug: 'textured-rugs', image: '/rugs/rug-2.jpeg', badge: '', href: '/collections/textured-rugs' },
-  { id: 'exclusive', name: 'Exclusive Carpets', slug: 'exclusive-carpets', image: '/rugs/rug-8.jpeg', badge: 'EXCLUSIVE', href: '/collections/exclusive-carpets' },
-  { id: 'traditional', name: 'Traditional Persian', slug: 'traditional-persian', image: '/rugs/rug-3.jpeg', badge: '', href: '/collections/traditional-persian' },
-  { id: 'silk', name: 'Silk & Wool', slug: 'silk-wool', image: '/rugs/rug-12.jpeg', badge: 'UP TO 50% OFF', href: '/collections/silk-wool' }
+  { id: 'tufted', name: 'Hand Tufted', slug: 'hand-tufted', image: '/rugs/categories/cat-hand-tufted.jpg', badge: 'POPULAR', href: '/collections/hand-tufted' },
+  { id: 'shaggy', name: 'Shaggy Carpet', slug: 'shaggy-carpet', image: '/rugs/categories/cat-shaggy.jpg', badge: 'COZY PLUSH', href: '/collections/shaggy-carpet' },
+  { id: 'knotted', name: 'Hand Knotted', slug: 'hand-knotted', image: '/rugs/categories/cat-hand-knotted.jpg', badge: 'HERITAGE', href: '/collections/hand-knotted' },
+  { id: 'irregular', name: 'Irregular Shaped', slug: 'irregular-shaped', image: '/rugs/categories/cat-irregular.jpg', badge: 'TRENDING', href: '/collections/irregular-shaped' },
+  { id: 'textured', name: 'Textured Rugs', slug: 'textured-rugs', image: '/rugs/categories/cat-textured.jpg', badge: 'TACTILE 3D', href: '/collections/textured-rugs' },
+  { id: 'exclusive', name: 'Exclusive Carpets', slug: 'exclusive-carpets', image: '/rugs/categories/cat-exclusive.jpg', badge: 'HAUTE COUTURE', href: '/collections/exclusive-carpets' },
+  { id: 'traditional', name: 'Traditional Persian', slug: 'traditional-persian', image: '/rugs/categories/cat-traditional-persian.jpg', badge: 'ROYAL PALACE', href: '/collections/traditional-persian' },
+  { id: 'silk', name: 'Silk & Wool', slug: 'silk-wool', image: '/rugs/categories/cat-silk-wool.jpg', badge: 'PURE LUXURY', href: '/collections/silk-wool' }
 ];
 
 export const productsData = {
   new: [
+    {
+      id: 'prod-leopard-mirage',
+      name: 'Leopard Mirage Irregular Hand-Tufted Wool Rug',
+      price: 14999,
+      mrp: 24999,
+      tag: 'Trending',
+      image: '/product/il_fullxfull.8467535162_lhvi.jpg',
+      hoverImage: '/product/il_fullxfull.8467535300_4kuk.jpg',
+      slug: 'leopard-mirage-irregular-hand-tufted-wool-rug'
+    },
+    {
+      id: 'prod-scalloped-aztec',
+      name: 'Scalloped Aztec Diamond Geometric Hand-Tufted Wool Rug',
+      price: 16499,
+      mrp: 26000,
+      tag: 'Bestseller',
+      image: '/product/il_fullxfull.8470429044_bexe.jpg',
+      hoverImage: '/product/il_fullxfull.8518337305_loxk.jpg',
+      slug: 'scalloped-aztec-diamond-geometric-hand-tufted-wool-rug'
+    },
+    {
+      id: 'prod-midnight-sapphire-gold',
+      name: 'Midnight Sapphire & Gold Art Deco Hand-Tufted Wool Rug',
+      price: 28500,
+      mrp: 42000,
+      tag: 'Exclusive',
+      image: '/product/il_fullxfull.8513069892_g1if.jpg',
+      hoverImage: '/product/il_fullxfull.8560937257_a0hj.jpg',
+      slug: 'midnight-sapphire-gold-art-deco-hand-tufted-wool-rug'
+    },
+    {
+      id: 'prod-los-santos-gaming',
+      name: 'Los Santos Sunset Artisan Hand-Tufted Gaming Rug',
+      price: 15999,
+      mrp: 24500,
+      tag: 'Collector',
+      image: '/product/il_fullxfull.8567506842_ltin.jpg',
+      hoverImage: '/product/il_fullxfull.8615355167_2z6i.jpg',
+      slug: 'los-santos-sunset-artisan-hand-tufted-gaming-rug'
+    },
     {
       id: 'new-0',
       name: 'Geometric abstract hand-tufted wool carpet',
@@ -40,12 +80,12 @@ export const productsData = {
     },
     {
       id: 'new-3',
-      name: 'Round indigo handwoven jute carpet',
-      price: 4599,
-      mrp: 9199,
-      tag: '-50%',
-      image: '/rugs/rug-4.jpeg',
-      hoverImage: '/rugs/rug-2.jpeg'
+      name: 'Nordic Minimalist Border Hand-Tufted Wool Rug',
+      price: 15499,
+      mrp: 23000,
+      tag: 'New',
+      image: '/product/il_fullxfull.8470429074_qyz7.jpg',
+      hoverImage: '/product/il_fullxfull.8470429068_lnx6.jpg'
     },
     {
       id: 'new-4',
@@ -95,78 +135,98 @@ export const productsData = {
       hoverImage: '/rugs/rug-19.jpeg'
     }
   ],
+  tufted: [
+    {
+      id: 'prod-scalloped-aztec',
+      name: 'Scalloped Aztec Diamond Geometric Hand-Tufted Wool Rug',
+      price: 16499,
+      mrp: 26000,
+      tag: 'Bestseller',
+      image: '/product/il_fullxfull.8470429044_bexe.jpg',
+      hoverImage: '/product/il_fullxfull.8470429074_qyz7.jpg',
+      slug: 'scalloped-aztec-diamond-geometric-hand-tufted-wool-rug'
+    },
+    {
+      id: 'prod-leopard-mirage',
+      name: 'Leopard Mirage Irregular Hand-Tufted Wool Rug',
+      price: 14999,
+      mrp: 24999,
+      tag: 'Trending',
+      image: '/product/il_fullxfull.8467535162_lhvi.jpg',
+      hoverImage: '/product/il_fullxfull.8467535300_4kuk.jpg',
+      slug: 'leopard-mirage-irregular-hand-tufted-wool-rug'
+    },
+    {
+      id: 'prod-midnight-sapphire-gold',
+      name: 'Midnight Sapphire & Gold Art Deco Hand-Tufted Wool Rug',
+      price: 28500,
+      mrp: 42000,
+      tag: 'Exclusive',
+      image: '/product/il_fullxfull.8518337305_loxk.jpg',
+      hoverImage: '/product/il_fullxfull.8513069892_g1if.jpg',
+      slug: 'midnight-sapphire-gold-art-deco-hand-tufted-wool-rug'
+    },
+    {
+      id: 'prod-los-santos-gaming',
+      name: 'Los Santos Sunset Artisan Hand-Tufted Gaming Rug',
+      price: 15999,
+      mrp: 24500,
+      tag: 'Collector',
+      image: '/product/il_fullxfull.8567506842_ltin.jpg',
+      hoverImage: '/product/il_fullxfull.8615355201_80n0.jpg',
+      slug: 'los-santos-sunset-artisan-hand-tufted-gaming-rug'
+    },
+    {
+      id: 'tuft-arrow',
+      name: 'Arrow Divide Monochrome Hand-Tufted Carpet',
+      price: 18500,
+      mrp: 29000,
+      tag: 'New',
+      image: '/rugs/rug-1.jpeg',
+      hoverImage: '/rugs/rug-2.jpeg',
+      slug: 'arrow-divide-monochrome-hand-tufted-carpet'
+    },
+    {
+      id: 'tuft-geo',
+      name: 'Geometric Abstract Hand-Tufted Wool Carpet',
+      price: 22450,
+      mrp: 32000,
+      tag: 'Artisan',
+      image: '/rugs/rug-8.jpeg',
+      hoverImage: '/rugs/rug-6.jpeg',
+      slug: 'geometric-abstract-hand-tufted-wool-carpet'
+    },
+    {
+      id: 'tuft-arch',
+      name: 'Monochrome Arch Sculpted Hand-Tufted Wool Rug',
+      price: 16999,
+      mrp: 25000,
+      tag: '-30%',
+      image: '/rugs/rug-7.jpeg',
+      hoverImage: '/rugs/rug-3.jpeg',
+      slug: 'monochrome-arch-sculpted-hand-tufted-wool-rug'
+    },
+    {
+      id: 'tuft-blossom',
+      name: 'Blossom Motif Silk Hand-Tufted Relief Carpet',
+      price: 12999,
+      mrp: 21000,
+      tag: 'Exclusive',
+      image: '/rugs/rug-18.jpeg',
+      hoverImage: '/rugs/rug-19.jpeg',
+      slug: 'blossom-motif-silk-hand-tufted-relief-carpet'
+    }
+  ],
   jute: [
     {
-      id: 'jute-0',
-      name: 'Braided natural jute carpet',
-      price: 4799,
-      mrp: 9600,
-      tag: '-50%',
-      image: '/rugs/rug-4.jpeg',
-      hoverImage: '/rugs/rug-1.jpeg'
-    },
-    {
-      id: 'jute-1',
-      name: 'Plain natural jute braided carpet',
-      price: 4799,
-      mrp: 9600,
-      tag: '-50%',
-      image: '/rugs/rug-2.jpeg',
-      hoverImage: '/rugs/rug-4.jpeg'
-    },
-    {
-      id: 'jute-2',
-      name: 'Round braided jute rug',
-      price: 3199,
-      mrp: 6400,
-      tag: '-50%',
-      image: '/rugs/rug-11.jpeg',
-      hoverImage: '/rugs/rug-8.jpeg'
-    },
-    {
-      id: 'jute-3',
-      name: 'Round braided jute carpet, green',
-      price: 3199,
-      mrp: 6400,
-      tag: '-50%',
-      image: '/rugs/rug-6.jpeg',
-      hoverImage: '/rugs/rug-9.jpeg'
-    },
-    {
-      id: 'jute-4',
-      name: 'Blush pink braided jute carpet',
-      price: 4800,
-      mrp: 9600,
-      tag: '-50%',
-      image: '/rugs/rug-5.jpeg',
-      hoverImage: '/rugs/rug-7.jpeg'
-    },
-    {
-      id: 'jute-5',
-      name: 'Natural braided jute, white border',
-      price: 4799,
-      mrp: 9600,
-      tag: '-50%',
-      image: '/rugs/rug-1.jpeg',
-      hoverImage: '/rugs/rug-2.jpeg'
-    },
-    {
-      id: 'jute-6',
-      name: 'Round natural braided jute carpet',
-      price: 3199,
-      mrp: 6400,
-      tag: '-50%',
-      image: '/rugs/rug-3.jpeg',
-      hoverImage: '/rugs/rug-5.jpeg'
-    },
-    {
-      id: 'jute-7',
-      name: 'Ivory wave textured shaggy carpet',
-      price: 2850,
-      mrp: 5700,
-      tag: '-50%',
-      image: '/rugs/rug-10.jpeg',
-      hoverImage: '/rugs/rug-12.jpeg'
+      id: 'prod-scalloped-aztec-alt',
+      name: 'Scalloped Aztec Diamond Geometric Hand-Tufted Wool Rug',
+      price: 16499,
+      mrp: 26000,
+      tag: 'Bestseller',
+      image: '/product/il_fullxfull.8470429044_bexe.jpg',
+      hoverImage: '/product/il_fullxfull.8470429074_qyz7.jpg',
+      slug: 'scalloped-aztec-diamond-geometric-hand-tufted-wool-rug'
     }
   ],
   shag: [
