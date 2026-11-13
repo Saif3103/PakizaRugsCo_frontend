@@ -2,11 +2,13 @@ import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import AdminLayout from './AdminLayout';
 import { useProducts } from '../../context/ProductContext';
+import FirebaseModal from '../../components/admin/FirebaseModal';
 
 export default function AdminDashboard() {
-  const { stats, categories, products, recentProducts, getCategoryProductCount } = useProducts();
+  const { stats, categories, products, recentProducts, getCategoryProductCount, cloudConnected } = useProducts();
   const [filterTab, setFilterTab] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [firebaseModalOpen, setFirebaseModalOpen] = useState(false);
 
   // Category-wise product distribution
   const catDistribution = useMemo(() => {
@@ -145,6 +147,25 @@ export default function AdminDashboard() {
                 </svg>
                 <span>Hero Cinematics</span>
               </Link>
+
+              <button
+                type="button"
+                onClick={() => setFirebaseModalOpen(true)}
+                className="adm-btn-ghost-gold"
+                id="dash-firebase-btn"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  borderColor: cloudConnected ? '#10b981' : '#c5a059',
+                  background: cloudConnected ? 'rgba(16, 185, 129, 0.12)' : 'rgba(197, 160, 89, 0.1)',
+                  cursor: 'pointer'
+                }}
+                title="Firebase Cloud Database for Phone & Laptop Sync"
+              >
+                <span style={{ fontSize: '13px' }}>{cloudConnected ? '🟢' : '🔥'}</span>
+                <span>{cloudConnected ? 'Cloud DB: Synced' : 'Connect Cloud DB'}</span>
+              </button>
 
               <a href="/" target="_blank" rel="noopener noreferrer" className="adm-btn-ghost" title="Open live boutique in new tab">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -698,6 +719,12 @@ export default function AdminDashboard() {
         </div>
 
       </div>
+
+      {/* Firebase Cloud Sync Modal */}
+      <FirebaseModal
+        isOpen={firebaseModalOpen}
+        onClose={() => setFirebaseModalOpen(false)}
+      />
     </AdminLayout>
   );
 }

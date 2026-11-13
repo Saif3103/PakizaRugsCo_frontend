@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 import AdminLayout from './AdminLayout';
 import { useProducts } from '../../context/ProductContext';
 import { toast } from '../../utils/toast';
+import FirebaseModal from '../../components/admin/FirebaseModal';
 
 export default function AdminProducts() {
-  const { products, categories, deleteProduct, bulkDeleteProducts, clearAllProducts, importProducts, toggleProductStatus } = useProducts();
+  const { products, categories, deleteProduct, bulkDeleteProducts, clearAllProducts, importProducts, toggleProductStatus, cloudConnected } = useProducts();
   const [search, setSearch] = useState('');
   const [filterCat, setFilterCat] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
@@ -17,6 +18,7 @@ export default function AdminProducts() {
   const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false);
   const [clearCatalogConfirm, setClearCatalogConfirm] = useState(false);
   const [syncModalOpen, setSyncModalOpen] = useState(false);
+  const [firebaseModalOpen, setFirebaseModalOpen] = useState(false);
   const [syncCodeInput, setSyncCodeInput] = useState('');
   const [copiedSync, setCopiedSync] = useState(false);
   const [page, setPage] = useState(1);
@@ -147,6 +149,22 @@ export default function AdminProducts() {
             <p className="admin-page-sub">{products.length} products · {filtered.length} matching</p>
           </div>
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              className="adm-bulk-delete-btn"
+              style={{
+                background: cloudConnected ? '#ecfdf5' : '#172820',
+                color: cloudConnected ? '#065f46' : '#e5be7a',
+                borderColor: cloudConnected ? '#a7f3d0' : '#c5a059',
+                fontWeight: 600
+              }}
+              onClick={() => setFirebaseModalOpen(true)}
+              id="firebase-cloud-btn"
+              title="Firebase Cloud Database for real-time Phone & Customer Sync"
+            >
+              <span>{cloudConnected ? '🟢 Cloud DB: Synced' : '🔥 Connect Firebase Cloud'}</span>
+            </button>
+
             <button
               type="button"
               className="adm-bulk-delete-btn"
@@ -579,6 +597,11 @@ export default function AdminProducts() {
             </div>
           </div>
         )}
+        {/* Firebase Cloud Sync Modal */}
+        <FirebaseModal
+          isOpen={firebaseModalOpen}
+          onClose={() => setFirebaseModalOpen(false)}
+        />
       </div>
     </AdminLayout>
   );

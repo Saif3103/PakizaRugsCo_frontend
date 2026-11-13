@@ -1,4 +1,12 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { collection, doc, setDoc, deleteDoc, onSnapshot, writeBatch } from 'firebase/firestore';
+import {
+  getFirebaseDb,
+  isFirebaseReady,
+  saveFirebaseConfig,
+  clearFirebaseConfig,
+  resolveFirebaseConfig
+} from '../services/firebase';
 
 const ProductContext = createContext(null);
 
@@ -120,7 +128,6 @@ function saveProducts(prods) {
   } catch (err) {
     console.warn('LocalStorage quota warning, attempting optimized compression of stored items:', err);
     try {
-      // If quota exceeded, sanitize heavy base64 strings so storage doesn't crash
       const safeProds = prods.map(p => {
         const cleanImages = (p.images || []).map(img =>
           typeof img === 'string' && img.startsWith('data:image') && img.length > 250000
@@ -145,14 +152,38 @@ function saveProducts(prods) {
 export function ProductProvider({ children }) {
   const [categories, setCategories] = useState(loadCategories);
   const [products, setProducts] = useState(loadProducts);
+  const [cloudConnected, setCloudConnected] = useState(isFirebaseReady());
+  const [isCloudSyncing, setIsCloudSyncing] = useState(false);
 
+  // ── Real-time Firestore sync ──────────────────────────────────────────────
   useEffect(() => {
-    // Ensure storage is seeded on mount
-    const currentCats = loadCategories();
-    const currentProds = loadProducts();
-    setCategories(currentCats);
-    setProducts(currentProds);
-  }, []);
+    const db = getFirebaseDb();
+    if (!db) {
+      setCloudConnected(false);
+      return;
+    }
+
+    setCloudConnected(true);
+    setIsCloudSyncing(true);
+
+    const unsub = onSnapshot(collection(db, 'products'), (snapshot) => {
+      setIsCloudSyncing(false);
+      if (!snapshot.empty) {
+        const remoteList = [];
+        snapshot.forEach(docSnap => {
+          remoteList.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        remoteList.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+        setProducts(remoteList);
+        saveProducts(remoteList);
+      }
+    }, (err) => {
+      console.warn('Firestore subscription notice (rules or offline):', err);
+      setIsCloudSyncing(false);
+    });
+
+    return () => unsub();
+  }, [cloudConnected]);
 
   const addCategory = useCallback((data) => {
     const newCat = {
@@ -192,7 +223,7 @@ export function ProductProvider({ children }) {
     return { success: true };
   }, [products]);
 
-  const addProduct = useCallback((data) => {
+  const addProduct = useCallback(async (data) => {
     const slug = data.slug || slugify(data.title || data.name || '');
     const newProd = {
       id: `prod-${Date.now()}`,
@@ -208,19 +239,31 @@ export function ProductProvider({ children }) {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     };
+
     setProducts(prev => {
       const u = [newProd, ...prev];
       saveProducts(u);
       return u;
     });
+
+    const db = getFirebaseDb();
+    if (db) {
+      try {
+        await setDoc(doc(db, 'products', newProd.id), newProd);
+      } catch (err) {
+        console.error('Failed to sync added product to Firestore:', err);
+      }
+    }
+
     return newProd;
   }, []);
 
-  const updateProduct = useCallback((id, data) => {
+  const updateProduct = useCallback(async (id, data) => {
+    let updatedObj = null;
     setProducts(prev => {
       const u = prev.map(p => {
         if (p.id === id) {
-          const updated = {
+          updatedObj = {
             ...p,
             ...data,
             title: data.title || data.name || p.title || p.name,
@@ -228,56 +271,154 @@ export function ProductProvider({ children }) {
             updatedAt: new Date().toISOString()
           };
           if (data.images && data.images.length > 0) {
-            updated.image = data.images[0];
-            if (data.images[1]) updated.hoverImage = data.images[1];
+            updatedObj.image = data.images[0];
+            if (data.images[1]) updatedObj.hoverImage = data.images[1];
           }
-          return updated;
+          return updatedObj;
         }
         return p;
       });
       saveProducts(u);
       return u;
     });
+
+    const db = getFirebaseDb();
+    if (db && updatedObj) {
+      try {
+        await setDoc(doc(db, 'products', id), updatedObj, { merge: true });
+      } catch (err) {
+        console.error('Failed to sync updated product to Firestore:', err);
+      }
+    }
   }, []);
 
-  const deleteProduct = useCallback((id) => {
+  const deleteProduct = useCallback(async (id) => {
     setProducts(prev => {
       const u = prev.filter(p => p.id !== id);
       saveProducts(u);
       return u;
     });
+
+    const db = getFirebaseDb();
+    if (db) {
+      try {
+        await deleteDoc(doc(db, 'products', id));
+      } catch (err) {
+        console.error('Failed to delete product from Firestore:', err);
+      }
+    }
   }, []);
 
-  const bulkDeleteProducts = useCallback((ids) => {
+  const bulkDeleteProducts = useCallback(async (ids) => {
     setProducts(prev => {
       const u = prev.filter(p => !ids.includes(p.id));
       saveProducts(u);
       return u;
     });
+
+    const db = getFirebaseDb();
+    if (db) {
+      try {
+        const batch = writeBatch(db);
+        ids.forEach(id => batch.delete(doc(db, 'products', id)));
+        await batch.commit();
+      } catch (err) {
+        console.error('Failed to bulk delete from Firestore:', err);
+      }
+    }
   }, []);
 
-  const clearAllProducts = useCallback(() => {
+  const clearAllProducts = useCallback(async () => {
+    const oldList = [...products];
     setProducts([]);
     saveProducts([]);
-  }, []);
 
-  const importProducts = useCallback((newProdsList) => {
+    const db = getFirebaseDb();
+    if (db && oldList.length > 0) {
+      try {
+        const batch = writeBatch(db);
+        oldList.forEach(p => batch.delete(doc(db, 'products', p.id)));
+        await batch.commit();
+      } catch (err) {
+        console.error('Failed to clear catalog in Firestore:', err);
+      }
+    }
+  }, [products]);
+
+  const importProducts = useCallback(async (newProdsList) => {
     if (!Array.isArray(newProdsList)) return { error: 'Invalid product list' };
     setProducts(newProdsList);
     saveProducts(newProdsList);
+
+    const db = getFirebaseDb();
+    if (db && newProdsList.length > 0) {
+      try {
+        const batch = writeBatch(db);
+        newProdsList.forEach(p => {
+          batch.set(doc(db, 'products', p.id), p, { merge: true });
+        });
+        await batch.commit();
+      } catch (err) {
+        console.error('Failed to batch upload imported products to Firestore:', err);
+      }
+    }
+
     return { success: true, count: newProdsList.length };
   }, []);
 
-  const toggleProductStatus = useCallback((id) => {
+  const syncLocalToCloud = useCallback(async () => {
+    const db = getFirebaseDb();
+    if (!db) return { error: 'Firebase is not connected yet.' };
+    if (!products.length) return { error: 'No products in local catalog to upload.' };
+    try {
+      const batch = writeBatch(db);
+      products.forEach(p => {
+        batch.set(doc(db, 'products', p.id), p, { merge: true });
+      });
+      await batch.commit();
+      return { success: true, count: products.length };
+    } catch (err) {
+      return { error: err.message || 'Sync failed' };
+    }
+  }, [products]);
+
+  const connectFirebase = useCallback((cfg) => {
+    const success = saveFirebaseConfig(cfg);
+    if (success) {
+      setCloudConnected(isFirebaseReady());
+    }
+    return success;
+  }, []);
+
+  const disconnectFirebase = useCallback(() => {
+    clearFirebaseConfig();
+    setCloudConnected(false);
+  }, []);
+
+  const toggleProductStatus = useCallback(async (id) => {
+    let nextStatus = null;
+    let target = null;
     setProducts(prev => {
-      const u = prev.map(p => p.id === id ? {
-        ...p,
-        status: p.status === 'published' ? 'draft' : 'published',
-        updatedAt: new Date().toISOString()
-      } : p);
+      const u = prev.map(p => {
+        if (p.id === id) {
+          nextStatus = p.status === 'published' ? 'draft' : 'published';
+          target = { ...p, status: nextStatus, updatedAt: new Date().toISOString() };
+          return target;
+        }
+        return p;
+      });
       saveProducts(u);
       return u;
     });
+
+    const db = getFirebaseDb();
+    if (db && target) {
+      try {
+        await setDoc(doc(db, 'products', id), target, { merge: true });
+      } catch (err) {
+        console.error('Failed to toggle status in Firestore:', err);
+      }
+    }
   }, []);
 
   const stats = {
@@ -297,9 +438,11 @@ export function ProductProvider({ children }) {
   return (
     <ProductContext.Provider value={{
       categories, products, stats, recentProducts,
+      cloudConnected, isCloudSyncing,
       addCategory, updateCategory, deleteCategory,
-      addProduct, updateProduct, deleteProduct, bulkDeleteProducts, clearAllProducts, importProducts, toggleProductStatus,
-      getCategoryProductCount, slugify,
+      addProduct, updateProduct, deleteProduct, bulkDeleteProducts, clearAllProducts, importProducts,
+      syncLocalToCloud, connectFirebase, disconnectFirebase, resolveFirebaseConfig,
+      toggleProductStatus, getCategoryProductCount, slugify,
     }}>
       {children}
     </ProductContext.Provider>
