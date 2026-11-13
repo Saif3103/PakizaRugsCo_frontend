@@ -111,12 +111,12 @@ export default function LoginPage() {
               </span>
               <input
                 id="login-email"
-                type="email"
-                placeholder="your.email@example.com"
+                type="text"
+                placeholder="Enter your email or user ID"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                autoComplete="email"
+                autoComplete="username email"
               />
             </div>
           </div>
