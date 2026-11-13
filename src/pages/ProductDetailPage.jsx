@@ -28,48 +28,7 @@ const COLOR_VARIANTS = [
   { name: 'Charcoal Accent', hex: '#373a3c' },
 ];
 
-const PEOPLE_ALSO_BOUGHT = [
-  {
-    id: 'pab-1',
-    title: 'Curved Wave Sculpted Ivory Rug',
-    price: 8999,
-    mrp: 17999,
-    discount: '-50%',
-    badgeType: 'discount',
-    image: '/rugs/bought-1.jpg',
-    slug: 'irregular-shaped-rug-driftic-beige-hand-tufted-carpet'
-  },
-  {
-    id: 'pab-2',
-    title: 'Moss & Olive Organic Contour Rug',
-    price: 9499,
-    mrp: 20999,
-    discount: '-54%',
-    badgeType: 'discount',
-    image: '/rugs/bought-2.jpg',
-    slug: 'arrow-divide-black-grey-hand-tufted-wool-silk-carpet'
-  },
-  {
-    id: 'pab-3',
-    title: 'Gold Sand Linear Abstract Rug',
-    price: 11999,
-    mrp: 25999,
-    discount: '-54%',
-    badgeType: 'discount',
-    image: '/rugs/bought-3.jpg',
-    slug: 'irregular-shaped-rug-driftic-beige-hand-tufted-carpet'
-  },
-  {
-    id: 'pab-4',
-    title: 'Arrow Divide Minimalist Contour Rug',
-    price: 12999,
-    mrp: 24999,
-    discount: '👑 Exclusive',
-    badgeType: 'exclusive',
-    image: '/rugs/bought-4.jpg',
-    slug: 'arrow-divide-black-grey-hand-tufted-wool-silk-carpet'
-  }
-];
+const PEOPLE_ALSO_BOUGHT = [];
 
 const CUSTOMER_PHOTOS = [
   { id: 1, img: '/rugs/rug-1.jpeg', label: 'Warm Living Room in Jaipur', user: 'Ritika M.' },
@@ -1033,48 +992,55 @@ export default function ProductDetailPage() {
         </section>
 
         {/* ── People Also Bought Section ── */}
-        <section className="pdp-also-bought-section">
-          <div className="wrap">
-            <div className="pdp-also-bought-header">
-              <h2 className="pdp-also-bought-title">People Also Bought</h2>
-              <p className="pdp-also-bought-subtitle">
-                Here’s some of our most similar products people are buying. Click to discover trending style.
-              </p>
-            </div>
+        {relatedProducts.length > 0 && (
+          <section className="pdp-also-bought-section">
+            <div className="wrap">
+              <div className="pdp-also-bought-header">
+                <h2 className="pdp-also-bought-title">People Also Bought</h2>
+                <p className="pdp-also-bought-subtitle">
+                  Here’s some of our most similar creations. Click to discover trending styles.
+                </p>
+              </div>
 
-            <div className="pdp-also-bought-grid">
-              {PEOPLE_ALSO_BOUGHT.map((item) => (
-                <Link
-                  key={item.id}
-                  to={`/products/${item.slug}`}
-                  className="pdp-also-bought-card"
-                >
-                  <div className="pdp-also-bought-img-wrap">
-                    {item.badgeType === 'discount' ? (
-                      <span className="pdp-pab-badge pdp-pab-badge--discount">{item.discount}</span>
-                    ) : (
-                      <span className="pdp-pab-badge pdp-pab-badge--exclusive">{item.discount}</span>
-                    )}
-                    <img src={item.image} alt={item.title} className="pdp-also-bought-img" />
-                  </div>
-                  <div className="pdp-also-bought-info">
-                    <h4 className="pdp-also-bought-prod-title">{item.title}</h4>
-                    <div className="pdp-also-bought-price-row">
-                      <span className="pdp-also-bought-price">
-                        Rs. {item.price.toLocaleString('en-IN')}.00
-                      </span>
-                      {item.mrp && (
-                        <span className="pdp-also-bought-mrp">
-                          Rs. {item.mrp.toLocaleString('en-IN')}.00
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </Link>
-              ))}
+              <div className="pdp-also-bought-grid">
+                {relatedProducts.map((item) => {
+                  const itemTitle = item.title || item.name;
+                  const itemPrice = Number(item.price || 0);
+                  const itemMrp = Number(item.discountPrice || item.mrp || 0);
+                  const itemImg = item.image || (Array.isArray(item.images) && item.images[0]) || '/rugs/rug-8.jpeg';
+                  const itemSlug = item.slug || (itemTitle ? itemTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-') : item.id);
+                  return (
+                    <Link
+                      key={item.id}
+                      to={`/products/${itemSlug}`}
+                      className="pdp-also-bought-card"
+                    >
+                      <div className="pdp-also-bought-img-wrap">
+                        {item.badge && (
+                          <span className="pdp-pab-badge pdp-pab-badge--discount">{item.badge}</span>
+                        )}
+                        <img src={itemImg} alt={itemTitle} className="pdp-also-bought-img" />
+                      </div>
+                      <div className="pdp-also-bought-info">
+                        <h4 className="pdp-also-bought-prod-title">{itemTitle}</h4>
+                        <div className="pdp-also-bought-price-row">
+                          <span className="pdp-also-bought-price">
+                            Rs. {itemPrice.toLocaleString('en-IN')}.00
+                          </span>
+                          {itemMrp > 0 && (
+                            <span className="pdp-also-bought-mrp">
+                              Rs. {itemMrp.toLocaleString('en-IN')}.00
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* ── Customer Photos Section ── */}
         <section className="pdp-customer-photos-section">

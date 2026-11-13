@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { featuredProducts } from '../data/products';
+import { Link } from 'react-router-dom';
+import { useProducts } from '../context/ProductContext';
 
 function WishlistHeart({ id }) {
   const [liked, setLiked] = useState(false);
@@ -42,12 +43,18 @@ function StarRating({ rating = 4.8 }) {
   );
 }
 
-// Show first 4 featured products
-const popularProducts = featuredProducts.slice(0, 4);
-
 export default function PopularRugsSection() {
+  const { products } = useProducts();
+  const popularProducts = (products || [])
+    .filter(p => (p.status || 'published') === 'published')
+    .slice(0, 4);
+
+  if (popularProducts.length === 0) {
+    return null;
+  }
+
   const fmt = (p) =>
-    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(p);
+    new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(p);
 
   return (
     <section className="pk-popular" id="pk-popular">

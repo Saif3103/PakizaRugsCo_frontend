@@ -5,7 +5,7 @@ import { useProducts } from '../../context/ProductContext';
 import { toast } from '../../utils/toast';
 
 export default function AdminProducts() {
-  const { products, categories, deleteProduct, bulkDeleteProducts, toggleProductStatus } = useProducts();
+  const { products, categories, deleteProduct, bulkDeleteProducts, clearAllProducts, toggleProductStatus } = useProducts();
   const [search, setSearch] = useState('');
   const [filterCat, setFilterCat] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
@@ -15,6 +15,7 @@ export default function AdminProducts() {
   const [selected, setSelected] = useState([]);
   const [deleteId, setDeleteId] = useState(null);
   const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false);
+  const [clearCatalogConfirm, setClearCatalogConfirm] = useState(false);
   const [page, setPage] = useState(1);
   const PER_PAGE = 12;
 
@@ -72,6 +73,13 @@ export default function AdminProducts() {
     toast(`${selected.length} product(s) deleted`, 'success');
   };
 
+  const handleClearCatalog = () => {
+    clearAllProducts();
+    setSelected([]);
+    setClearCatalogConfirm(false);
+    toast('All products removed. Catalog is now clean for fresh listings.', 'success');
+  };
+
   const handleToggleStatus = (id, currentStatus) => {
     toggleProductStatus(id);
     toast(`Product ${currentStatus === 'published' ? 'unpublished' : 'published'}`, 'success');
@@ -95,6 +103,20 @@ export default function AdminProducts() {
                   <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
                 </svg>
                 Delete ({selected.length})
+              </button>
+            )}
+            {products.length > 0 && (
+              <button
+                className="adm-bulk-delete-btn"
+                style={{ background: '#fef2f2', color: '#dc2626', borderColor: '#fecaca' }}
+                onClick={() => setClearCatalogConfirm(true)}
+                id="clear-catalog-btn"
+                title="Wipe all products and start fresh"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+                </svg>
+                Clear All ({products.length})
               </button>
             )}
             <Link to="/admin/products/new" className="admin-btn-primary" id="products-add-btn">
@@ -377,7 +399,28 @@ export default function AdminProducts() {
               <p className="admin-modal__sub">All selected products will be permanently deleted. This cannot be undone.</p>
               <div className="admin-modal__actions">
                 <button className="admin-modal__cancel" onClick={() => setBulkDeleteConfirm(false)} id="cancel-bulk-btn">Cancel</button>
-                <button className="admin-modal__confirm" onClick={handleBulkDelete} id="confirm-bulk-btn">Delete All</button>
+                <button className="admin-modal__confirm" onClick={handleBulkDelete} id="confirm-bulk-btn">Delete Selected</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Clear Entire Catalog Confirm Modal */}
+        {clearCatalogConfirm && (
+          <div className="admin-modal-overlay" onClick={() => setClearCatalogConfirm(false)}>
+            <div className="admin-modal" onClick={e => e.stopPropagation()}>
+              <div className="admin-modal__icon">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="1.5">
+                  <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+                </svg>
+              </div>
+              <h3 className="admin-modal__title">Wipe All Products from Catalog?</h3>
+              <p className="admin-modal__sub">
+                This will delete all {products.length} products so you can start with a fresh empty catalog. New listings added from the admin panel will be the only products shown.
+              </p>
+              <div className="admin-modal__actions">
+                <button className="admin-modal__cancel" onClick={() => setClearCatalogConfirm(false)} id="cancel-clear-catalog-btn">Cancel</button>
+                <button className="admin-modal__confirm" onClick={handleClearCatalog} id="confirm-clear-catalog-btn" style={{ background: '#dc2626' }}>Yes, Delete All</button>
               </div>
             </div>
           </div>

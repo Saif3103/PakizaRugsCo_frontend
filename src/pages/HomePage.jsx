@@ -150,10 +150,8 @@ export default function HomePage() {
     .sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
 
   // Filtered live lists for different homepage sections
-  // 1. New Arrivals: All newest published products first, fallback to productsData.new
-  const liveNewProducts = publishedProducts.length > 0
-    ? publishedProducts.slice(0, 12)
-    : productsData.new;
+  // 1. New Arrivals: All newest published products
+  const liveNewProducts = publishedProducts.slice(0, 12);
 
   // 2. Luxury Viscose / Silk / Premium:
   const luxMatches = publishedProducts.filter(p =>
@@ -162,7 +160,7 @@ export default function HomePage() {
     (p.title && (p.title.toLowerCase().includes('silk') || p.title.toLowerCase().includes('viscose') || p.title.toLowerCase().includes('luxury'))) ||
     Number(p.price) >= 10000
   );
-  const liveLuxProducts = luxMatches.length > 0 ? luxMatches.slice(0, 8) : productsData.lux;
+  const liveLuxProducts = luxMatches.slice(0, 8);
 
   // 3. Hand Tufted Carpets:
   const tuftedMatches = publishedProducts.filter(p =>
@@ -172,21 +170,21 @@ export default function HomePage() {
     (p.name && p.name.toLowerCase().includes('tufted')) ||
     (p.craft && p.craft.toLowerCase().includes('tufted'))
   );
-  const liveTuftedProducts = tuftedMatches.length > 0 ? tuftedMatches.slice(0, 8) : (productsData.tufted || productsData.new);
+  const liveTuftedProducts = tuftedMatches.slice(0, 8);
 
   // 4. Shaggy Carpets:
   const shagMatches = publishedProducts.filter(p =>
     p.categoryId === 'cat-2' ||
     (p.title && p.title.toLowerCase().includes('shag'))
   );
-  const liveShagProducts = shagMatches.length > 0 ? shagMatches.slice(0, 8) : productsData.shag;
+  const liveShagProducts = shagMatches.slice(0, 8);
 
   // 5. Exclusive Carpets:
   const exclMatches = publishedProducts.filter(p =>
     p.categoryId === 'cat-4' || p.categoryId === 'cat-6' ||
     (p.badge && p.badge.toLowerCase().includes('excl'))
   );
-  const liveExclProducts = exclMatches.length > 0 ? exclMatches.slice(0, 8) : productsData.excl;
+  const liveExclProducts = exclMatches.slice(0, 8);
 
   // Product Card Component (supports both formats)
   const renderProductCard = (product) => {
@@ -794,9 +792,23 @@ export default function HomePage() {
               </h2>
               <p>Freshly woven designs, just in.</p>
             </div>
-            <div className="grid" id="grid-new">
-              {liveNewProducts.map((product) => renderProductCard(product))}
-            </div>
+            {liveNewProducts.length > 0 ? (
+              <div className="grid" id="grid-new">
+                {liveNewProducts.map((product) => renderProductCard(product))}
+              </div>
+            ) : (
+              <div style={{ textAlign: 'center', padding: '50px 20px', background: '#faf8f5', borderRadius: '16px', margin: '20px 0', border: '1px dashed #e5dec9' }}>
+                <div style={{ fontSize: '36px', marginBottom: '12px' }}>🏺</div>
+                <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#2c2520', marginBottom: '8px' }}>Fresh Artisan Collection Coming Soon</h3>
+                <p style={{ color: '#888', fontSize: '14px', maxWidth: '480px', margin: '0 auto 20px', lineHeight: '1.6' }}>
+                  Our Bhadohi master weavers are crafting new creations. Add your first product from the Admin panel to display it here.
+                </p>
+                <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                  <Link to="/custom-rug-studio" className="btn" style={{ display: 'inline-block' }}>Design Custom Rug</Link>
+                  <Link to="/admin/products/new" className="btn" style={{ display: 'inline-block', background: '#2c2520', color: '#fff' }}>+ Add Product (Admin)</Link>
+                </div>
+              </div>
+            )}
           </div>
         </section>
 
@@ -844,24 +856,26 @@ export default function HomePage() {
         </section>
 
         {/* ── Luxury Viscose Carpets ─────────────────────────── */}
-        <section style={{ background: '#fff' }} id="grid-lux-sec">
-          <div className="wrap">
-            <div className="sh">
-              <h2>
-                Luxury <span className="gold-text">Viscose Carpets</span>
-              </h2>
-              <p>Silk-like shine, modern design.</p>
+        {liveLuxProducts.length > 0 && (
+          <section style={{ background: '#fff' }} id="grid-lux-sec">
+            <div className="wrap">
+              <div className="sh">
+                <h2>
+                  Luxury <span className="gold-text">Viscose Carpets</span>
+                </h2>
+                <p>Silk-like shine, modern design.</p>
+              </div>
+              <div className="grid" id="grid-lux">
+                {liveLuxProducts.map((product) => renderProductCard(product))}
+              </div>
+              <div className="more">
+                <a className="btn" href="#new">
+                  Load more
+                </a>
+              </div>
             </div>
-            <div className="grid" id="grid-lux">
-              {liveLuxProducts.map((product) => renderProductCard(product))}
-            </div>
-            <div className="more">
-              <a className="btn" href="#new">
-                Load more
-              </a>
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* ── Shop by Room ───────────────────────────────────── */}
         <section id="shop-by-room">
@@ -984,19 +998,21 @@ export default function HomePage() {
         </section>
 
         {/* ── Hand Tufted Carpets ───────────────────────────── */}
-        <section style={{ background: '#fff' }} id="grid-tufted">
-          <div className="wrap">
-            <div className="sh">
-              <h2>
-                Hand <span className="gold-text">Tufted</span>
-              </h2>
-              <p>Sculptural New Zealand wool &amp; silk relief, handcrafted by master artisans in Bhadohi.</p>
+        {liveTuftedProducts.length > 0 && (
+          <section style={{ background: '#fff' }} id="grid-tufted">
+            <div className="wrap">
+              <div className="sh">
+                <h2>
+                  Hand <span className="gold-text">Tufted</span>
+                </h2>
+                <p>Sculptural New Zealand wool &amp; silk relief, handcrafted by master artisans in Bhadohi.</p>
+              </div>
+              <div className="grid">
+                {liveTuftedProducts.map((product) => renderProductCard(product))}
+              </div>
             </div>
-            <div className="grid">
-              {liveTuftedProducts.map((product) => renderProductCard(product))}
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* ── Reviews ────────────────────────────────────────── */}
         <section id="reviews">
@@ -1025,19 +1041,21 @@ export default function HomePage() {
         </section>
 
         {/* ── Shaggy Carpets ─────────────────────────────────── */}
-        <section style={{ background: '#fff' }} id="grid-shag">
-          <div className="wrap">
-            <div className="sh">
-              <h2>
-                Shaggy <span className="gold-text">Carpets</span>
-              </h2>
-              <p>Soft underfoot, easy to love.</p>
+        {liveShagProducts.length > 0 && (
+          <section style={{ background: '#fff' }} id="grid-shag">
+            <div className="wrap">
+              <div className="sh">
+                <h2>
+                  Shaggy <span className="gold-text">Carpets</span>
+                </h2>
+                <p>Soft underfoot, easy to love.</p>
+              </div>
+              <div className="grid">
+                {liveShagProducts.map((product) => renderProductCard(product))}
+              </div>
             </div>
-            <div className="grid">
-              {liveShagProducts.map((product) => renderProductCard(product))}
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* ── AI Rug Designer Interactive Section ── */}
         <AiRugDesignerHomeSection />
@@ -1101,24 +1119,26 @@ export default function HomePage() {
         </div>
 
         {/* ── Exclusive Carpets ──────────────────────────────── */}
-        <section style={{ background: '#fff' }} id="grid-excl">
-          <div className="wrap">
-            <div className="sh">
-              <h2>
-                Exclusive <span className="gold-text">Carpets</span>
-              </h2>
-              <p>Limited designs for special rooms.</p>
+        {liveExclProducts.length > 0 && (
+          <section style={{ background: '#fff' }} id="grid-excl">
+            <div className="wrap">
+              <div className="sh">
+                <h2>
+                  Exclusive <span className="gold-text">Carpets</span>
+                </h2>
+                <p>Limited designs for special rooms.</p>
+              </div>
+              <div className="grid">
+                {liveExclProducts.map((product) => renderProductCard(product))}
+              </div>
+              <div className="more">
+                <a className="btn" href="#new">
+                  View All
+                </a>
+              </div>
             </div>
-            <div className="grid">
-              {liveExclProducts.map((product) => renderProductCard(product))}
-            </div>
-            <div className="more">
-              <a className="btn" href="#new">
-                View All
-              </a>
-            </div>
-          </div>
-        </section>
+          </section>
+        )}
 
         {/* ── The Story Behind Pakiza Rugs Co. / Founder & CEO (Compact & Classy) ── */}
         <section className="founder-story-section" id="founder-story">

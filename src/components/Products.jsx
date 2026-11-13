@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { featuredProducts } from '../data/products';
+import { useProducts } from '../context/ProductContext';
 
 const tabs = ['All', 'Persian', 'Contemporary', 'Kilim', 'Silk'];
 
@@ -156,12 +156,18 @@ function ProductCard({ product }) {
 }
 
 export default function Products() {
+  const { products } = useProducts();
   const [activeTab, setActiveTab] = useState('All');
   const gridRef = useRef(null);
 
+  const published = (products || []).filter(p => (p.status || 'published') === 'published');
+  if (published.length === 0) {
+    return null;
+  }
+
   const displayedProducts = activeTab === 'All'
-    ? featuredProducts
-    : featuredProducts.filter(p => p.category?.toLowerCase() === activeTab.toLowerCase());
+    ? published
+    : published.filter(p => (p.category || '').toLowerCase() === activeTab.toLowerCase());
 
   const scrollGrid = (dir) => {
     if (gridRef.current) {
