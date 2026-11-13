@@ -261,6 +261,13 @@ export function ProductProvider({ children }) {
     saveProducts([]);
   }, []);
 
+  const importProducts = useCallback((newProdsList) => {
+    if (!Array.isArray(newProdsList)) return { error: 'Invalid product list' };
+    setProducts(newProdsList);
+    saveProducts(newProdsList);
+    return { success: true, count: newProdsList.length };
+  }, []);
+
   const toggleProductStatus = useCallback((id) => {
     setProducts(prev => {
       const u = prev.map(p => p.id === id ? {
@@ -291,7 +298,7 @@ export function ProductProvider({ children }) {
     <ProductContext.Provider value={{
       categories, products, stats, recentProducts,
       addCategory, updateCategory, deleteCategory,
-      addProduct, updateProduct, deleteProduct, bulkDeleteProducts, clearAllProducts, toggleProductStatus,
+      addProduct, updateProduct, deleteProduct, bulkDeleteProducts, clearAllProducts, importProducts, toggleProductStatus,
       getCategoryProductCount, slugify,
     }}>
       {children}

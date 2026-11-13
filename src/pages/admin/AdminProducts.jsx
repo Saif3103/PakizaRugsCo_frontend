@@ -5,7 +5,7 @@ import { useProducts } from '../../context/ProductContext';
 import { toast } from '../../utils/toast';
 
 export default function AdminProducts() {
-  const { products, categories, deleteProduct, bulkDeleteProducts, clearAllProducts, toggleProductStatus } = useProducts();
+  const { products, categories, deleteProduct, bulkDeleteProducts, clearAllProducts, importProducts, toggleProductStatus } = useProducts();
   const [search, setSearch] = useState('');
   const [filterCat, setFilterCat] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
@@ -16,6 +16,9 @@ export default function AdminProducts() {
   const [deleteId, setDeleteId] = useState(null);
   const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false);
   const [clearCatalogConfirm, setClearCatalogConfirm] = useState(false);
+  const [syncModalOpen, setSyncModalOpen] = useState(false);
+  const [syncCodeInput, setSyncCodeInput] = useState('');
+  const [copiedSync, setCopiedSync] = useState(false);
   const [page, setPage] = useState(1);
   const PER_PAGE = 12;
 
@@ -80,6 +83,53 @@ export default function AdminProducts() {
     toast('All products removed. Catalog is now clean for fresh listings.', 'success');
   };
 
+  const handleCopySyncCode = () => {
+    try {
+      const json = JSON.stringify(products);
+      navigator.clipboard.writeText(json);
+      setCopiedSync(true);
+      setTimeout(() => setCopiedSync(false), 2500);
+      toast(`Copied ${products.length} product(s) code to clipboard! Send this code to your phone.`, 'success');
+    } catch {
+      toast('Failed to copy. Please manually select the code.', 'error');
+    }
+  };
+
+  const handleDownloadSyncFile = () => {
+    try {
+      const blob = new Blob([JSON.stringify(products, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `pakiza_catalog_${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast('Catalog file downloaded successfully!', 'success');
+    } catch {
+      toast('Download failed', 'error');
+    }
+  };
+
+  const handleApplyImport = () => {
+    if (!syncCodeInput.trim()) {
+      toast('Please paste the sync code first', 'error');
+      return;
+    }
+    try {
+      const parsed = JSON.parse(syncCodeInput.trim());
+      if (Array.isArray(parsed)) {
+        importProducts(parsed);
+        toast(`Success! ${parsed.length} product(s) loaded into this phone/device!`, 'success');
+        setSyncModalOpen(false);
+        setSyncCodeInput('');
+      } else {
+        toast('Invalid code format. Expected a list of products.', 'error');
+      }
+    } catch {
+      toast('Invalid JSON code. Please check that you copied the complete code.', 'error');
+    }
+  };
+
   const handleToggleStatus = (id, currentStatus) => {
     toggleProductStatus(id);
     toast(`Product ${currentStatus === 'published' ? 'unpublished' : 'published'}`, 'success');
@@ -97,6 +147,20 @@ export default function AdminProducts() {
             <p className="admin-page-sub">{products.length} products · {filtered.length} matching</p>
           </div>
           <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <button
+              type="button"
+              className="adm-bulk-delete-btn"
+              style={{ background: '#fbf5eb', color: '#9d6e3f', borderColor: '#ebdcc4' }}
+              onClick={() => setSyncModalOpen(true)}
+              id="sync-phone-btn"
+              title="Sync products between Laptop and Phone"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="5" y="2" width="14" height="20" rx="2" ry="2"/>
+                <line x1="12" y1="18" x2="12.01" y2="18"/>
+              </svg>
+              Sync with Phone ({products.length})
+            </button>
             {selected.length > 0 && (
               <button className="adm-bulk-delete-btn" onClick={() => setBulkDeleteConfirm(true)} id="bulk-delete-btn">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -421,6 +485,96 @@ export default function AdminProducts() {
               <div className="admin-modal__actions">
                 <button className="admin-modal__cancel" onClick={() => setClearCatalogConfirm(false)} id="cancel-clear-catalog-btn">Cancel</button>
                 <button className="admin-modal__confirm" onClick={handleClearCatalog} id="confirm-clear-catalog-btn" style={{ background: '#dc2626' }}>Yes, Delete All</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Sync / Transfer Products Between Laptop & Phone Modal */}
+        {syncModalOpen && (
+          <div className="admin-modal-overlay" onClick={() => setSyncModalOpen(false)}>
+            <div className="admin-modal" style={{ maxWidth: '520px', textAlign: 'left' }} onClick={e => e.stopPropagation()}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: '#fbf5eb', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#9d6e3f' }}>
+                    📲
+                  </div>
+                  <div>
+                    <h3 style={{ margin: 0, fontSize: '18px', fontWeight: '700', color: '#1b1816' }}>Sync Catalog to Phone</h3>
+                    <p style={{ margin: 0, fontSize: '12px', color: '#888' }}>Transfer products between laptop and phone instantly</p>
+                  </div>
+                </div>
+                <button onClick={() => setSyncModalOpen(false)} style={{ background: 'none', border: 'none', fontSize: '20px', cursor: 'pointer', color: '#999' }}>×</button>
+              </div>
+
+              {/* Step 1: Export from Laptop */}
+              <div style={{ background: '#faf8f5', border: '1px solid #ebdcc4', borderRadius: '12px', padding: '16px', marginBottom: '16px' }}>
+                <strong style={{ display: 'block', fontSize: '13.5px', color: '#2b2520', marginBottom: '4px' }}>
+                  1. Laptop se Phone par bhejein (Export)
+                </strong>
+                <p style={{ fontSize: '12px', color: '#666', margin: '0 0 12px', lineHeight: '1.4' }}>
+                  Laptop me ye button click karein aur sync code copy karke apne phone par WhatsApp ya Notes ke zariye bhejein:
+                </p>
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                  <button
+                    type="button"
+                    onClick={handleCopySyncCode}
+                    className="admin-btn-primary"
+                    style={{ padding: '8px 16px', fontSize: '12.5px' }}
+                  >
+                    {copiedSync ? '✓ Copied to Clipboard!' : `📋 Copy Sync Code (${products.length} Products)`}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleDownloadSyncFile}
+                    className="adm-btn-outline"
+                    style={{ padding: '8px 14px', fontSize: '12.5px', borderRadius: '8px', cursor: 'pointer' }}
+                  >
+                    💾 Download JSON File
+                  </button>
+                </div>
+              </div>
+
+              {/* Step 2: Import on Phone */}
+              <div style={{ background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: '12px', padding: '16px' }}>
+                <strong style={{ display: 'block', fontSize: '13.5px', color: '#14532d', marginBottom: '4px' }}>
+                  2. Phone me Load karein (Import)
+                </strong>
+                <p style={{ fontSize: '12px', color: '#166534', margin: '0 0 10px', lineHeight: '1.4' }}>
+                  Apne phone ke Admin Products me aakar wahi code yaha paste karein aur Load dabayein:
+                </p>
+                <textarea
+                  rows="3"
+                  value={syncCodeInput}
+                  onChange={(e) => setSyncCodeInput(e.target.value)}
+                  placeholder="Paste sync code here..."
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    borderRadius: '8px',
+                    border: '1px solid #cbd5e1',
+                    fontSize: '12px',
+                    fontFamily: 'monospace',
+                    boxSizing: 'border-box',
+                    marginBottom: '10px'
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={handleApplyImport}
+                  style={{
+                    background: '#16a34a',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '8px 18px',
+                    fontSize: '13px',
+                    fontWeight: '600',
+                    cursor: 'pointer'
+                  }}
+                >
+                  ⚡ Load Products into this Phone
+                </button>
               </div>
             </div>
           </div>
