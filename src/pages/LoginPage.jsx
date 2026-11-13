@@ -6,13 +6,12 @@ import authBg from '../assets/auth-bg.jpg';
 import './auth.css';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('admin@pakizarugs.com');
-  const [password, setPassword] = useState('pakiza@admin2024');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPass, setShowPass] = useState(false);
   const [remember, setRemember] = useState(true);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [activeDemo, setActiveDemo] = useState('admin');
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -20,11 +19,11 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
     setLoading(true);
-    await new Promise(r => setTimeout(r, 600));
+    await new Promise(r => setTimeout(r, 400));
     const result = login(email, password);
     setLoading(false);
     if (result.success) {
-      if (email === 'admin@pakizarugs.com') {
+      if (result.user?.role === 'admin') {
         navigate('/admin');
       } else {
         navigate('/account');
@@ -32,20 +31,6 @@ export default function LoginPage() {
     } else {
       setError(result.error);
     }
-  };
-
-  const fillAdminDemo = () => {
-    setActiveDemo('admin');
-    setEmail('admin@pakizarugs.com');
-    setPassword('pakiza@admin2024');
-    setError('');
-  };
-
-  const fillCustomerDemo = () => {
-    setActiveDemo('customer');
-    setEmail('customer@pakizarugs.com');
-    setPassword('customer123');
-    setError('');
   };
 
   return (
@@ -112,31 +97,6 @@ export default function LoginPage() {
           <p>Sign in to manage orders, wishlists &amp; bespoke orders</p>
         </div>
 
-        {/* ── Demo Quick Switcher Card ─────────────────────── */}
-        <div className="royal-auth-demo-card">
-          <div className="royal-auth-demo-label">
-            <span className="bolt">⚡</span> DEMO:
-          </div>
-          <div className="royal-auth-demo-grid">
-            <button
-              type="button"
-              className={`royal-auth-demo-pill ${activeDemo === 'admin' ? 'active' : ''}`}
-              onClick={fillAdminDemo}
-            >
-              <span className="pill-icon">✨</span>
-              <span>Admin Portal</span>
-            </button>
-            <button
-              type="button"
-              className={`royal-auth-demo-pill ${activeDemo === 'customer' ? 'active' : ''}`}
-              onClick={fillCustomerDemo}
-            >
-              <span className="pill-icon">👤</span>
-              <span>Customer</span>
-            </button>
-          </div>
-        </div>
-
         {/* ── Login Form ──────────────────────────────────── */}
         <form onSubmit={handleSubmit} className="royal-auth-form">
           {/* Email Field */}
@@ -154,10 +114,7 @@ export default function LoginPage() {
                 type="email"
                 placeholder="your.email@example.com"
                 value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  setActiveDemo('');
-                }}
+                onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
               />
@@ -179,10 +136,7 @@ export default function LoginPage() {
                 type={showPass ? 'text' : 'password'}
                 placeholder="Enter your password"
                 value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                  setActiveDemo('');
-                }}
+                onChange={(e) => setPassword(e.target.value)}
                 required
                 autoComplete="current-password"
               />
